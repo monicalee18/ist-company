@@ -1,8 +1,18 @@
 @import "tailwindcss";
 
+@font-face {
+  font-family: 'Cafe24Pro';
+  src: url('/fonts/Cafe24PROUP.otf') format('opentype');
+  font-weight: normal;
+  font-style: normal;
+  font-display: swap;
+}
+
 :root {
   --background: #ffffff;
   --foreground: #171717;
+  --mint-gradient-start: #e8f5e9;
+  --mint-gradient-end: #b2dfdb;
 }
 
 @theme inline {
@@ -22,5 +32,75 @@
 body {
   background: var(--background);
   color: var(--foreground);
-  font-family: Arial, Helvetica, sans-serif;
+  font-family: 'Pretendard', -apple-system, BlinkMacSystemFont, system-ui, sans-serif;
+}
+
+.font-cafe24 {
+  font-family: 'Cafe24Pro', sans-serif;
+}
+
+/* 민트 그라데이션 배경 */
+.bg-mint-gradient {
+  background: linear-gradient(180deg, #e8f5e9 0%, #c8e6c9 50%, #b2dfdb 100%);
+}
+
+/* 핑크 YES/NO 바 */
+.yes-no-bar {
+  background: linear-gradient(90deg, #1a1a1a 0%, #1a1a1a var(--no-percent), #ec4899 var(--no-percent), #ec4899 100%);
+}
+
+/* 수다방 오프셋 - lg 이상에서만 적용 */
+.sudabang-offset-expanded {
+  right: 0;
+}
+.sudabang-offset-collapsed {
+  right: 0;
+}
+
+@media (min-width: 1024px) {
+  .sudabang-offset-expanded {
+    right: 320px;
+  }
+  .sudabang-offset-collapsed {
+    right: 0;
+  }
+}
+
+/* 상세 오버레이 스크롤바 */
+.detail-scroll::-webkit-scrollbar {
+  width: 4px;
+}
+.detail-scroll::-webkit-scrollbar-track {
+  background: transparent;
+}
+.detail-scroll::-webkit-scrollbar-thumb {
+  background: rgba(255, 255, 255, 0.3);
+  border-radius: 2px;
+}
+.detail-scroll {
+  scrollbar-width: thin;
+  scrollbar-color: rgba(255, 255, 255, 0.3) transparent;
+}
+
+/* 커스텀 dashed border (dash 2px, gap 2px) */
+.border-dashed-custom {
+  border-bottom: 1px dashed transparent;
+  background-image: linear-gradient(to right, #d4d4d8 50%, transparent 50%);
+  background-size: 4px 1px;
+  background-repeat: repeat-x;
+  background-position: bottom;
+}
+
+/* 일렁이는 광택 효과 애니메이션 */
+@keyframes shimmer {
+  0% {
+    background-position: -200% -200%;
+  }
+  100% {
+    background-position: 200% 200%;
+  }
+}
+
+.animate-shimmer {
+  animation: shimmer 8s ease-in-out infinite;
 }
