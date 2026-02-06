@@ -1,4 +1,6 @@
-import Link from "next/link";
+"use client";
+
+import { useRouter } from "next/navigation";
 
 // 샘플 마켓 상세 데이터
 const marketData = {
@@ -56,18 +58,20 @@ const comments = [
 ];
 
 export default function MarketDetailPage() {
+  const router = useRouter();
+
   return (
     <div className="mx-auto max-w-2xl px-4 py-6">
       {/* 뒤로가기 */}
-      <Link
-        href="/"
+      <button
+        onClick={() => router.back()}
         className="mb-4 inline-flex items-center gap-1 text-sm text-zinc-500 hover:text-zinc-700 dark:text-zinc-400 dark:hover:text-zinc-300"
       >
         <svg className="h-4 w-4" fill="none" stroke="currentColor" viewBox="0 0 24 24">
           <path strokeLinecap="round" strokeLinejoin="round" strokeWidth={2} d="M15 19l-7-7 7-7" />
         </svg>
         뒤로가기
-      </Link>
+      </button>
 
       {/* 마켓 정보 카드 */}
       <div className="rounded-2xl border border-zinc-200 bg-white p-6 dark:border-zinc-800 dark:bg-zinc-900">

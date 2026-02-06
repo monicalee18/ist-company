@@ -18,7 +18,7 @@ function formatDeadline(dDay: number): string {
   return "3개월 후 마감";
 }
 
-// 샘플 예측 마켓 데이터
+// 샘플 예측 마켓 데이터 (매일 20개)
 const initialMarkets = [
   {
     id: "1",
@@ -30,7 +30,6 @@ const initialMarkets = [
     dDay: 60,
     totalPoints: 500,
     participants: 128,
-    // 상세 정보
     summary: "이 예측은 뉴진스가 2026년 3월 안에 공식적으로 컴백하는지에 대한 질문입니다.",
     yesCriteria: "공식 음원 / 앨범 / 디지털 싱글 발매",
     noCriteria: "위 조건에 해당하는 컴백이 없는 경우",
@@ -121,6 +120,306 @@ const initialMarkets = [
     resultDate: "2026.07.01",
     trendData: [40, 38, 35, 36, 34, 33, 35, 34, 34, 34],
   },
+  {
+    id: "6",
+    question: "아이브, 다음 앨범 밀리언셀러 달성할까?",
+    artistName: "IVE",
+    imageUrl: "/images/artists/ive.jpg",
+    noPercent: 15,
+    yesPercent: 85,
+    dDay: 40,
+    totalPoints: 620,
+    participants: 312,
+    summary: "아이브의 다음 정규/미니 앨범이 밀리언셀러를 달성하는지에 대한 예측입니다.",
+    yesCriteria: "초동 또는 누적 판매량 100만 장 이상",
+    noCriteria: "100만 장 미달",
+    judgmentBasis: ["한터차트", "써클차트 공식 집계"],
+    disclaimer: "키트앨범, 플랫폼앨범 포함 집계됩니다.",
+    startDate: "2026.01.20",
+    endDate: "2026.04.30",
+    resultDate: "2026.05.01",
+    trendData: [80, 82, 83, 84, 85, 84, 85, 86, 85, 85],
+  },
+  {
+    id: "7",
+    question: "세븐틴, 월드투어 100만 관객 돌파할까?",
+    artistName: "SEVENTEEN",
+    imageUrl: "/images/artists/seventeen.jpg",
+    noPercent: 20,
+    yesPercent: 80,
+    dDay: 120,
+    totalPoints: 890,
+    participants: 456,
+    summary: "세븐틴 2026 월드투어 누적 관객수가 100만 명을 돌파하는지 예측합니다.",
+    yesCriteria: "공식 발표 누적 관객수 100만 명 이상",
+    noCriteria: "100만 명 미달",
+    judgmentBasis: ["플레디스 공식 발표", "공연 기획사 발표"],
+    disclaimer: "온라인 동시 시청자 수는 포함되지 않습니다.",
+    startDate: "2026.01.01",
+    endDate: "2026.12.31",
+    resultDate: "2027.01.05",
+    trendData: [75, 76, 78, 77, 79, 80, 79, 80, 80, 80],
+  },
+  {
+    id: "8",
+    question: "르세라핌, 빌보드 HOT 100 진입할까?",
+    artistName: "LE SSERAFIM",
+    imageUrl: "/images/artists/lesserafim.jpg",
+    noPercent: 42,
+    yesPercent: 58,
+    dDay: 35,
+    totalPoints: 340,
+    participants: 178,
+    summary: "르세라핌의 다음 타이틀곡이 빌보드 HOT 100에 진입하는지 예측합니다.",
+    yesCriteria: "빌보드 HOT 100 차트 100위 이내 진입",
+    noCriteria: "차트 진입 실패",
+    judgmentBasis: ["빌보드 공식 차트"],
+    disclaimer: "차트 진입 순위와 관계없이 100위 이내면 YES입니다.",
+    startDate: "2026.02.01",
+    endDate: "2026.04.15",
+    resultDate: "2026.04.16",
+    trendData: [55, 54, 56, 57, 58, 57, 58, 59, 58, 58],
+  },
+  {
+    id: "9",
+    question: "스트레이키즈, 그래미 후보 지명될까?",
+    artistName: "Stray Kids",
+    imageUrl: "/images/artists/straykids.jpg",
+    noPercent: 60,
+    yesPercent: 40,
+    dDay: 250,
+    totalPoints: 560,
+    participants: 289,
+    summary: "스트레이키즈가 2027 그래미 어워드 후보에 지명되는지 예측합니다.",
+    yesCriteria: "그래미 어워드 어떤 부문이든 후보 지명",
+    noCriteria: "후보 지명 실패",
+    judgmentBasis: ["그래미 어워드 공식 발표"],
+    disclaimer: "수상 여부와 관계없이 후보 지명만으로 YES입니다.",
+    startDate: "2026.01.01",
+    endDate: "2026.11.15",
+    resultDate: "2026.11.16",
+    trendData: [35, 36, 38, 39, 40, 39, 40, 41, 40, 40],
+  },
+  {
+    id: "10",
+    question: "임영웅, 멜론 연간차트 1위 할까?",
+    artistName: "임영웅",
+    imageUrl: "/images/artists/imyoungwoong.jpg",
+    noPercent: 25,
+    yesPercent: 75,
+    dDay: 300,
+    totalPoints: 720,
+    participants: 534,
+    summary: "임영웅이 2026년 멜론 연간차트 1위를 차지하는지 예측합니다.",
+    yesCriteria: "멜론 2026 연간차트 1위",
+    noCriteria: "1위 달성 실패",
+    judgmentBasis: ["멜론 공식 연간차트"],
+    disclaimer: "일간/주간/월간 차트와 다를 수 있습니다.",
+    startDate: "2026.01.01",
+    endDate: "2026.12.31",
+    resultDate: "2027.01.05",
+    trendData: [70, 72, 73, 74, 75, 74, 75, 76, 75, 75],
+  },
+  {
+    id: "11",
+    question: "엔믹스, 음방 트리플 크라운 달성할까?",
+    artistName: "NMIXX",
+    imageUrl: "/images/artists/nmixx.jpg",
+    noPercent: 38,
+    yesPercent: 62,
+    dDay: 14,
+    totalPoints: 210,
+    participants: 98,
+    summary: "엔믹스가 이번 컴백으로 음악방송 트리플 크라운을 달성하는지 예측합니다.",
+    yesCriteria: "동일 곡으로 같은 음악방송 3회 연속 1위",
+    noCriteria: "트리플 크라운 미달성",
+    judgmentBasis: ["각 음악방송 공식 발표"],
+    disclaimer: "다른 음악방송 1위는 포함되지 않습니다.",
+    startDate: "2026.02.01",
+    endDate: "2026.03.15",
+    resultDate: "2026.03.16",
+    trendData: [58, 59, 60, 61, 62, 61, 62, 63, 62, 62],
+  },
+  {
+    id: "12",
+    question: "NCT 드림, 정규 3집 더블 밀리언 달성할까?",
+    artistName: "NCT DREAM",
+    imageUrl: "/images/artists/nctdream.jpg",
+    noPercent: 30,
+    yesPercent: 70,
+    dDay: 50,
+    totalPoints: 480,
+    participants: 267,
+    summary: "NCT 드림 정규 3집이 초동 200만 장을 돌파하는지 예측합니다.",
+    yesCriteria: "초동 판매량 200만 장 이상",
+    noCriteria: "200만 장 미달",
+    judgmentBasis: ["한터차트 초동 집계"],
+    disclaimer: "발매 첫 주(7일) 판매량 기준입니다.",
+    startDate: "2026.01.25",
+    endDate: "2026.04.10",
+    resultDate: "2026.04.11",
+    trendData: [65, 66, 68, 69, 70, 69, 70, 71, 70, 70],
+  },
+  {
+    id: "13",
+    question: "있지 류진, 솔로 데뷔할까?",
+    artistName: "ITZY Ryujin",
+    imageUrl: "/images/artists/ryujin.jpg",
+    noPercent: 55,
+    yesPercent: 45,
+    dDay: 180,
+    totalPoints: 320,
+    participants: 156,
+    summary: "류진이 2026년 내 솔로 데뷔하는지 예측합니다.",
+    yesCriteria: "공식 솔로 앨범/싱글 발매",
+    noCriteria: "솔로 데뷔 없음",
+    judgmentBasis: ["JYP 공식 발표", "음원 플랫폼"],
+    disclaimer: "유닛 활동은 솔로로 인정되지 않습니다.",
+    startDate: "2026.01.01",
+    endDate: "2026.12.31",
+    resultDate: "2027.01.01",
+    trendData: [42, 43, 44, 45, 45, 44, 45, 46, 45, 45],
+  },
+  {
+    id: "14",
+    question: "투모로우바이투게더, 빌보드 200 1위 할까?",
+    artistName: "TXT",
+    imageUrl: "/images/artists/txt.jpg",
+    noPercent: 35,
+    yesPercent: 65,
+    dDay: 60,
+    totalPoints: 410,
+    participants: 198,
+    summary: "TXT의 다음 앨범이 빌보드 200 차트 1위를 달성하는지 예측합니다.",
+    yesCriteria: "빌보드 200 차트 1위 달성",
+    noCriteria: "1위 달성 실패",
+    judgmentBasis: ["빌보드 공식 차트"],
+    disclaimer: "진입 순위가 아닌 최고 순위 기준입니다.",
+    startDate: "2026.02.01",
+    endDate: "2026.05.30",
+    resultDate: "2026.05.31",
+    trendData: [60, 61, 63, 64, 65, 64, 65, 66, 65, 65],
+  },
+  {
+    id: "15",
+    question: "블랙핑크, 2026년 완전체 컴백할까?",
+    artistName: "BLACKPINK",
+    imageUrl: "/images/artists/blackpink.jpg",
+    noPercent: 48,
+    yesPercent: 52,
+    dDay: 200,
+    totalPoints: 980,
+    participants: 678,
+    summary: "블랙핑크 4인 완전체가 2026년 내 컴백하는지 예측합니다.",
+    yesCriteria: "4인 완전체 신곡 발매",
+    noCriteria: "완전체 컴백 없음",
+    judgmentBasis: ["YG 공식 발표", "음원 플랫폼 발매"],
+    disclaimer: "솔로/유닛 활동은 포함되지 않습니다.",
+    startDate: "2026.01.01",
+    endDate: "2026.12.31",
+    resultDate: "2027.01.01",
+    trendData: [50, 51, 52, 51, 52, 53, 52, 52, 52, 52],
+  },
+  {
+    id: "16",
+    question: "아이유, 연기대상 대상 수상할까?",
+    artistName: "IU",
+    imageUrl: "/images/artists/iu.jpg",
+    noPercent: 40,
+    yesPercent: 60,
+    dDay: 320,
+    totalPoints: 540,
+    participants: 345,
+    summary: "아이유가 2026년 연기대상에서 대상을 수상하는지 예측합니다.",
+    yesCriteria: "3사 연기대상 중 대상 수상",
+    noCriteria: "대상 수상 실패",
+    judgmentBasis: ["KBS/MBC/SBS 연기대상 시상식"],
+    disclaimer: "우수상, 최우수상 등은 포함되지 않습니다.",
+    startDate: "2026.01.01",
+    endDate: "2026.12.30",
+    resultDate: "2026.12.31",
+    trendData: [55, 56, 58, 59, 60, 59, 60, 61, 60, 60],
+  },
+  {
+    id: "17",
+    question: "보이넥스트도어, 음원차트 1위 할까?",
+    artistName: "BOYNEXTDOOR",
+    imageUrl: "/images/artists/boynextdoor.jpg",
+    noPercent: 52,
+    yesPercent: 48,
+    dDay: 25,
+    totalPoints: 190,
+    participants: 87,
+    summary: "보이넥스트도어가 다음 컴백으로 음원차트 1위를 달성하는지 예측합니다.",
+    yesCriteria: "멜론/지니/벅스 중 1개 이상 실시간 1위",
+    noCriteria: "1위 달성 실패",
+    judgmentBasis: ["각 음원 플랫폼 실시간 차트"],
+    disclaimer: "일간/주간 차트가 아닌 실시간 차트 기준입니다.",
+    startDate: "2026.02.01",
+    endDate: "2026.03.20",
+    resultDate: "2026.03.21",
+    trendData: [45, 46, 47, 48, 48, 47, 48, 49, 48, 48],
+  },
+  {
+    id: "18",
+    question: "키, 솔로 콘서트 전석 매진할까?",
+    artistName: "SHINee Key",
+    imageUrl: "/images/artists/key.jpg",
+    noPercent: 18,
+    yesPercent: 82,
+    dDay: 20,
+    totalPoints: 260,
+    participants: 134,
+    summary: "키의 2026 솔로 콘서트가 전석 매진되는지 예측합니다.",
+    yesCriteria: "전 회차 전석 매진",
+    noCriteria: "잔여석 발생",
+    judgmentBasis: ["티켓 예매 사이트 공식 발표"],
+    disclaimer: "취소표 재판매는 포함되지 않습니다.",
+    startDate: "2026.02.01",
+    endDate: "2026.03.10",
+    resultDate: "2026.03.11",
+    trendData: [78, 79, 80, 81, 82, 81, 82, 83, 82, 82],
+  },
+  {
+    id: "19",
+    question: "에이티즈, 빌보드 글로벌 1위 할까?",
+    artistName: "ATEEZ",
+    imageUrl: "/images/artists/ateez.jpg",
+    noPercent: 45,
+    yesPercent: 55,
+    dDay: 45,
+    totalPoints: 380,
+    participants: 201,
+    summary: "에이티즈의 다음 앨범 타이틀곡이 빌보드 글로벌 200 1위를 달성하는지 예측합니다.",
+    yesCriteria: "빌보드 글로벌 200 1위",
+    noCriteria: "1위 달성 실패",
+    judgmentBasis: ["빌보드 공식 차트"],
+    disclaimer: "글로벌 Excl. US 차트와 다릅니다.",
+    startDate: "2026.02.01",
+    endDate: "2026.04.30",
+    resultDate: "2026.05.01",
+    trendData: [52, 53, 54, 55, 55, 54, 55, 56, 55, 55],
+  },
+  {
+    id: "20",
+    question: "더 글로리 시즌2, 넷플릭스 글로벌 1위 할까?",
+    artistName: "The Glory",
+    imageUrl: "/images/artists/theglory.jpg",
+    noPercent: 28,
+    yesPercent: 72,
+    dDay: 90,
+    totalPoints: 650,
+    participants: 412,
+    summary: "더 글로리 시즌2가 넷플릭스 글로벌 TV 부문 1위를 달성하는지 예측합니다.",
+    yesCriteria: "넷플릭스 글로벌 TOP 10 TV 부문 1위",
+    noCriteria: "1위 달성 실패",
+    judgmentBasis: ["넷플릭스 공식 TOP 10 차트"],
+    disclaimer: "한국 차트가 아닌 글로벌 차트 기준입니다.",
+    startDate: "2026.02.01",
+    endDate: "2026.06.30",
+    resultDate: "2026.07.01",
+    trendData: [68, 69, 70, 71, 72, 71, 72, 73, 72, 72],
+  },
 ];
 
 interface SwipeCardProps {
@@ -138,6 +437,18 @@ export interface SwipeCardRef {
   closeDetail: () => void;
 }
 
+// 드래그 강도에 따른 피드백 메시지
+const getSwipeFeedback = (intensity: number, percent: number, isYes: boolean) => {
+  const absIntensity = Math.abs(intensity);
+  if (absIntensity < 60) {
+    // 살짝 + 중간
+    return percent > 50 ? "분위기상 이쪽" : "소신 있는 선택";
+  } else {
+    // 많이 + 확정
+    return percent > 50 ? "확신에 찬 선택!" : "이 선택... 용기 있다";
+  }
+};
+
 const SwipeCard = forwardRef<SwipeCardRef, SwipeCardProps>(({ market, onSwipe, onSkip, onDragDirection, isTop }, ref) => {
   const [exitDirection, setExitDirection] = useState<"left" | "right" | null>(null);
   const [showDetail, setShowDetail] = useState(false);
@@ -147,18 +458,20 @@ const SwipeCard = forwardRef<SwipeCardRef, SwipeCardProps>(({ market, onSwipe, o
   const chartRef = useRef<SVGSVGElement>(null);
   const [scrollY, setScrollY] = useState(0);
   const detailScrollRef = useRef<HTMLDivElement>(null);
+  const [dragIntensity, setDragIntensity] = useState(0);
 
   const x = useMotionValue(0);
   const rotate = useTransform(x, [-300, 0, 300], [-15, 0, 15]);
   const opacity = useTransform(x, [-300, -100, 0, 100, 300], [0, 1, 1, 1, 0]);
 
-  const yesOpacity = useTransform(x, [0, 100, 200], [0, 0.8, 1]);
-  const noOpacity = useTransform(x, [-200, -100, 0], [1, 0.8, 0]);
+  const yesOpacity = useTransform(x, [0, 50, 100], [0, 0.8, 1]);
+  const noOpacity = useTransform(x, [-100, -50, 0], [1, 0.8, 0]);
 
-  // 드래그 방향 추적 (스와이프 완료 후에는 무시)
+  // 드래그 방향 및 강도 추적 (스와이프 완료 후에는 무시)
   useEffect(() => {
     const unsubscribe = x.on("change", (latest) => {
       if (swipedRef.current) return;
+      setDragIntensity(latest);
       if (latest > 3) {
         onDragDirection?.("right");
       } else if (latest < -3) {
@@ -420,16 +733,15 @@ const SwipeCard = forwardRef<SwipeCardRef, SwipeCardProps>(({ market, onSwipe, o
     >
       {/* 카드 프레임 */}
       <div
-        className="relative"
-        style={{ width: "399px", height: "649px" }}
+        className="relative w-full h-full"
       >
         {/* White Stroke (뒤) */}
         <div className="absolute inset-0 rounded-[32px] bg-white" style={{ zIndex: 0 }} />
 
         {/* 이미지 컨테이너 */}
         <div
-          className="absolute overflow-hidden rounded-[28px] bg-black"
-          style={{ top: "12px", right: "12px", bottom: "12px", left: "12px", zIndex: 1, boxShadow: "0 0 10px rgba(0, 0, 0, 0.7)" }}
+          className="absolute overflow-hidden rounded-[24px] bg-black"
+          style={{ top: "10px", right: "10px", bottom: "10px", left: "10px", zIndex: 1, boxShadow: "0 0 10px rgba(0, 0, 0, 0.6)" }}
         >
           {/* 배경 이미지 */}
           <div
@@ -440,11 +752,16 @@ const SwipeCard = forwardRef<SwipeCardRef, SwipeCardProps>(({ market, onSwipe, o
           {/* YES 오버레이 */}
           {!showDetail && (
             <motion.div
-              className="absolute inset-0 flex items-center justify-center"
-              style={{ opacity: yesOpacity, background: "linear-gradient(90deg, rgba(241,245,4,0.4), rgba(50,185,83,0.4))" }}
+              className="absolute inset-0 flex flex-col items-center justify-center"
+              style={{ opacity: yesOpacity, background: "linear-gradient(90deg, rgba(241,245,4,0.4), rgba(50,185,83,0.4))", paddingBottom: "140px" }}
             >
               <div className="rounded-xl border-4 px-8 py-4 -rotate-12" style={{ borderColor: "rgba(50,185,83,0.7)", background: "linear-gradient(90deg, rgba(241,245,4,0.5), rgba(50,185,83,0.5))" }}>
                 <span className="font-cafe24 text-5xl font-black text-white">YES!</span>
+              </div>
+              <div className="mt-4 px-4 py-2 rounded-full bg-black/60 backdrop-blur-sm">
+                <span className="font-cafe24 text-sm text-white">
+                  {getSwipeFeedback(dragIntensity, market.yesPercent, true)}
+                </span>
               </div>
             </motion.div>
           )}
@@ -452,11 +769,16 @@ const SwipeCard = forwardRef<SwipeCardRef, SwipeCardProps>(({ market, onSwipe, o
           {/* NO 오버레이 */}
           {!showDetail && (
             <motion.div
-              className="absolute inset-0 flex items-center justify-center"
-              style={{ opacity: noOpacity, background: "linear-gradient(90deg, rgba(255,41,49,0.4), rgba(255,27,248,0.4))" }}
+              className="absolute inset-0 flex flex-col items-center justify-center"
+              style={{ opacity: noOpacity, background: "linear-gradient(90deg, rgba(255,41,49,0.4), rgba(255,27,248,0.4))", paddingBottom: "140px" }}
             >
               <div className="rounded-xl border-4 px-8 py-4 rotate-12" style={{ borderColor: "rgba(255,41,49,0.7)", background: "linear-gradient(90deg, rgba(255,41,49,0.5), rgba(255,27,248,0.5))" }}>
                 <span className="font-cafe24 text-5xl font-black text-white">NO!</span>
+              </div>
+              <div className="mt-4 px-4 py-2 rounded-full bg-black/60 backdrop-blur-sm">
+                <span className="font-cafe24 text-sm text-white">
+                  {getSwipeFeedback(dragIntensity, market.noPercent, false)}
+                </span>
               </div>
             </motion.div>
           )}
@@ -497,11 +819,11 @@ const SwipeCard = forwardRef<SwipeCardRef, SwipeCardProps>(({ market, onSwipe, o
                 {/* 상세 보기 아이콘 (위 화살표) */}
                 <button
                   onClick={(e) => { e.stopPropagation(); setShowDetail(true); }}
-                  className="flex shrink-0 items-center justify-center border-2 border-white/70 text-white/70 hover:border-white hover:text-white transition-colors"
-                  style={{ width: "24px", height: "24px", borderRadius: "8px" }}
+                  className="flex shrink-0 items-center justify-center border-2 border-white/70 hover:border-white transition-colors rounded-full"
+                  style={{ width: "32px", height: "32px" }}
                 >
-                  <svg className="w-3.5 h-3.5" fill="none" stroke="currentColor" strokeWidth={2.5} viewBox="0 0 24 24">
-                    <path strokeLinecap="round" strokeLinejoin="round" d="M5 15l7-7 7 7" />
+                  <svg width="20" height="20" viewBox="0 0 20 20" fill="none" xmlns="http://www.w3.org/2000/svg">
+                    <path d="M9.80736 2.01018C9.93499 1.99788 10.0635 1.99794 10.1911 2.01018C10.2059 2.01158 10.2205 2.01335 10.2351 2.01506C10.2815 2.02055 10.3277 2.0278 10.3738 2.03655C10.3957 2.04071 10.4175 2.04535 10.4392 2.05022C10.4755 2.05839 10.5117 2.06734 10.5476 2.07756C10.5732 2.08485 10.5986 2.09273 10.6238 2.101C10.6537 2.11082 10.6831 2.12196 10.7126 2.13323C10.7436 2.14504 10.7743 2.15705 10.8044 2.17034C10.8153 2.17514 10.8258 2.18095 10.8367 2.18596C10.9618 2.24377 11.0797 2.31366 11.1892 2.39495C11.209 2.4096 11.2294 2.42342 11.2488 2.43889L16.2488 6.43889C17.1112 7.12888 17.2512 8.38692 16.5613 9.24944C15.8713 10.1119 14.6132 10.2519 13.7507 9.56194L11.9997 8.16057V16.0004C11.9997 17.105 11.1043 18.0004 9.99974 18.0004C8.89517 18.0004 7.99974 17.105 7.99974 16.0004V8.16057L6.24877 9.56194C5.38624 10.2519 4.12821 10.1119 3.43822 9.24944C2.74831 8.38692 2.88823 7.12888 3.75072 6.43889L8.75072 2.43889C8.76985 2.42359 8.78977 2.40945 8.80931 2.39495C8.91879 2.31364 9.03679 2.24381 9.16185 2.18596C9.1727 2.18095 9.18316 2.17515 9.19408 2.17034C9.22424 2.15704 9.25496 2.14506 9.28587 2.13323C9.31537 2.12195 9.34485 2.11083 9.37474 2.101C9.39993 2.09272 9.42529 2.08486 9.45091 2.07756C9.48682 2.06733 9.523 2.05841 9.55931 2.05022C9.58101 2.04534 9.60278 2.04072 9.62474 2.03655C9.67077 2.02778 9.71699 2.02058 9.76341 2.01506C9.77803 2.01334 9.79265 2.01159 9.80736 2.01018Z" fill="rgba(255,255,255,0.7)"/>
                   </svg>
                 </button>
               </div>
@@ -569,18 +891,17 @@ const SwipeCard = forwardRef<SwipeCardRef, SwipeCardProps>(({ market, onSwipe, o
                 <h3 className="flex-1 text-xl font-bold text-white leading-snug tracking-tight drop-shadow-lg">{market.question}</h3>
                 <button
                   onClick={(e) => { e.stopPropagation(); setShowDetail(false); }}
-                  className="flex shrink-0 items-center justify-center backdrop-blur-md transition-all hover:scale-110"
+                  className="flex shrink-0 items-center justify-center backdrop-blur-md transition-all hover:scale-110 rounded-full"
                   style={{
                     width: "32px",
                     height: "32px",
-                    borderRadius: "10px",
                     background: "rgba(255,255,255,0.15)",
                     border: "1px solid rgba(255,255,255,0.25)",
                     boxShadow: "0 4px 12px rgba(0,0,0,0.15)",
                   }}
                 >
-                  <svg className="w-4 h-4 text-white" fill="none" stroke="currentColor" strokeWidth={2.5} viewBox="0 0 24 24">
-                    <path strokeLinecap="round" strokeLinejoin="round" d="M19 9l-7 7-7-7" />
+                  <svg width="20" height="20" viewBox="0 0 20 20" fill="none" xmlns="http://www.w3.org/2000/svg">
+                    <path d="M10 2C11.1045 2.00014 12 2.89552 12 4V11.8389L13.751 10.4385C14.6135 9.74871 15.8716 9.88854 16.5615 10.751C17.2513 11.6134 17.1113 12.8715 16.249 13.5615L11.249 17.5615C11.2249 17.5808 11.1986 17.5972 11.1738 17.6152C11.0686 17.6919 10.9563 17.7583 10.8369 17.8135C10.8261 17.8185 10.8156 17.8243 10.8047 17.8291C10.7745 17.8424 10.7438 17.8544 10.7129 17.8662C10.6834 17.8775 10.6539 17.8886 10.624 17.8984C10.5992 17.9066 10.5741 17.9137 10.5488 17.9209C10.5112 17.9316 10.4736 17.9417 10.4355 17.9502C10.4158 17.9546 10.396 17.9591 10.376 17.9629C10.33 17.9717 10.2837 17.9779 10.2373 17.9834C10.2217 17.9852 10.2062 17.9878 10.1904 17.9893C10.0631 18.0014 9.93499 18.0015 9.80762 17.9893C9.79125 17.9877 9.77504 17.9854 9.75879 17.9834C9.71432 17.978 9.67008 17.9713 9.62598 17.9629C9.60369 17.9587 9.58159 17.9542 9.55957 17.9492C9.52324 17.941 9.48709 17.9321 9.45117 17.9219C9.42554 17.9146 9.4002 17.9067 9.375 17.8984C9.34344 17.8881 9.31238 17.8763 9.28125 17.8643C9.25376 17.8537 9.22611 17.8438 9.19922 17.832C9.1783 17.8229 9.15836 17.8117 9.1377 17.8018C9.07803 17.7732 9.02007 17.7422 8.96387 17.708C8.93784 17.6922 8.91119 17.6773 8.88574 17.6602C8.86795 17.6482 8.85137 17.6346 8.83398 17.6221C8.8063 17.6022 8.77786 17.583 8.75098 17.5615L3.75098 13.5615C2.88849 12.8715 2.74857 11.6135 3.43848 10.751C4.12849 9.8886 5.38654 9.7486 6.24902 10.4385L8 11.8389V4C8 2.89543 8.89543 2 10 2Z" fill="rgba(255,255,255,0.8)"/>
                   </svg>
                 </button>
               </div>
@@ -742,7 +1063,7 @@ const SwipeCard = forwardRef<SwipeCardRef, SwipeCardProps>(({ market, onSwipe, o
 SwipeCard.displayName = "SwipeCard";
 
 export default function Home() {
-  const [markets, setMarkets] = useState(initialMarkets);
+  const [markets, setMarkets] = useState(initialMarkets.slice(0, 5));
   const [betAmount, setBetAmount] = useState(5);
   const [totalPoints, setTotalPoints] = useState(500);
   const [showResult, setShowResult] = useState(false);
@@ -753,6 +1074,16 @@ export default function Home() {
   const [showKeyboardHelp, setShowKeyboardHelp] = useState(true);
   const topCardRef = useRef<SwipeCardRef>(null);
   const [glowColor, setGlowColor] = useState<"yes" | "no">("yes");
+  const [completeGif] = useState(() => {
+    const gifs = [
+      "/images/complete.gif",
+      "/images/complete2.gif",
+      "/images/complete4.gif",
+      "/images/complete5.gif",
+      "/images/complete6.gif",
+    ];
+    return gifs[Math.floor(Math.random() * gifs.length)];
+  });
 
   // Glow 색상 순환 (드래그 중이 아닐 때만)
   useEffect(() => {
@@ -867,21 +1198,72 @@ export default function Home() {
 
   if (markets.length === 0) {
     return (
-      <div className={`fixed inset-0 z-20 flex flex-col items-center justify-center transition-all duration-300 md:left-56 ${
-        isSudabangExpanded ? "sudabang-offset-expanded" : "sudabang-offset-collapsed"
-      }`}>
-        <div className="text-center">
-          <div className="text-6xl">🎉</div>
-          <h2 className="mt-4 font-cafe24 text-2xl font-bold text-zinc-900">
-            오늘의 예측 완료!
-          </h2>
-          <p className="mt-2 text-zinc-600">내일 새로운 예측이 올라와요</p>
-          <button
-            onClick={() => setMarkets(initialMarkets)}
-            className="mt-6 rounded-full bg-pink-500 px-6 py-3 font-cafe24 font-medium text-white hover:bg-pink-600"
+      <div className="relative min-h-screen">
+        {/* 상단 헤더 */}
+        <header
+          className="fixed left-0 top-0 right-0 z-30 flex items-center justify-between px-6 transition-all duration-300 md:left-56"
+          style={{ paddingTop: "20px", paddingBottom: "10px" }}
+        >
+          <h1
+            className="font-cafe24 font-bold text-zinc-900"
+            style={{
+              fontSize: "32px",
+              WebkitTextStroke: "4px white",
+              paintOrder: "stroke fill",
+            }}
           >
-            다시 보기
-          </button>
+            오늘의 스필
+          </h1>
+          <div className="flex items-center" style={{ gap: "8px" }}>
+            {/* 모은 포인트 */}
+            <Link
+              href="/points"
+              className="flex items-center gap-2 rounded-full px-4 backdrop-blur-sm hover:opacity-90 transition-opacity"
+              style={{
+                height: "44px",
+                backgroundColor: "rgba(255, 255, 255, 0.7)",
+                border: "1px solid rgba(255, 255, 255, 1)",
+                boxShadow: "0 0 10px rgba(0, 0, 0, 0.1)",
+              }}
+            >
+              <span>🔮</span>
+              <span className="font-cafe24 font-bold text-zinc-900" style={{ fontSize: "15px" }}>{totalPoints}P</span>
+              <svg width="12" height="12" viewBox="0 0 12 12" fill="none" xmlns="http://www.w3.org/2000/svg" style={{ marginLeft: "-4px" }}>
+                <path d="M5 2L8 6L5 10" stroke="#C1C0C9" strokeWidth="3" strokeLinecap="round" strokeLinejoin="round"/>
+              </svg>
+            </Link>
+            {/* 수다방 버튼 없음 - 카드가 없으면 수다방도 없음 */}
+          </div>
+        </header>
+
+        {/* 완료 화면 */}
+        <div className={`fixed inset-0 z-20 flex flex-col items-center justify-center transition-all duration-300 md:left-56 ${
+          isSudabangExpanded ? "sudabang-offset-expanded" : "sudabang-offset-collapsed"
+        }`}>
+          <div className="text-center">
+            <img
+              src={completeGif}
+              alt="완료"
+              className="mx-auto rounded-2xl"
+              style={{ width: "180px", height: "auto" }}
+            />
+            <h2 className="mt-4 font-cafe24 text-2xl font-bold text-zinc-900">
+              끝!
+            </h2>
+            <p className="mt-2 text-zinc-600">내일 새로운 예측이 올라와요</p>
+            <Link
+              href="/explore"
+              className="relative mt-6 inline-block rounded-full px-6 py-3 font-cafe24 font-medium text-white hover:opacity-90 transition-opacity"
+              style={{ background: "linear-gradient(to bottom, #4280FF, #3D24FF)", border: "1px solid #3D24FF" }}
+            >
+              {/* 블러 그림자 */}
+              <span
+                className="absolute inset-0 -z-10 rounded-full blur-xl opacity-60 translate-y-2"
+                style={{ background: "linear-gradient(to bottom, #4280FF, #3D24FF)" }}
+              />
+              더 많은 스필 탐색하기
+            </Link>
+          </div>
         </div>
       </div>
     );
@@ -951,8 +1333,8 @@ export default function Home() {
           >
             <span>🔮</span>
             <span className="font-cafe24 font-bold text-zinc-900" style={{ fontSize: "15px" }}>{totalPoints}P</span>
-            <svg className="h-4 w-4 text-zinc-400" style={{ marginLeft: "-6px" }} fill="none" stroke="currentColor" strokeWidth={2.5} viewBox="0 0 24 24">
-              <path strokeLinecap="round" strokeLinejoin="round" d="M9 5l7 7-7 7" />
+            <svg width="12" height="12" viewBox="0 0 12 12" fill="none" xmlns="http://www.w3.org/2000/svg" style={{ marginLeft: "-4px" }}>
+              <path d="M5 2L8 6L5 10" stroke="#C1C0C9" strokeWidth="3" strokeLinecap="round" strokeLinejoin="round"/>
             </svg>
           </Link>
 
@@ -1001,8 +1383,11 @@ export default function Home() {
         }`}
         style={{ top: "74px", paddingTop: "10px" }}
       >
-        {/* 카드 영역 */}
-        <div className="relative" style={{ width: "399px", height: "649px" }}>
+        {/* 카드 영역 - 반응형: 좌우 16px 마진, 바텀네비 고려 */}
+        <div
+          className="relative w-[calc(100vw-32px)] max-w-[399px] h-[calc(100dvh-200px)] max-h-[649px]"
+          style={{ aspectRatio: "399/649" }}
+        >
           {markets
             .slice(0, 3)
             .reverse()

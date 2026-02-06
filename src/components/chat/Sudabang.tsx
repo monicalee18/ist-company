@@ -369,30 +369,33 @@ export default function Sudabang() {
         </h2>
         <button
           onClick={() => setIsExpanded(false)}
-          className="flex h-8 w-8 items-center justify-center rounded-lg text-zinc-500 hover:bg-zinc-100 dark:hover:bg-zinc-800"
+          className="flex h-8 w-8 items-center justify-center rounded-lg hover:bg-zinc-100 dark:hover:bg-zinc-800"
         >
-          ✕
+          <svg width="20" height="20" viewBox="0 0 20 20" fill="none" xmlns="http://www.w3.org/2000/svg">
+            <path d="M12.1719 2.17188C13.734 0.609778 16.266 0.609778 17.8281 2.17188C19.3899 3.734 19.3901 6.26613 17.8281 7.82812L15.6562 10L17.8281 12.1719C19.3899 13.734 19.3901 16.2661 17.8281 17.8281C16.2661 19.3901 13.734 19.3899 12.1719 17.8281L10 15.6562L7.82812 17.8281C6.26613 19.3901 3.734 19.3899 2.17188 17.8281C0.609778 16.266 0.609778 13.734 2.17188 12.1719L4.34375 10L2.17188 7.82812C0.609778 6.26603 0.609778 3.73397 2.17188 2.17188C3.73397 0.609778 6.26603 0.609778 7.82812 2.17188L10 4.34375L12.1719 2.17188Z" fill="#C1C0C9"/>
+          </svg>
         </button>
       </div>
 
       {/* 댓글 목록 */}
-      <div className="flex-1 overflow-y-auto p-4">
-        <div className="space-y-5">
-          {isLoadingComments ? (
-            // Skeleton 로딩
-            <>
-              <CommentSkeleton />
-              <CommentSkeleton />
-              <CommentSkeleton />
-            </>
-          ) : comments.length === 0 ? (
-            // 댓글 없음
-            <div className="flex flex-col items-center justify-center py-8 text-zinc-400">
-              <span className="text-3xl mb-2">💬</span>
-              <span className="text-sm">아직 수다가 없어요</span>
-              <span className="text-xs">첫 번째로 의견을 남겨보세요!</span>
-            </div>
-          ) : comments.map((comment) => (
+      <div className={`flex-1 overflow-y-auto p-4 ${comments.length === 0 && !isLoadingComments ? 'flex items-center justify-center' : ''}`}>
+        {isLoadingComments ? (
+          // Skeleton 로딩
+          <div className="space-y-5">
+            <CommentSkeleton />
+            <CommentSkeleton />
+            <CommentSkeleton />
+          </div>
+        ) : comments.length === 0 ? (
+          // 댓글 없음 - 중앙 배치
+          <div className="flex flex-col items-center justify-center text-center">
+            <span className="text-3xl mb-3">💬</span>
+            <span className="text-base font-bold text-zinc-900 dark:text-white">아직 댓글이 없어요</span>
+            <span className="text-sm text-zinc-500 dark:text-zinc-400 mt-1">첫 번째로 의견을 남겨보세요!</span>
+          </div>
+        ) : (
+          <div className="space-y-5">
+          {comments.map((comment) => (
             <div key={comment.id}>
               <div className="flex gap-3">
                 {/* 아바타 */}
@@ -695,7 +698,8 @@ export default function Sudabang() {
               )}
             </div>
           ))}
-        </div>
+          </div>
+        )}
       </div>
 
       {/* GIF 선택 팝업 */}
