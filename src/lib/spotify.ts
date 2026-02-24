@@ -37,7 +37,7 @@ async function getAccessToken(): Promise<string> {
   // 토큰 만료 시간 설정 (약간의 여유를 두고)
   tokenExpiry = Date.now() + (data.expires_in - 60) * 1000;
 
-  return accessToken;
+  return accessToken!;
 }
 
 // 아티스트 검색 및 이미지 가져오기
