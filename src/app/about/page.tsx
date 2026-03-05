@@ -162,7 +162,7 @@ export default function AboutPage() {
       <div style={{ height: "200px" }} />
 
       {/* Section 5: What We Do */}
-      <section className="px-6 border-t border-white/10">
+      <section className="px-[24px] border-t border-white/10">
         <div className="pt-[40px]" />
         <div className="grid grid-cols-12 gap-6 items-start">
           {/* Left: Title */}
@@ -198,7 +198,7 @@ export default function AboutPage() {
       </section>
 
       {/* Section 6: Vision */}
-      <section className="px-6 border-t border-white/10">
+      <section className="px-[24px] border-t border-white/10">
         <div className="pt-[40px]" />
         <div className="grid grid-cols-12 gap-6 items-start">
           {/* Left: Title */}
@@ -234,7 +234,7 @@ export default function AboutPage() {
       </section>
 
       {/* Section 7: Mission */}
-      <section className="px-6 border-t border-white/10">
+      <section className="px-[24px] border-t border-white/10">
         <div className="pt-[40px]" />
         <div className="grid grid-cols-12 gap-6 items-start">
           {/* Left: Title */}
