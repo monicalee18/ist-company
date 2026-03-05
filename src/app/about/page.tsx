@@ -165,8 +165,8 @@ export default function AboutPage() {
       <section className="border-t border-white/10">
         <div className="mx-[24px] pt-[40px] pb-[40px]">
           <div className="grid grid-cols-12 gap-6 items-start">
-            {/* Left: Title */}
-            <div className="col-span-12 md:col-span-4">
+            {/* Title: Column 1-3 */}
+            <div className="col-span-12 md:col-span-3">
               <h2
                 style={{
                   fontFamily: "Georgia, 'Times New Roman', serif",
@@ -180,12 +180,12 @@ export default function AboutPage() {
                 {t("What we do", "What we do")}
               </h2>
             </div>
-            {/* Center: Image */}
-            <div className="col-span-12 md:col-span-4">
+            {/* Image: Column 7-9 */}
+            <div className="col-span-12 md:col-span-3 md:col-start-7">
               <div className="bg-white/10 w-full aspect-[4/3]" />
             </div>
-            {/* Right: Description */}
-            <div className="col-span-12 md:col-span-4">
+            {/* Description: Column 10-12 */}
+            <div className="col-span-12 md:col-span-3 md:col-start-10">
               <p className="text-white/50 text-sm md:text-base font-light leading-relaxed">
                 {t(
                   "K-Pop 아티스트의 발굴과 육성을 통해 글로벌 엔터테인먼트 시장을 선도합니다. 혁신적인 콘텐츠와 체계적인 시스템으로 아티스트의 잠재력을 극대화합니다.",
@@ -201,8 +201,8 @@ export default function AboutPage() {
       <section className="border-t border-white/10">
         <div className="mx-[24px] pt-[40px] pb-[40px]">
           <div className="grid grid-cols-12 gap-6 items-start">
-            {/* Left: Title */}
-            <div className="col-span-12 md:col-span-4">
+            {/* Title: Column 1-3 */}
+            <div className="col-span-12 md:col-span-3">
               <h2
                 style={{
                   fontFamily: "Georgia, 'Times New Roman', serif",
@@ -216,12 +216,12 @@ export default function AboutPage() {
                 {t("글로벌 엔터테인먼트를 선도하는 비전", "Define a clear vision for the future")}
               </h2>
             </div>
-            {/* Center: Image */}
-            <div className="col-span-12 md:col-span-4">
+            {/* Image: Column 7-9 */}
+            <div className="col-span-12 md:col-span-3 md:col-start-7">
               <div className="bg-white/10 w-full aspect-[4/3]" />
             </div>
-            {/* Right: Description */}
-            <div className="col-span-12 md:col-span-4">
+            {/* Description: Column 10-12 */}
+            <div className="col-span-12 md:col-span-3 md:col-start-10">
               <p className="text-white/50 text-sm md:text-base font-light leading-relaxed">
                 {t(
                   "글로벌 엔터테인먼트 산업을 선도하는 창의적 콘텐츠 기업으로 성장합니다. 문화의 경계를 넘어 전 세계 팬들에게 감동을 전달합니다.",
@@ -237,8 +237,8 @@ export default function AboutPage() {
       <section className="border-t border-white/10">
         <div className="mx-[24px] pt-[40px] pb-[40px]">
           <div className="grid grid-cols-12 gap-6 items-start">
-            {/* Left: Title */}
-            <div className="col-span-12 md:col-span-4">
+            {/* Title: Column 1-3 */}
+            <div className="col-span-12 md:col-span-3">
               <h2
                 style={{
                   fontFamily: "Georgia, 'Times New Roman', serif",
@@ -252,12 +252,12 @@ export default function AboutPage() {
                 {t("아티스트와 팬을 연결하는 미션", "Connecting artists and fans")}
               </h2>
             </div>
-            {/* Center: Image */}
-            <div className="col-span-12 md:col-span-4">
+            {/* Image: Column 7-9 */}
+            <div className="col-span-12 md:col-span-3 md:col-start-7">
               <div className="bg-white/10 w-full aspect-[4/3]" />
             </div>
-            {/* Right: Description */}
-            <div className="col-span-12 md:col-span-4">
+            {/* Description: Column 10-12 */}
+            <div className="col-span-12 md:col-span-3 md:col-start-10">
               <p className="text-white/50 text-sm md:text-base font-light leading-relaxed">
                 {t(
                   "아티스트와 팬을 연결하는 감동적인 경험을 창출합니다. 음악, 콘텐츠, 라이브 퍼포먼스를 통해 잊을 수 없는 순간을 만들어갑니다.",
