@@ -35,14 +35,14 @@ export default function AboutPage() {
 
   const sliderX = useTransform(sliderProgress, [0, 1], ["0%", "-40%"]);
 
-  // Image carousel data - various aspect ratios aligned to top
+  // Image carousel data - responsive with aspect ratios
   const sliderImages = [
-    { width: 280, height: 210 },   // 4:3 landscape
-    { width: 540, height: 360 },   // 3:2 landscape
-    { width: 260, height: 260 },   // 1:1 square
-    { width: 540, height: 405 },   // 4:3 landscape
-    { width: 400, height: 260 },   // 3:2 landscape
-    { width: 260, height: 420 },   // 3:5 portrait
+    { widthRatio: 0.18, aspect: 4 / 3 },    // 4:3 landscape
+    { widthRatio: 0.35, aspect: 3 / 2 },    // 3:2 landscape
+    { widthRatio: 0.17, aspect: 1 / 1 },    // 1:1 square
+    { widthRatio: 0.35, aspect: 4 / 3 },    // 4:3 landscape
+    { widthRatio: 0.26, aspect: 3 / 2 },    // 3:2 landscape
+    { widthRatio: 0.17, aspect: 3 / 5 },    // 3:5 portrait
   ];
 
   // 12 Column Grid: px-6 = 24px padding, gap-6 = 24px gutter
@@ -106,7 +106,7 @@ export default function AboutPage() {
 
       {/* Section 3: Second Title */}
       <section className={gridClass}>
-        <div className="col-span-12 md:col-span-8">
+        <div className="col-span-12 md:col-span-8 md:col-start-2">
           <h2
             style={{
               fontFamily: "Georgia, 'Times New Roman', serif",
@@ -146,8 +146,8 @@ export default function AboutPage() {
               key={index}
               className="flex-shrink-0 bg-white/10 relative"
               style={{
-                width: `${image.width}px`,
-                height: `${image.height}px`,
+                width: `calc(${image.widthRatio * 100}vw)`,
+                aspectRatio: image.aspect,
               }}
             >
               <div className="w-full h-full flex items-center justify-center text-white/30 text-sm">
