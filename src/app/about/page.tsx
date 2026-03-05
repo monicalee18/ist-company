@@ -161,55 +161,105 @@ export default function AboutPage() {
       {/* 200px gap */}
       <div style={{ height: "200px" }} />
 
-      {/* Section 5: Core Values */}
-      <section className={`${gridClass} pb-32`}>
-        {/* Label */}
-        <div className="col-span-12 mb-16 md:mb-24">
-          <span className="text-white/40 text-sm tracking-[0.2em] uppercase">
-            {t("우리의 가치", "Our Values")}
-          </span>
+      {/* Section 5: What We Do */}
+      <section className="px-6 py-24 md:py-32 border-t border-white/10">
+        <div className="grid grid-cols-12 gap-6 items-start">
+          {/* Left: Title */}
+          <div className="col-span-12 md:col-span-4">
+            <h2
+              style={{
+                fontFamily: "Georgia, 'Times New Roman', serif",
+                fontStyle: "italic",
+                fontSize: "clamp(1.75rem, 3.5vw, 2.75rem)",
+                fontWeight: 400,
+                color: "white",
+                lineHeight: 1.2,
+              }}
+            >
+              {t("What we do", "What we do")}
+            </h2>
+          </div>
+          {/* Center: Image */}
+          <div className="col-span-12 md:col-span-4">
+            <div className="bg-white/10 w-full aspect-[4/3]" />
+          </div>
+          {/* Right: Description */}
+          <div className="col-span-12 md:col-span-4">
+            <p className="text-white/50 text-sm md:text-base font-light leading-relaxed">
+              {t(
+                "K-Pop 아티스트의 발굴과 육성을 통해 글로벌 엔터테인먼트 시장을 선도합니다. 혁신적인 콘텐츠와 체계적인 시스템으로 아티스트의 잠재력을 극대화합니다.",
+                "We lead the global entertainment market through the discovery and development of K-Pop artists. We maximize artist potential through innovative content and systematic management."
+              )}
+            </p>
+          </div>
         </div>
+      </section>
 
-        {/* What We Do - columns 1-4 */}
-        <div className="col-span-12 md:col-span-4">
-          <span className="text-white/30 text-xs tracking-[0.3em] uppercase">01</span>
-          <h3 className="text-white text-lg md:text-xl font-light mt-8 mb-6">
-            {t("What We Do", "What We Do")}
-          </h3>
-          <p className="text-white/50 text-base md:text-lg font-light leading-relaxed">
-            {t(
-              "K-Pop 아티스트의 발굴과 육성을 통해 글로벌 엔터테인먼트 시장을 선도합니다.",
-              "We lead the global entertainment market through the discovery and development of K-Pop artists."
-            )}
-          </p>
+      {/* Section 6: Vision */}
+      <section className="px-6 py-24 md:py-32 border-t border-white/10">
+        <div className="grid grid-cols-12 gap-6 items-start">
+          {/* Left: Title */}
+          <div className="col-span-12 md:col-span-4">
+            <h2
+              style={{
+                fontFamily: "Georgia, 'Times New Roman', serif",
+                fontStyle: "italic",
+                fontSize: "clamp(1.75rem, 3.5vw, 2.75rem)",
+                fontWeight: 400,
+                color: "white",
+                lineHeight: 1.2,
+              }}
+            >
+              {t("글로벌 엔터테인먼트를 선도하는 비전", "Define a clear vision for the future")}
+            </h2>
+          </div>
+          {/* Center: Image */}
+          <div className="col-span-12 md:col-span-4">
+            <div className="bg-white/10 w-full aspect-[4/3]" />
+          </div>
+          {/* Right: Description */}
+          <div className="col-span-12 md:col-span-4">
+            <p className="text-white/50 text-sm md:text-base font-light leading-relaxed">
+              {t(
+                "글로벌 엔터테인먼트 산업을 선도하는 창의적 콘텐츠 기업으로 성장합니다. 문화의 경계를 넘어 전 세계 팬들에게 감동을 전달합니다.",
+                "Growing as a creative content company leading the global entertainment industry. We deliver inspiration to fans worldwide, transcending cultural boundaries."
+              )}
+            </p>
+          </div>
         </div>
+      </section>
 
-        {/* Vision - columns 5-8 */}
-        <div className="col-span-12 md:col-span-4">
-          <span className="text-white/30 text-xs tracking-[0.3em] uppercase">02</span>
-          <h3 className="text-white text-lg md:text-xl font-light mt-8 mb-6">
-            {t("Vision", "Vision")}
-          </h3>
-          <p className="text-white/50 text-base md:text-lg font-light leading-relaxed">
-            {t(
-              "글로벌 엔터테인먼트 산업을 선도하는 창의적 콘텐츠 기업으로 성장합니다.",
-              "Growing as a creative content company leading the global entertainment industry."
-            )}
-          </p>
-        </div>
-
-        {/* Mission - columns 9-12 */}
-        <div className="col-span-12 md:col-span-4">
-          <span className="text-white/30 text-xs tracking-[0.3em] uppercase">03</span>
-          <h3 className="text-white text-lg md:text-xl font-light mt-8 mb-6">
-            {t("Mission", "Mission")}
-          </h3>
-          <p className="text-white/50 text-base md:text-lg font-light leading-relaxed">
-            {t(
-              "아티스트와 팬을 연결하는 감동적인 경험을 창출합니다.",
-              "Creating meaningful experiences that connect artists and fans."
-            )}
-          </p>
+      {/* Section 7: Mission */}
+      <section className="px-6 py-24 md:py-32 border-t border-white/10">
+        <div className="grid grid-cols-12 gap-6 items-start">
+          {/* Left: Title */}
+          <div className="col-span-12 md:col-span-4">
+            <h2
+              style={{
+                fontFamily: "Georgia, 'Times New Roman', serif",
+                fontStyle: "italic",
+                fontSize: "clamp(1.75rem, 3.5vw, 2.75rem)",
+                fontWeight: 400,
+                color: "white",
+                lineHeight: 1.2,
+              }}
+            >
+              {t("아티스트와 팬을 연결하는 미션", "Connecting artists and fans")}
+            </h2>
+          </div>
+          {/* Center: Image */}
+          <div className="col-span-12 md:col-span-4">
+            <div className="bg-white/10 w-full aspect-[4/3]" />
+          </div>
+          {/* Right: Description */}
+          <div className="col-span-12 md:col-span-4">
+            <p className="text-white/50 text-sm md:text-base font-light leading-relaxed">
+              {t(
+                "아티스트와 팬을 연결하는 감동적인 경험을 창출합니다. 음악, 콘텐츠, 라이브 퍼포먼스를 통해 잊을 수 없는 순간을 만들어갑니다.",
+                "Creating meaningful experiences that connect artists and fans. Through music, content, and live performances, we create unforgettable moments."
+              )}
+            </p>
+          </div>
         </div>
       </section>
 
