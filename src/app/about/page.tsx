@@ -3,6 +3,7 @@
 import { useRef, useState, useEffect } from "react";
 import { motion, useScroll, useTransform, useSpring } from "framer-motion";
 import { useLanguage } from "@/context/LanguageContext";
+import Image from "next/image";
 
 export default function AboutPage() {
   const { t } = useLanguage();
@@ -37,43 +38,35 @@ export default function AboutPage() {
 
   // Image carousel data - responsive with aspect ratios
   const sliderImages = [
-    { widthRatio: 0.18, aspect: 4 / 3 },    // 4:3 landscape
-    { widthRatio: 0.35, aspect: 3 / 2 },    // 3:2 landscape
-    { widthRatio: 0.17, aspect: 1 / 1 },    // 1:1 square
-    { widthRatio: 0.35, aspect: 4 / 3 },    // 4:3 landscape
-    { widthRatio: 0.26, aspect: 3 / 2 },    // 3:2 landscape
-    { widthRatio: 0.17, aspect: 3 / 5 },    // 3:5 portrait
+    { widthRatio: 0.18, aspect: 4 / 3, src: "/artists/apink.webp", name: "Apink" },
+    { widthRatio: 0.35, aspect: 3 / 2, src: "/artists/theboyz.webp", name: "THE BOYZ" },
+    { widthRatio: 0.17, aspect: 1 / 1, src: "/artists/bahiyyih.webp", name: "Bahiyyih" },
+    { widthRatio: 0.35, aspect: 4 / 3, src: "/artists/atbo.webp", name: "ATBO" },
+    { widthRatio: 0.26, aspect: 3 / 2, src: "/artists/limsejun.webp", name: "Lim Se Jun" },
+    { widthRatio: 0.17, aspect: 3 / 5, src: "/artists/tunexx.webp", name: "TUNEXX" },
   ];
 
-  // 12 Column Grid: px-6 = 24px padding, gap-6 = 24px gutter
-  const gridClass = "grid grid-cols-12 gap-6 px-6";
+  // 12 Column Grid: responsive padding (16px mobile, 24px desktop), 24px gutter
+  const gridClass = "grid grid-cols-12 gap-[24px] content-padding";
 
   return (
     <div className="min-h-screen bg-black">
       {/* Section 1: Hero Title */}
-      <section className={gridClass} style={{ paddingTop: "100px" }}>
+      <section className={gridClass} style={{ paddingTop: "174px" }}>
         <div className="col-span-12">
           <h1
-            className="text-center"
-            style={{
-              fontFamily: "Georgia, 'Times New Roman', serif",
-              fontStyle: "italic",
-              fontSize: "clamp(2.5rem, 7vw, 5.5rem)",
-              fontWeight: 400,
-              color: "white",
-              lineHeight: 1.15,
-              letterSpacing: "-0.02em",
-            }}
+            className="text-center text-5xl md:text-6xl lg:text-7xl font-light text-white"
+            style={{ lineHeight: 1.15 }}
           >
-            {t("Odds are you've used a", "Odds are you've used a")}
+            {t("Music. Artists. Global Impact.", "Music. Artists. Global Impact.")}
             <br />
-            {t("product we've built", "product we've built")}
+            {t("Building the future of entertainment", "Building the future of entertainment")}
           </h1>
         </div>
       </section>
 
-      {/* 90px gap */}
-      <div style={{ height: "90px" }} />
+      {/* Gap: 30px mobile, 90px desktop */}
+      <div className="h-[30px] md:h-[90px]" />
 
       {/* Section 2: Video */}
       <section ref={videoSectionRef} className={gridClass}>
@@ -81,11 +74,7 @@ export default function AboutPage() {
           <motion.div
             className="relative overflow-hidden"
             style={{
-              width: isMobile ? "240px" : "520px",
-              clipPath: useTransform(
-                smoothClip,
-                (v) => `inset(${v}% 0 ${v}% 0)`
-              ),
+              width: isMobile ? "100%" : "90%",
             }}
           >
             <div className="relative w-full" style={{ aspectRatio: "16/9" }}>
@@ -101,41 +90,34 @@ export default function AboutPage() {
         </div>
       </section>
 
-      {/* 200px gap */}
-      <div style={{ height: "200px" }} />
+      {/* Gap: 140px mobile, 200px desktop */}
+      <div className="h-[140px] md:h-[200px]" />
 
       {/* Section 3: Second Title */}
       <section className={gridClass}>
-        <div className="col-span-12 md:col-span-8 md:col-start-2">
+        <div className="col-span-12 md:col-span-7 md:col-start-2">
           <h2
-            style={{
-              fontFamily: "Georgia, 'Times New Roman', serif",
-              fontStyle: "italic",
-              fontSize: "clamp(1.5rem, 4.5vw, 3.5rem)",
-              fontWeight: 400,
-              color: "white",
-              lineHeight: 1.2,
-              letterSpacing: "-0.01em",
-            }}
+            className="text-[36px] md:text-4xl lg:text-5xl font-light text-white"
+            style={{ lineHeight: 1.2 }}
           >
             {t(
-              "Since 2006, we've helped shape the technology landscape by building breakthrough products",
-              "Since 2006, we've helped shape the technology landscape by building breakthrough products"
+              "Since 2013, we've been discovering and developing artists who define the next generation of K-Pop",
+              "Since 2013, we've been discovering and developing artists who define the next generation of K-Pop"
             )}
           </h2>
         </div>
       </section>
 
-      {/* 200px gap */}
-      <div style={{ height: "200px" }} />
+      {/* Gap: 30px mobile, 200px desktop */}
+      <div className="h-[30px] md:h-[200px]" />
 
       {/* Section 4: Image Slider */}
       <section
         ref={sliderSectionRef}
-        className="relative overflow-hidden py-24 px-6"
+        className="relative overflow-hidden py-24 content-padding"
       >
         <motion.div
-          className="flex gap-6"
+          className="flex gap-[16px]"
           style={{
             x: sliderX,
             alignItems: "flex-start",
@@ -144,51 +126,47 @@ export default function AboutPage() {
           {sliderImages.map((image, index) => (
             <div
               key={index}
-              className="flex-shrink-0 bg-white/10 relative"
+              className="flex-shrink-0 relative overflow-hidden"
               style={{
-                width: `calc(${image.widthRatio * 100}vw)`,
+                width: `calc(${image.widthRatio * (isMobile ? 250 : 100)}vw)`,
                 aspectRatio: image.aspect,
               }}
             >
-              <div className="w-full h-full flex items-center justify-center text-white/30 text-sm">
-                Image {index + 1}
-              </div>
+              <Image
+                src={image.src}
+                alt={image.name}
+                fill
+                className="object-cover"
+              />
             </div>
           ))}
         </motion.div>
       </section>
 
-      {/* 200px gap */}
-      <div style={{ height: "200px" }} />
+      {/* Gap: 140px mobile, 200px desktop */}
+      <div className="h-[140px] md:h-[200px]" />
 
       {/* Section 5: What We Do */}
       <section className="border-t border-white/10">
-        <div className="mx-[24px] pt-[40px] pb-[40px]">
-          <div className="grid grid-cols-12 gap-6 items-start">
+        <div className="content-padding" style={{ paddingTop: "40px", paddingBottom: "40px" }}>
+          <div className="grid grid-cols-12 gap-[24px] items-start">
             {/* Title: Column 1-3 */}
             <div className="col-span-12 md:col-span-3">
               <h2
-                style={{
-                  fontFamily: "Georgia, 'Times New Roman', serif",
-                  fontStyle: "italic",
-                  fontSize: "clamp(1.75rem, 3.5vw, 2.75rem)",
-                  fontWeight: 400,
-                  color: "white",
-                  lineHeight: 1.2,
-                }}
+                className="text-3xl lg:text-4xl font-light text-white"
               >
                 {t("What we do", "What we do")}
               </h2>
             </div>
             {/* Image: Column 7-9 */}
             <div className="col-span-12 md:col-span-3 md:col-start-7">
-              <div className="bg-white/10 w-full aspect-[4/3]" />
+              <div className="bg-white/10 w-full aspect-[16/9]" />
             </div>
             {/* Description: Column 10-12 */}
             <div className="col-span-12 md:col-span-3 md:col-start-10">
-              <p className="text-white/50 text-sm md:text-base font-light leading-relaxed">
+              <p className="text-white/50 text-sm md:text-base font-light leading-snug">
                 {t(
-                  "K-Pop 아티스트의 발굴과 육성을 통해 글로벌 엔터테인먼트 시장을 선도합니다. 혁신적인 콘텐츠와 체계적인 시스템으로 아티스트의 잠재력을 극대화합니다.",
+                  "We lead the global entertainment market through the discovery and development of K-Pop artists. We maximize artist potential through innovative content and systematic management.",
                   "We lead the global entertainment market through the discovery and development of K-Pop artists. We maximize artist potential through innovative content and systematic management."
                 )}
               </p>
@@ -199,32 +177,25 @@ export default function AboutPage() {
 
       {/* Section 6: Vision */}
       <section className="border-t border-white/10">
-        <div className="mx-[24px] pt-[40px] pb-[40px]">
-          <div className="grid grid-cols-12 gap-6 items-start">
+        <div className="content-padding" style={{ paddingTop: "40px", paddingBottom: "40px" }}>
+          <div className="grid grid-cols-12 gap-[24px] items-start">
             {/* Title: Column 1-3 */}
             <div className="col-span-12 md:col-span-3">
               <h2
-                style={{
-                  fontFamily: "Georgia, 'Times New Roman', serif",
-                  fontStyle: "italic",
-                  fontSize: "clamp(1.75rem, 3.5vw, 2.75rem)",
-                  fontWeight: 400,
-                  color: "white",
-                  lineHeight: 1.2,
-                }}
+                className="text-3xl lg:text-4xl font-light text-white"
               >
-                {t("글로벌 엔터테인먼트를 선도하는 비전", "Define a clear vision for the future")}
+                {t("Vision", "Vision")}
               </h2>
             </div>
             {/* Image: Column 7-9 */}
             <div className="col-span-12 md:col-span-3 md:col-start-7">
-              <div className="bg-white/10 w-full aspect-[4/3]" />
+              <div className="bg-white/10 w-full aspect-[16/9]" />
             </div>
             {/* Description: Column 10-12 */}
             <div className="col-span-12 md:col-span-3 md:col-start-10">
-              <p className="text-white/50 text-sm md:text-base font-light leading-relaxed">
+              <p className="text-white/50 text-sm md:text-base font-light leading-snug">
                 {t(
-                  "글로벌 엔터테인먼트 산업을 선도하는 창의적 콘텐츠 기업으로 성장합니다. 문화의 경계를 넘어 전 세계 팬들에게 감동을 전달합니다.",
+                  "Growing as a creative content company leading the global entertainment industry. We deliver inspiration to fans worldwide, transcending cultural boundaries.",
                   "Growing as a creative content company leading the global entertainment industry. We deliver inspiration to fans worldwide, transcending cultural boundaries."
                 )}
               </p>
@@ -235,32 +206,25 @@ export default function AboutPage() {
 
       {/* Section 7: Mission */}
       <section className="border-t border-white/10">
-        <div className="mx-[24px] pt-[40px] pb-[40px]">
-          <div className="grid grid-cols-12 gap-6 items-start">
+        <div className="content-padding" style={{ paddingTop: "40px", paddingBottom: "40px" }}>
+          <div className="grid grid-cols-12 gap-[24px] items-start">
             {/* Title: Column 1-3 */}
             <div className="col-span-12 md:col-span-3">
               <h2
-                style={{
-                  fontFamily: "Georgia, 'Times New Roman', serif",
-                  fontStyle: "italic",
-                  fontSize: "clamp(1.75rem, 3.5vw, 2.75rem)",
-                  fontWeight: 400,
-                  color: "white",
-                  lineHeight: 1.2,
-                }}
+                className="text-3xl lg:text-4xl font-light text-white"
               >
-                {t("아티스트와 팬을 연결하는 미션", "Connecting artists and fans")}
+                {t("Mission", "Mission")}
               </h2>
             </div>
             {/* Image: Column 7-9 */}
             <div className="col-span-12 md:col-span-3 md:col-start-7">
-              <div className="bg-white/10 w-full aspect-[4/3]" />
+              <div className="bg-white/10 w-full aspect-[16/9]" />
             </div>
             {/* Description: Column 10-12 */}
             <div className="col-span-12 md:col-span-3 md:col-start-10">
-              <p className="text-white/50 text-sm md:text-base font-light leading-relaxed">
+              <p className="text-white/50 text-sm md:text-base font-light leading-snug">
                 {t(
-                  "아티스트와 팬을 연결하는 감동적인 경험을 창출합니다. 음악, 콘텐츠, 라이브 퍼포먼스를 통해 잊을 수 없는 순간을 만들어갑니다.",
+                  "Creating meaningful experiences that connect artists and fans. Through music, content, and live performances, we create unforgettable moments.",
                   "Creating meaningful experiences that connect artists and fans. Through music, content, and live performances, we create unforgettable moments."
                 )}
               </p>

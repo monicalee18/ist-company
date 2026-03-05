@@ -224,15 +224,18 @@ export default function MenuOverlay() {
           exit={{ opacity: 0 }}
           transition={{ duration: 0.6, delay: 0.4 }}
         >
+          {/* Solid background to prevent page content showing through */}
+          <div className="absolute inset-0 z-0 bg-black" />
+
           {/* Background Image - Full screen, appears behind content */}
           <motion.div
-            className="absolute inset-0 z-0"
+            className="absolute inset-0 z-[1]"
             variants={backgroundVariants}
             initial="initial"
             animate="animate"
             exit="exit"
           >
-            <AnimatePresence>
+            <AnimatePresence mode="sync">
               <motion.div
                 key={activeImage}
                 className="absolute inset-0"
@@ -460,28 +463,6 @@ export default function MenuOverlay() {
                 ))}
               </motion.div>
 
-              {/* View All Link */}
-              <motion.div
-                initial={{ opacity: 0, x: 15 }}
-                animate={{ opacity: 1, x: 0 }}
-                transition={{
-                  delay: 0.95,
-                  duration: 0.7,
-                  ease: [0.16, 1, 0.3, 1]
-                }}
-                className="mt-4"
-              >
-                <Link
-                  href="/news"
-                  onClick={closeMenu}
-                  className="text-sm text-black/40 hover:text-black transition-colors inline-flex items-center gap-1"
-                >
-                  View all
-                  <svg className="w-3 h-3" fill="none" stroke="currentColor" viewBox="0 0 24 24">
-                    <path strokeLinecap="round" strokeLinejoin="round" strokeWidth={2} d="M9 5l7 7-7 7" />
-                  </svg>
-                </Link>
-              </motion.div>
             </motion.div>
           </div>
 

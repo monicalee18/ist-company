@@ -48,7 +48,7 @@ export default function ArtistPage() {
         </motion.div>
 
         {/* Artist Name Overlay */}
-        <div className="absolute bottom-0 left-0 right-0 p-4 md:p-6">
+        <div className="absolute bottom-0 left-0 right-0 p-4 md:p-6 content-padding">
           <motion.div
             initial={{ opacity: 0, y: 30 }}
             animate={{ opacity: 1, y: 0 }}
@@ -65,7 +65,7 @@ export default function ArtistPage() {
       </section>
 
       {/* Artist Info Section */}
-      <section className="py-20 md:py-32 px-4 md:px-6">
+      <section className="py-20 md:py-32 content-padding">
         <div className="max-w-6xl mx-auto">
           <motion.div
             className="grid md:grid-cols-2 gap-16"
@@ -138,7 +138,7 @@ export default function ArtistPage() {
       </section>
 
       {/* Gallery Section - Placeholder */}
-      <section className="py-20 px-4 md:px-6 border-t border-white/10">
+      <section className="py-20 content-padding border-t border-white/10">
         <div className="max-w-6xl mx-auto">
           <motion.h2
             className="text-sm text-white/50 tracking-wider mb-10"
