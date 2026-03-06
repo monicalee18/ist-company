@@ -1,115 +1,133 @@
+@import url('https://cdn.jsdelivr.net/gh/fonts-archive/Pretendard/subsets/Pretendard-dynamic-subset.css');
 @import "tailwindcss";
 
-@font-face {
-  font-family: 'Cafe24Pro';
-  src: url('/fonts/Cafe24PROUP.otf') format('opentype');
-  font-weight: normal;
-  font-style: normal;
-  font-display: swap;
-}
-
 :root {
-  --background: #ffffff;
-  --foreground: #171717;
-  --mint-gradient-start: #e8f5e9;
-  --mint-gradient-end: #b2dfdb;
+  --background: #0a0a0a;
+  --foreground: #ffffff;
+  --accent: #ff1f5d;
+  --muted: #888888;
 }
 
 @theme inline {
   --color-background: var(--background);
   --color-foreground: var(--foreground);
+  --color-accent: var(--accent);
+  --color-muted: var(--muted);
   --font-sans: var(--font-geist-sans);
   --font-mono: var(--font-geist-mono);
 }
 
-@media (prefers-color-scheme: dark) {
-  :root {
-    --background: #0a0a0a;
-    --foreground: #ededed;
-  }
+* {
+  box-sizing: border-box;
+  margin: 0;
+  padding: 0;
+}
+
+html.lenis, html.lenis body {
+  height: auto;
+}
+
+.lenis.lenis-smooth {
+  scroll-behavior: auto !important;
+}
+
+.lenis.lenis-smooth [data-lenis-prevent] {
+  overscroll-behavior: contain;
+}
+
+.lenis.lenis-stopped {
+  overflow: hidden;
+}
+
+.lenis.lenis-smooth iframe {
+  pointer-events: none;
 }
 
 body {
   background: var(--background);
   color: var(--foreground);
-  font-family: 'Pretendard', -apple-system, BlinkMacSystemFont, system-ui, sans-serif;
+  font-family: "Pretendard", var(--font-geist-sans), -apple-system, BlinkMacSystemFont, system-ui, sans-serif;
+  overflow-x: hidden;
 }
 
-.font-cafe24 {
-  font-family: 'Cafe24Pro', sans-serif;
+/* Headings - Geist Medium for English, Pretendard for Korean */
+h1, h2, h3, h4, h5, h6 {
+  font-family: var(--font-geist-sans), "Pretendard", -apple-system, BlinkMacSystemFont, system-ui, sans-serif;
+  font-weight: 500;
 }
 
-/* 민트 그라데이션 배경 */
-.bg-mint-gradient {
-  background: linear-gradient(180deg, #e8f5e9 0%, #c8e6c9 50%, #b2dfdb 100%);
+/* Monospace - Geist Mono Regular */
+code, pre, .font-mono {
+  font-family: var(--font-geist-mono), ui-monospace, monospace;
+  font-weight: 400;
 }
 
-/* 핑크 YES/NO 바 */
-.yes-no-bar {
-  background: linear-gradient(90deg, #1a1a1a 0%, #1a1a1a var(--no-percent), #ec4899 var(--no-percent), #ec4899 100%);
+/* Custom scrollbar */
+::-webkit-scrollbar {
+  width: 6px;
 }
 
-/* 수다방 오프셋 - lg 이상에서만 적용 */
-.sudabang-offset-expanded {
-  right: 0;
-}
-.sudabang-offset-collapsed {
-  right: 0;
-}
-
-@media (min-width: 1024px) {
-  .sudabang-offset-expanded {
-    right: 320px;
-  }
-  .sudabang-offset-collapsed {
-    right: 0;
-  }
-}
-
-/* 상세 오버레이 스크롤바 */
-.detail-scroll::-webkit-scrollbar {
-  width: 4px;
-}
-.detail-scroll::-webkit-scrollbar-track {
+::-webkit-scrollbar-track {
   background: transparent;
 }
-.detail-scroll::-webkit-scrollbar-thumb {
+
+::-webkit-scrollbar-thumb {
+  background: rgba(255, 255, 255, 0.2);
+  border-radius: 3px;
+}
+
+::-webkit-scrollbar-thumb:hover {
   background: rgba(255, 255, 255, 0.3);
-  border-radius: 2px;
-}
-.detail-scroll {
-  scrollbar-width: thin;
-  scrollbar-color: rgba(255, 255, 255, 0.3) transparent;
 }
 
-/* 커스텀 dashed border (dash 2px, gap 2px) */
-.border-dashed-custom {
-  border-bottom: 1px dashed transparent;
-  background-image: linear-gradient(to right, #d4d4d8 50%, transparent 50%);
-  background-size: 4px 1px;
-  background-repeat: repeat-x;
-  background-position: bottom;
+/* Selection */
+::selection {
+  background: var(--accent);
+  color: white;
 }
 
-/* 일렁이는 광택 효과 애니메이션 */
-@keyframes shimmer {
-  0% {
-    background-position: -200% -200%;
-  }
-  100% {
-    background-position: 200% 200%;
-  }
+/* Smooth image loading */
+img {
+  opacity: 1;
+  transition: opacity 0.3s ease;
 }
 
-.animate-shimmer {
-  animation: shimmer 8s ease-in-out infinite;
+img[data-loading="true"] {
+  opacity: 0;
 }
 
-/* 스크롤바 숨기기 */
+/* Hide scrollbar utility */
 .scrollbar-hide {
   -ms-overflow-style: none;
   scrollbar-width: none;
 }
+
 .scrollbar-hide::-webkit-scrollbar {
   display: none;
+}
+
+/* Header padding */
+.header-padding {
+  padding-left: 16px;
+  padding-right: 16px;
+}
+
+@media (min-width: 768px) {
+  .header-padding {
+    padding-left: 24px;
+    padding-right: 24px;
+  }
+}
+
+/* Content padding: 16px mobile, 24px desktop */
+.content-padding {
+  padding-left: 16px;
+  padding-right: 16px;
+}
+
+@media (min-width: 768px) {
+  .content-padding {
+    padding-left: 24px;
+    padding-right: 24px;
+  }
 }

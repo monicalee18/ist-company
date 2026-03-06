@@ -4,6 +4,7 @@ import { useRef, useState, useEffect } from "react";
 import { motion, useScroll, useTransform, useSpring } from "framer-motion";
 import { useLanguage } from "@/context/LanguageContext";
 import Image from "next/image";
+import Link from "next/link";
 
 export default function AboutPage() {
   const { t } = useLanguage();
@@ -28,22 +29,35 @@ export default function AboutPage() {
   const clipValue = useTransform(videoProgress, [0, 1], [50, 0]);
   const smoothClip = useSpring(clipValue, { stiffness: 100, damping: 30 });
 
-  // Horizontal slider animation
-  const { scrollYProgress: sliderProgress } = useScroll({
-    target: sliderSectionRef,
-    offset: ["start end", "end start"],
-  });
+  // Auto-scrolling animation for former artists
+  const [sliderX, setSliderX] = useState(0);
 
-  const sliderX = useTransform(sliderProgress, [0, 1], ["0%", "-40%"]);
+  useEffect(() => {
+    const speed = 1.2; // pixels per frame
+    let animationId: number;
+
+    const animate = () => {
+      setSliderX(prev => {
+        const newX = prev - speed;
+        // Reset when scrolled enough (adjust based on content width)
+        if (newX < -2000) return 0;
+        return newX;
+      });
+      animationId = requestAnimationFrame(animate);
+    };
+
+    animationId = requestAnimationFrame(animate);
+    return () => cancelAnimationFrame(animationId);
+  }, []);
 
   // Image carousel data - responsive with aspect ratios
   const sliderImages = [
-    { widthRatio: 0.18, aspect: 4 / 3, src: "/artists/apink.webp", name: "Apink" },
-    { widthRatio: 0.35, aspect: 3 / 2, src: "/artists/theboyz.webp", name: "THE BOYZ" },
-    { widthRatio: 0.17, aspect: 1 / 1, src: "/artists/bahiyyih.webp", name: "Bahiyyih" },
-    { widthRatio: 0.35, aspect: 4 / 3, src: "/artists/atbo.webp", name: "ATBO" },
-    { widthRatio: 0.26, aspect: 3 / 2, src: "/artists/limsejun.webp", name: "Lim Se Jun" },
-    { widthRatio: 0.17, aspect: 3 / 5, src: "/artists/tunexx.webp", name: "TUNEXX" },
+    { widthRatio: 0.18, aspect: 4 / 3, src: "/artists/apink.webp", name: "Apink", debut: "2011" },
+    { widthRatio: 0.35, aspect: 3 / 2, src: "/artists/theboyz.webp", name: "THE BOYZ", debut: "2017" },
+    { widthRatio: 0.17, aspect: 1 / 1, src: "/artists/bahiyyih.webp", name: "Bahiyyih", debut: "2021" },
+    { widthRatio: 0.35, aspect: 4 / 3, src: "/artists/atbo.webp", name: "ATBO", debut: "2022" },
+    { widthRatio: 0.26, aspect: 3 / 2, src: "/artists/limsejun.webp", name: "Lim Se Jun", debut: "2016" },
+    { widthRatio: 0.17, aspect: 3 / 5, src: "/artists/tunexx.webp", name: "TUNEXX", debut: "2026" },
   ];
 
   // 12 Column Grid: responsive padding (16px mobile, 24px desktop), 24px gutter
@@ -56,7 +70,7 @@ export default function AboutPage() {
         <div className="col-span-12">
           <h1
             className="text-center text-5xl md:text-6xl lg:text-7xl font-light text-white"
-            style={{ lineHeight: 1.15 }}
+            style={{ lineHeight: 1.1 }}
           >
             {t("Music. Artists. Global Impact.", "Music. Artists. Global Impact.")}
             <br />
@@ -111,7 +125,7 @@ export default function AboutPage() {
       {/* Gap: 30px mobile, 200px desktop */}
       <div className="h-[30px] md:h-[200px]" />
 
-      {/* Section 4: Image Slider */}
+      {/* Section 4: Image Slider - Former Artists */}
       <section
         ref={sliderSectionRef}
         className="relative overflow-hidden py-24 content-padding"
@@ -123,21 +137,32 @@ export default function AboutPage() {
             alignItems: "flex-start",
           }}
         >
-          {sliderImages.map((image, index) => (
+          {/* Duplicate images for seamless loop */}
+          {[...sliderImages, ...sliderImages].map((image, index) => (
             <div
               key={index}
-              className="flex-shrink-0 relative overflow-hidden"
+              className="flex-shrink-0 flex flex-col"
               style={{
                 width: `calc(${image.widthRatio * (isMobile ? 250 : 100)}vw)`,
-                aspectRatio: image.aspect,
               }}
             >
-              <Image
-                src={image.src}
-                alt={image.name}
-                fill
-                className="object-cover"
-              />
+              <div
+                className="relative overflow-hidden"
+                style={{ aspectRatio: image.aspect }}
+              >
+                <Image
+                  src={image.src}
+                  alt={image.name}
+                  fill
+                  className="object-cover grayscale"
+                />
+              </div>
+              <span
+                className="text-white/50 font-mono"
+                style={{ fontSize: "12px", marginTop: "10px" }}
+              >
+                {image.debut}
+              </span>
             </div>
           ))}
         </motion.div>
@@ -164,7 +189,7 @@ export default function AboutPage() {
             </div>
             {/* Description: Column 10-12 */}
             <div className="col-span-12 md:col-span-3 md:col-start-10">
-              <p className="text-white/50 text-sm md:text-base font-light leading-snug">
+              <p className="text-white/50 font-light leading-snug font-mono" style={{ fontSize: "14px" }}>
                 {t(
                   "We lead the global entertainment market through the discovery and development of K-Pop artists. We maximize artist potential through innovative content and systematic management.",
                   "We lead the global entertainment market through the discovery and development of K-Pop artists. We maximize artist potential through innovative content and systematic management."
@@ -193,7 +218,7 @@ export default function AboutPage() {
             </div>
             {/* Description: Column 10-12 */}
             <div className="col-span-12 md:col-span-3 md:col-start-10">
-              <p className="text-white/50 text-sm md:text-base font-light leading-snug">
+              <p className="text-white/50 font-light leading-snug font-mono" style={{ fontSize: "14px" }}>
                 {t(
                   "Growing as a creative content company leading the global entertainment industry. We deliver inspiration to fans worldwide, transcending cultural boundaries.",
                   "Growing as a creative content company leading the global entertainment industry. We deliver inspiration to fans worldwide, transcending cultural boundaries."
@@ -222,7 +247,7 @@ export default function AboutPage() {
             </div>
             {/* Description: Column 10-12 */}
             <div className="col-span-12 md:col-span-3 md:col-start-10">
-              <p className="text-white/50 text-sm md:text-base font-light leading-snug">
+              <p className="text-white/50 font-light leading-snug font-mono" style={{ fontSize: "14px" }}>
                 {t(
                   "Creating meaningful experiences that connect artists and fans. Through music, content, and live performances, we create unforgettable moments.",
                   "Creating meaningful experiences that connect artists and fans. Through music, content, and live performances, we create unforgettable moments."
@@ -230,6 +255,159 @@ export default function AboutPage() {
               </p>
             </div>
           </div>
+        </div>
+      </section>
+
+      {/* Section 8: Impact Statement */}
+      <section className={gridClass} style={{ paddingTop: "clamp(80px, 10vw, 140px)" }}>
+        <div className="col-span-12 md:col-span-10 md:col-start-2">
+          <h2
+            className="text-white font-normal"
+            style={{ fontSize: "clamp(32px, 5vw, 64px)", lineHeight: 1.2, fontFamily: "var(--font-geist-sans)" }}
+          >
+            We measure our value in real-
+            <br />
+            world impact
+          </h2>
+        </div>
+      </section>
+
+      {/* Section 9: Proof of Numbers */}
+      <section className={gridClass} style={{ paddingTop: "clamp(80px, 10vw, 140px)", paddingBottom: "clamp(80px, 10vw, 140px)" }}>
+        {/* Grid 1-4: Global users reached */}
+        <div className="col-span-12 md:col-span-4">
+          <div className="flex">
+            <div className="border-l border-accent" style={{ marginRight: "16px" }} />
+            <div className="flex flex-col" style={{ gap: "clamp(40px, 8vw, 100px)" }}>
+              <p
+                className="text-white font-normal"
+                style={{ fontSize: "clamp(16px, 2vw, 24px)", lineHeight: 1.2, fontFamily: "var(--font-geist-sans)" }}
+              >
+                Global users
+                <br />
+                reached
+              </p>
+              <p
+                className="text-white font-normal"
+                style={{ fontSize: "clamp(48px, 10vw, 140px)", lineHeight: 1.2, fontFamily: "var(--font-geist-sans)" }}
+              >
+                2.2B
+              </p>
+            </div>
+          </div>
+        </div>
+
+        {/* Grid 5-8: Products shipped */}
+        <div className="col-span-12 md:col-span-4">
+          <div className="flex">
+            <div className="border-l border-accent" style={{ marginRight: "16px" }} />
+            <div className="flex flex-col" style={{ gap: "clamp(40px, 8vw, 100px)" }}>
+              <p
+                className="text-white font-normal"
+                style={{ fontSize: "clamp(16px, 2vw, 24px)", lineHeight: 1.2, fontFamily: "var(--font-geist-sans)" }}
+              >
+                Products
+                <br />
+                shipped
+              </p>
+              <p
+                className="text-white font-normal"
+                style={{ fontSize: "clamp(48px, 10vw, 140px)", lineHeight: 1.2, fontFamily: "var(--font-geist-sans)" }}
+              >
+                455
+              </p>
+            </div>
+          </div>
+        </div>
+
+        {/* Grid 9-12: Unicon shipped */}
+        <div className="col-span-12 md:col-span-4">
+          <div className="flex">
+            <div className="border-l border-accent" style={{ marginRight: "16px" }} />
+            <div className="flex flex-col" style={{ gap: "clamp(40px, 8vw, 100px)" }}>
+              <p
+                className="text-white font-normal"
+                style={{ fontSize: "clamp(16px, 2vw, 24px)", lineHeight: 1.2, fontFamily: "var(--font-geist-sans)" }}
+              >
+                Unicon
+                <br />
+                shipped
+              </p>
+              <p
+                className="text-white font-normal"
+                style={{ fontSize: "clamp(48px, 10vw, 140px)", lineHeight: 1.2, fontFamily: "var(--font-geist-sans)" }}
+              >
+                18
+              </p>
+            </div>
+          </div>
+        </div>
+      </section>
+
+      {/* Section 10: How can we help? */}
+      <section className={gridClass} style={{ paddingTop: "clamp(80px, 10vw, 140px)", paddingBottom: "clamp(80px, 10vw, 140px)" }}>
+        {/* Title: Left side */}
+        <div className="col-span-12 md:col-span-5">
+          <h2
+            className="text-white font-semibold"
+            style={{ fontSize: "clamp(48px, 7vw, 88px)", lineHeight: 1.2, fontFamily: "var(--font-geist-sans)" }}
+          >
+            How can
+            <br />
+            we help?
+          </h2>
+        </div>
+
+        {/* Links: Right side */}
+        <div className="col-span-12 md:col-span-5 md:col-start-8 flex flex-col gap-[24px]">
+          {/* Top line */}
+          <div className="w-full h-px bg-white/20" />
+
+          {/* Audition link */}
+          <Link
+            href="/audition"
+            className="flex items-center justify-between text-white hover:text-accent transition-colors group"
+            style={{ fontSize: "clamp(14px, 1.5vw, 16px)", lineHeight: 1.2, fontFamily: "var(--font-geist-sans)" }}
+          >
+            <span>Audition</span>
+            <svg
+              width="16"
+              height="16"
+              viewBox="0 0 24 24"
+              fill="none"
+              stroke="currentColor"
+              strokeWidth="1.5"
+              className="opacity-50 group-hover:opacity-100 transition-opacity"
+            >
+              <path d="M7 17L17 7M17 7H7M17 7V17" strokeLinecap="round" strokeLinejoin="round"/>
+            </svg>
+          </Link>
+
+          {/* Middle line */}
+          <div className="w-full h-px bg-white/20" />
+
+          {/* Contact link */}
+          <Link
+            href="/contact"
+            className="flex items-center justify-between text-white hover:text-accent transition-colors group"
+            style={{ fontSize: "clamp(14px, 1.5vw, 16px)", lineHeight: 1.2, fontFamily: "var(--font-geist-sans)" }}
+          >
+            <span>Contact</span>
+            <svg
+              width="16"
+              height="16"
+              viewBox="0 0 24 24"
+              fill="none"
+              stroke="currentColor"
+              strokeWidth="1.5"
+              className="opacity-50 group-hover:opacity-100 transition-opacity"
+            >
+              <path d="M7 17L17 7M17 7H7M17 7V17" strokeLinecap="round" strokeLinejoin="round"/>
+            </svg>
+          </Link>
+
+          {/* Bottom line */}
+          <div className="w-full h-px bg-white/20" />
         </div>
       </section>
 

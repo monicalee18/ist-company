@@ -1,21 +1,38 @@
 import type { Metadata } from "next";
 import { Geist, Geist_Mono } from "next/font/google";
+import localFont from "next/font/local";
 import "./globals.css";
-import LayoutShell from "@/components/layout/LayoutShell";
+import Header from "@/components/Header";
+import MenuOverlay from "@/components/MenuOverlay";
+import SmoothScroll from "@/components/SmoothScroll";
+import ConditionalFooter from "@/components/ConditionalFooter";
+import { MenuProvider } from "@/context/MenuContext";
+import { LanguageProvider } from "@/context/LanguageContext";
+
+const ppEiko = localFont({
+  src: "../fonts/PPEiko-Medium.otf",
+  variable: "--font-pp-eiko",
+  display: "swap",
+});
 
 const geistSans = Geist({
   variable: "--font-geist-sans",
   subsets: ["latin"],
+  weight: ["400", "500"],
 });
 
 const geistMono = Geist_Mono({
   variable: "--font-geist-mono",
   subsets: ["latin"],
+  weight: ["400"],
 });
 
 export const metadata: Metadata = {
-  title: "SPILL OTEA - 엔터 예측 마켓",
-  description: "K-POP, 연예계 이슈를 예측하고 썰 풀자!",
+  title: "IST COMPANY",
+  description: "IST Entertainment - K-Pop Entertainment Company",
+  icons: {
+    icon: "/favicon.ico",
+  },
 };
 
 export default function RootLayout({
@@ -25,16 +42,19 @@ export default function RootLayout({
 }>) {
   return (
     <html lang="ko">
-      <head>
-        <link
-          rel="stylesheet"
-          href="https://cdn.jsdelivr.net/gh/orioncactus/pretendard/dist/web/static/pretendard.css"
-        />
-      </head>
       <body
-        className={`${geistSans.variable} ${geistMono.variable} antialiased`}
+        className={`${ppEiko.variable} ${geistSans.variable} ${geistMono.variable} antialiased`}
       >
-        <LayoutShell>{children}</LayoutShell>
+        <LanguageProvider>
+          <MenuProvider>
+            <SmoothScroll>
+              <Header />
+              <MenuOverlay />
+              <main>{children}</main>
+              <ConditionalFooter />
+            </SmoothScroll>
+          </MenuProvider>
+        </LanguageProvider>
       </body>
     </html>
   );

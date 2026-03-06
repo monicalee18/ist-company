@@ -336,13 +336,14 @@ export default function MenuOverlay() {
                       className="group inline-block relative"
                     >
                       <span
-                        className={`text-3xl lg:text-4xl xl:text-5xl font-light transition-colors duration-300 ${
+                        className={`text-3xl lg:text-4xl xl:text-5xl font-medium transition-colors duration-300 ${
                           hoveredIndex === null
                             ? "text-black/60"
                             : hoveredIndex === index
                             ? "text-black"
                             : "text-black/30"
                         }`}
+                        style={{ fontFamily: "var(--font-geist-sans)" }}
                       >
                         {item.label}
                       </span>
@@ -404,7 +405,7 @@ export default function MenuOverlay() {
               exit="exit"
             >
               <motion.div
-                className="flex flex-col w-full max-w-[240px]"
+                className="flex flex-col w-full max-w-[250px]"
                 style={{ gap: "4px" }}
                 variants={{
                   animate: {
@@ -524,7 +525,10 @@ export default function MenuOverlay() {
                       className="inline-block relative"
                       style={{ paddingTop: "2px", paddingBottom: "2px" }}
                     >
-                      <span className="text-2xl font-light text-black/60 hover:text-black transition-colors">
+                      <span
+                        className="text-2xl font-medium text-black/60 hover:text-black transition-colors"
+                        style={{ fontFamily: "var(--font-geist-sans)" }}
+                      >
                         {item.label}
                       </span>
                     </Link>
