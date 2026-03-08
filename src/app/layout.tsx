@@ -1,7 +1,9 @@
 import type { Metadata } from "next";
-import { Geist, Geist_Mono } from "next/font/google";
+import { Geist_Mono } from "next/font/google";
 import localFont from "next/font/local";
 import "./globals.css";
+import IntroAnimation from "@/components/IntroAnimation";
+import CustomCursor from "@/components/CustomCursor";
 import Header from "@/components/Header";
 import MenuOverlay from "@/components/MenuOverlay";
 import SmoothScroll from "@/components/SmoothScroll";
@@ -15,10 +17,10 @@ const ppEiko = localFont({
   display: "swap",
 });
 
-const geistSans = Geist({
+const aspekta = localFont({
+  src: "../fonts/AspektaVF.woff2",
   variable: "--font-geist-sans",
-  subsets: ["latin"],
-  weight: ["400", "500"],
+  display: "swap",
 });
 
 const geistMono = Geist_Mono({
@@ -43,10 +45,12 @@ export default function RootLayout({
   return (
     <html lang="ko">
       <body
-        className={`${ppEiko.variable} ${geistSans.variable} ${geistMono.variable} antialiased`}
+        className={`${ppEiko.variable} ${aspekta.variable} ${geistMono.variable} antialiased`}
       >
         <LanguageProvider>
           <MenuProvider>
+            <IntroAnimation />
+            <CustomCursor />
             <SmoothScroll>
               <Header />
               <MenuOverlay />

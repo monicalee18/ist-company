@@ -1,59 +1,30 @@
 "use client";
 
-import { useState, useEffect } from "react";
+import { useState, useEffect, useCallback } from "react";
 import Link from "next/link";
 import Image from "next/image";
 import { useRouter, usePathname } from "next/navigation";
 import { useMenu } from "@/context/MenuContext";
 import { useLanguage } from "@/context/LanguageContext";
 import { motion, AnimatePresence } from "framer-motion";
+import { getLatestNews } from "@/lib/news";
 
-const menuItems = [
-  { label: "About", href: "/about", image: "/menu/about.jpg" },
-  { label: "Artist", href: "/artist", image: "/menu/artist.jpg" },
-  { label: "Latest News", href: "/news", image: "/menu/news.jpg" },
-  { label: "Audition", href: "/audition", image: "/menu/audition.jpg" },
-  { label: "Contact", href: "/contact", image: "/menu/contact.jpg" },
+const menuItemsData = [
+  { label: "About", href: "/about", image: "/menu/about-v2.jpg" },
+  { label: "Artist", href: "/artist", image: "/menu/artist-v2.jpg" },
+  { label: "Latest News", href: "/news", image: "/menu/news-v2.jpg" },
+  { label: "Audition", href: "/audition", image: "/menu/audition-v2.jpg" },
+  { label: "Contact", href: "/contact", image: "/menu/contact-v2.jpg" },
 ];
 
-// Latest news data
-const latestNews = [
-  {
-    id: 1,
-    date: "2026.03.04",
-    title: "'기대 그 이상' TUNEXX(튜넥스), 독보적 주파수로 쏘아올린 K팝 新신호탄!",
-    thumbnail: "https://images.khan.co.kr/article/2026/03/04/news-p.v1.20260304.0a5d8a13a90c45c5aa28eec25f768484_P1.jpg",
-    link: "https://sports.khan.co.kr/article/202603042126003?pt=nv",
-  },
-  {
-    id: 2,
-    date: "2026.03.03",
-    title: "TUNEXX(튜넥스), 오늘(3일) 정식 데뷔..'주파수 ON'",
-    thumbnail: "https://image.starnewskorea.com/cdn-cgi/image/f=auto,w=1200,h=1200,fit=cover,q=high,sharpen=2/21/2026/03/2026030307301835121_1.jpg",
-    link: "https://www.starnewskorea.com/music/2026/03/03/2026030307301835121",
-  },
-  {
-    id: 3,
-    date: "2026.02.26",
-    title: "TUNEXX(튜넥스), 데뷔 타이틀곡 '내가 살아있다는 증거' 음원 일부 최초 공개",
-    thumbnail: "https://images.khan.co.kr/article/2026/02/26/news-p.v1.20260226.a7a4d0eb30e042d2b41dd9df4bf187a0_P1.jpeg",
-    link: "https://sports.khan.co.kr/article/202602261040003?pt=nv",
-  },
-  {
-    id: 4,
-    date: "2026.03.03",
-    title: "[포토] 튜넥스(TUNEXX), 오늘 데뷔!",
-    thumbnail: "https://image.inews24.com/v1/ae57ac07e6bb15.jpg",
-    link: "https://www.joynews24.com/view/1944619",
-  },
-  {
-    id: 5,
-    date: "2026.03.03",
-    title: "TUNEXX(튜넥스), 데뷔 쇼케이스 현장",
-    thumbnail: "/news/jtbc-tunexx.jpg",
-    link: "https://news.jtbc.co.kr/article/NB12287857?influxDiv=NAVER",
-  },
-];
+// Latest news from shared data
+const latestNews = getLatestNews(5).map((item, i) => ({
+  id: i + 1,
+  date: item.pubDate,
+  title: item.title,
+  thumbnail: item.thumbnail || "",
+  link: item.link,
+}));
 
 // Animation variants
 const backgroundVariants = {
@@ -172,22 +143,59 @@ const newsItemVariants = {
 
 export default function MenuOverlay() {
   const { isMenuOpen, closeMenu } = useMenu();
-  const { language, setLanguage } = useLanguage();
+  const { language, setLanguage, t } = useLanguage();
   const router = useRouter();
   const pathname = usePathname();
   const [hoveredIndex, setHoveredIndex] = useState<number | null>(null);
-  const [activeImage, setActiveImage] = useState(menuItems[0].image);
+  const [activeImage, setActiveImage] = useState(menuItemsData[0].image);
+
+  const menuItems = menuItemsData;
+  const [translatedNews, setTranslatedNews] = useState<Record<string, string>>({});
+
+  const translateNewsTitles = useCallback(async () => {
+    const titles = latestNews.map((n) => n.title);
+    const untranslated = titles.filter((t) => !translatedNews[t]);
+    if (untranslated.length === 0) return;
+    try {
+      const res = await fetch("/api/translate", {
+        method: "POST",
+        headers: { "Content-Type": "application/json" },
+        body: JSON.stringify({ texts: untranslated, target: "en" }),
+      });
+      const data = await res.json();
+      if (data.translations) {
+        setTranslatedNews((prev) => {
+          const next = { ...prev };
+          untranslated.forEach((title, i) => {
+            next[title] = data.translations[i];
+          });
+          return next;
+        });
+      }
+    } catch { /* fallback to original */ }
+  }, [translatedNews]);
+
+  useEffect(() => {
+    if (language === "EN" && isMenuOpen) {
+      translateNewsTitles();
+    }
+  }, [language, isMenuOpen, translateNewsTitles]);
+
+  const getNewsTitle = (title: string) => {
+    if (language === "EN" && translatedNews[title]) return translatedNews[title];
+    return title;
+  };
 
   // Set initial image and hover state based on current page when menu opens
   useEffect(() => {
     if (isMenuOpen) {
-      const currentIndex = menuItems.findIndex(item => item.href === pathname);
+      const currentIndex = menuItemsData.findIndex(item => item.href === pathname);
       if (currentIndex !== -1) {
-        setActiveImage(menuItems[currentIndex].image);
+        setActiveImage(menuItemsData[currentIndex].image);
         setHoveredIndex(currentIndex);
       } else {
         // If on home or unknown page, reset to default
-        setActiveImage(menuItems[0].image);
+        setActiveImage(menuItemsData[0].image);
         setHoveredIndex(null);
       }
     }
@@ -195,7 +203,7 @@ export default function MenuOverlay() {
 
   const handleMouseEnter = (index: number) => {
     setHoveredIndex(index);
-    setActiveImage(menuItems[index].image);
+    setActiveImage(menuItemsData[index].image);
   };
 
   const handleMouseLeave = () => {
@@ -336,14 +344,16 @@ export default function MenuOverlay() {
                       className="group inline-block relative"
                     >
                       <span
-                        className={`text-3xl lg:text-4xl xl:text-5xl font-medium transition-colors duration-300 ${
-                          hoveredIndex === null
-                            ? "text-black/60"
-                            : hoveredIndex === index
-                            ? "text-black"
-                            : "text-black/30"
-                        }`}
-                        style={{ fontFamily: "var(--font-geist-sans)" }}
+                        className="text-3xl lg:text-4xl xl:text-5xl font-medium transition-colors duration-300"
+                        style={{
+                          fontFamily: "var(--font-geist-sans)",
+                          color:
+                            hoveredIndex === null
+                              ? "#000000"
+                              : hoveredIndex === index
+                              ? "#000000"
+                              : "#B2B2B2",
+                        }}
                       >
                         {item.label}
                       </span>
@@ -434,7 +444,7 @@ export default function MenuOverlay() {
                       onMouseLeave={(e) => e.currentTarget.style.borderColor = "transparent"}
                     >
                       {/* Date above thumbnail */}
-                      <span className="text-xs text-black/40 block" style={{ marginBottom: "6px" }}>{news.date}</span>
+                      <span className="text-xs text-black/40 block" style={{ marginBottom: "6px", fontFamily: "var(--font-geist-sans)" }}>{news.date}</span>
                       <div className="flex gap-[10px]">
                         {/* Thumbnail */}
                         <div
@@ -452,10 +462,10 @@ export default function MenuOverlay() {
                         {/* Text Content */}
                         <div className="flex flex-col flex-1 min-w-0">
                           <span
-                            className="text-black/80 group-hover:text-black transition-colors"
-                            style={{ fontSize: "12px", lineHeight: "1.2" }}
+                            className="text-black/80 group-hover:text-black transition-colors line-clamp-3"
+                            style={{ fontSize: "12px", lineHeight: "1.2", fontFamily: "var(--font-geist-sans)" }}
                           >
-                            {news.title}
+                            {getNewsTitle(news.title)}
                           </span>
                         </div>
                       </div>
@@ -593,7 +603,7 @@ export default function MenuOverlay() {
                     onMouseLeave={(e) => e.currentTarget.style.borderColor = "transparent"}
                   >
                     {/* Date above thumbnail */}
-                    <span className="text-xs text-black/40 block" style={{ marginBottom: "6px" }}>{news.date}</span>
+                    <span className="text-xs text-black/40 block" style={{ marginBottom: "6px", fontFamily: "var(--font-geist-sans)" }}>{news.date}</span>
                     <div className="flex gap-[10px]">
                       {/* Thumbnail */}
                       <div
@@ -612,9 +622,9 @@ export default function MenuOverlay() {
                       <div className="flex flex-col flex-1 min-w-0">
                         <span
                           className="text-black/80"
-                          style={{ fontSize: "12px", lineHeight: "1.2" }}
+                          style={{ fontSize: "12px", lineHeight: "1.2", fontFamily: "var(--font-geist-sans)" }}
                         >
-                          {news.title}
+                          {getNewsTitle(news.title)}
                         </span>
                       </div>
                     </div>

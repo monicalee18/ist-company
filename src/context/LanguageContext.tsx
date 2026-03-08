@@ -1,6 +1,6 @@
 "use client";
 
-import { createContext, useContext, useState, ReactNode } from "react";
+import { createContext, useContext, useState, useEffect, ReactNode } from "react";
 
 type Language = "KO" | "EN";
 
@@ -12,8 +12,18 @@ interface LanguageContextType {
 
 const LanguageContext = createContext<LanguageContextType | undefined>(undefined);
 
+function detectBrowserLanguage(): Language {
+  if (typeof window === "undefined") return "KO";
+  const lang = navigator.language || navigator.languages?.[0] || "ko";
+  return lang.startsWith("ko") ? "KO" : "EN";
+}
+
 export function LanguageProvider({ children }: { children: ReactNode }) {
   const [language, setLanguage] = useState<Language>("KO");
+
+  useEffect(() => {
+    setLanguage(detectBrowserLanguage());
+  }, []);
 
   const t = <T extends ReactNode>(ko: T, en: T): T => (language === "KO" ? ko : en);
 

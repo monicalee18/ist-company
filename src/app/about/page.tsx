@@ -289,7 +289,7 @@ export default function AboutPage() {
               </p>
               <p
                 className="text-white font-normal"
-                style={{ fontSize: "clamp(48px, 10vw, 140px)", lineHeight: 1.2, fontFamily: "var(--font-geist-sans)" }}
+                style={{ fontSize: "84px", lineHeight: 1.2, fontFamily: "var(--font-geist-sans)" }}
               >
                 2.2B
               </p>
@@ -312,7 +312,7 @@ export default function AboutPage() {
               </p>
               <p
                 className="text-white font-normal"
-                style={{ fontSize: "clamp(48px, 10vw, 140px)", lineHeight: 1.2, fontFamily: "var(--font-geist-sans)" }}
+                style={{ fontSize: "84px", lineHeight: 1.2, fontFamily: "var(--font-geist-sans)" }}
               >
                 455
               </p>
@@ -335,7 +335,7 @@ export default function AboutPage() {
               </p>
               <p
                 className="text-white font-normal"
-                style={{ fontSize: "clamp(48px, 10vw, 140px)", lineHeight: 1.2, fontFamily: "var(--font-geist-sans)" }}
+                style={{ fontSize: "84px", lineHeight: 1.2, fontFamily: "var(--font-geist-sans)" }}
               >
                 18
               </p>

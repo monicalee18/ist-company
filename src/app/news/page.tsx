@@ -1,51 +1,58 @@
 "use client";
 
-import { useState } from "react";
+import { useState, useEffect, useCallback } from "react";
 import { motion } from "framer-motion";
 import Image from "next/image";
+import { useLanguage } from "@/context/LanguageContext";
+import { newsData } from "@/lib/news";
 
-interface NewsItem {
-  title: string;
-  link: string;
-  pubDate: string;
-  thumbnail?: string;
-}
-
-const newsData: NewsItem[] = [
-  {
-    title: "'기대 그 이상' TUNEXX(튜넥스), 독보적 주파수로 쏘아올린 K팝 新신호탄!",
-    link: "https://sports.khan.co.kr/article/202603042126003?pt=nv",
-    pubDate: "2026.03.04",
-    thumbnail: "https://images.khan.co.kr/article/2026/03/04/news-p.v1.20260304.0a5d8a13a90c45c5aa28eec25f768484_P1.jpg",
-  },
-  {
-    title: "TUNEXX(튜넥스), 오늘(3일) 정식 데뷔..'주파수 ON'",
-    link: "https://www.starnewskorea.com/music/2026/03/03/2026030307301835121",
-    pubDate: "2026.03.03",
-    thumbnail: "https://image.starnewskorea.com/cdn-cgi/image/f=auto,w=1200,h=1200,fit=cover,q=high,sharpen=2/21/2026/03/2026030307301835121_1.jpg",
-  },
-  {
-    title: "TUNEXX(튜넥스), 데뷔 타이틀곡 '내가 살아있다는 증거' 음원 일부 최초 공개",
-    link: "https://sports.khan.co.kr/article/202602261040003?pt=nv",
-    pubDate: "2026.02.26",
-    thumbnail: "https://images.khan.co.kr/article/2026/02/26/news-p.v1.20260226.a7a4d0eb30e042d2b41dd9df4bf187a0_P1.jpeg",
-  },
-  {
-    title: "[포토] 튜넥스(TUNEXX), 오늘 데뷔!",
-    link: "https://www.joynews24.com/view/1944619",
-    pubDate: "2026.03.03",
-    thumbnail: "https://image.inews24.com/v1/ae57ac07e6bb15.jpg",
-  },
-  {
-    title: "TUNEXX(튜넥스), 데뷔 쇼케이스 현장",
-    link: "https://news.jtbc.co.kr/article/NB12287857?influxDiv=NAVER",
-    pubDate: "2026.03.03",
-    thumbnail: "/news/jtbc-tunexx.jpg",
-  },
-];
+const PAGE_SIZE = 10;
 
 export default function NewsPage() {
-  const [news] = useState<NewsItem[]>(newsData);
+  const { language, t } = useLanguage();
+  const [visibleCount, setVisibleCount] = useState(PAGE_SIZE);
+  const [translatedTitles, setTranslatedTitles] = useState<Record<string, string>>({});
+
+  const translateTitles = useCallback(async (titles: string[]) => {
+    const untranslated = titles.filter((title) => !translatedTitles[title]);
+    if (untranslated.length === 0) return;
+
+    try {
+      const res = await fetch("/api/translate", {
+        method: "POST",
+        headers: { "Content-Type": "application/json" },
+        body: JSON.stringify({ texts: untranslated, target: "en" }),
+      });
+      const data = await res.json();
+      if (data.translations) {
+        setTranslatedTitles((prev) => {
+          const next = { ...prev };
+          untranslated.forEach((title, i) => {
+            next[title] = data.translations[i];
+          });
+          return next;
+        });
+      }
+    } catch {
+      // Fallback to original titles on error
+    }
+  }, [translatedTitles]);
+
+  useEffect(() => {
+    if (language === "EN") {
+      const visibleTitles = newsData.slice(0, visibleCount).map((n) => n.title);
+      translateTitles(visibleTitles);
+    }
+  }, [language, visibleCount, translateTitles]);
+
+  const getTitle = (title: string) => {
+    if (language === "EN" && translatedTitles[title]) {
+      return translatedTitles[title];
+    }
+    return title;
+  };
+  const news = newsData.slice(0, visibleCount);
+  const hasMore = visibleCount < newsData.length;
 
   return (
     <div
@@ -73,7 +80,7 @@ export default function NewsPage() {
           style={{ gridColumn: "2 / 12" }}
         >
           <h1 className="text-6xl font-light text-white">
-            Latest News
+            {t("최신 뉴스", "Latest News")}
           </h1>
         </motion.div>
       </div>
@@ -94,7 +101,7 @@ export default function NewsPage() {
           transition={{ duration: 0.6 }}
         >
           <h1 className="text-4xl font-light text-white">
-            Latest News
+            {t("최신 뉴스", "Latest News")}
           </h1>
         </motion.div>
       </div>
@@ -140,9 +147,10 @@ export default function NewsPage() {
                   {item.pubDate}
                 </span>
                 <h2
-                  className="text-2xl font-light text-white group-hover:text-white/80 transition-colors line-clamp-2"
+                  className="text-2xl text-white group-hover:text-white/80 transition-colors line-clamp-3"
+                    style={{ fontWeight: 400 }}
                 >
-                  {item.title}
+                  {getTitle(item.title)}
                 </h2>
               </div>
 
@@ -217,15 +225,31 @@ export default function NewsPage() {
                   {item.pubDate}
                 </span>
                 <h2
-                  className="text-xl font-light text-white group-hover:text-white/80 transition-colors line-clamp-2"
+                  className="text-xl text-white group-hover:text-white/80 transition-colors line-clamp-3"
+                    style={{ fontWeight: 400 }}
                 >
-                  {item.title}
+                  {getTitle(item.title)}
                 </h2>
               </div>
             </a>
           </motion.article>
         ))}
       </div>
+
+      {/* See more */}
+      {hasMore && (
+        <div className="flex justify-center" style={{ paddingTop: "40px", paddingBottom: "40px" }}>
+          <button
+            onClick={() => setVisibleCount((prev) => prev + PAGE_SIZE)}
+            className="text-white/60 text-sm hover:text-white transition-colors underline underline-offset-4"
+          >
+            {t("더 보기", "See more")}
+          </button>
+        </div>
+      )}
+
+      {/* Bottom spacing */}
+      <div className="h-[40px] md:h-[60px]" />
     </div>
   );
 }

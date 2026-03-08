@@ -3,10 +3,12 @@
 import Link from "next/link";
 import { useRouter } from "next/navigation";
 import { useMenu } from "@/context/MenuContext";
+import { useLanguage } from "@/context/LanguageContext";
 import { motion } from "framer-motion";
 
 export default function Header() {
   const { isMenuOpen, toggleMenu, closeMenu } = useMenu();
+  const { t } = useLanguage();
   const router = useRouter();
 
   const handleLogoClick = (e: React.MouseEvent) => {
@@ -85,7 +87,7 @@ export default function Header() {
             e.currentTarget.style.borderColor = "transparent";
           }}
         >
-          <span>{isMenuOpen ? "Close" : "Menu"}</span>
+          <span>{isMenuOpen ? t("닫기", "Close") : t("메뉴", "Menu")}</span>
           {isMenuOpen && (
             <svg
               width="8"

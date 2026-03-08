@@ -2,71 +2,92 @@
 
 import { useState, useRef } from "react";
 import { motion, AnimatePresence } from "framer-motion";
+import { useLanguage } from "@/context/LanguageContext";
 
-const auditionInfo = {
-  categories: [
-    {
-      title: "Vocal",
-      titleKo: "보컬",
-      description: "노래 실력을 보여주세요. 장르 불문, 본인의 매력을 어필할 수 있는 곡을 선택해주세요.",
-    },
-    {
-      title: "Dance",
-      titleKo: "댄스",
-      description: "자유 안무 또는 기존 곡의 커버 댄스를 준비해주세요. 개성 있는 퍼포먼스를 보여주세요.",
-    },
-    {
-      title: "Rap",
-      titleKo: "랩",
-      description: "자작 랩 또는 기존 곡의 커버를 준비해주세요. 플로우와 가사 전달력을 중점적으로 봅니다.",
-    },
-    {
-      title: "Acting",
-      titleKo: "연기",
-      description: "1분 내외의 자유 연기 또는 지정 대본 연기를 준비해주세요.",
-    },
-  ],
-  requirements: [
-    "만 10세 ~ 만 23세 (성별 무관)",
-    "국적 불문",
-    "기획사 미소속자 또는 계약 만료자",
-    "주 3회 이상 연습 참여 가능자",
-  ],
-  process: [
-    { step: "01", title: "온라인 접수", description: "지원서 및 프로필 제출" },
-    { step: "02", title: "1차 심사", description: "서류 및 영상 심사" },
-    { step: "03", title: "2차 심사", description: "대면 오디션" },
-    { step: "04", title: "최종 합격", description: "연습생 계약 체결" },
-  ],
-  faq: [
-    {
-      question: "합격 연락은 언제 오나요?",
-      answer: "합격자에 한하여 2~3주 내로 개별 공지됩니다.",
-    },
-    {
-      question: "팀 지원이 가능한가요?",
-      answer: "팀 지원은 받지 않습니다. 팀으로 지원하시면 심사 과정에서 탈락 처리됨으로 개별 지원해주시기 바랍니다.",
-    },
-    {
-      question: "기존 오디션에 지원했었는데 재지원이 가능한가요?",
-      answer: "네, 가능합니다. 국내 지원자와 동일한 방식으로 자료 첨부하여 홈페이지 혹은 우편으로 지원해주시면 됩니다.",
-    },
-  ],
-};
+type TranslateFn = <T extends React.ReactNode>(ko: T, en: T) => T;
 
-const countryCodes = [
-  { code: "+82", country: "대한민국" },
-  { code: "+1", country: "미국/캐나다" },
-  { code: "+81", country: "일본" },
-  { code: "+86", country: "중국" },
-  { code: "+44", country: "영국" },
-  { code: "+49", country: "독일" },
-  { code: "+33", country: "프랑스" },
-  { code: "+61", country: "호주" },
-  { code: "+65", country: "싱가포르" },
-  { code: "+66", country: "태국" },
-  { code: "+84", country: "베트남" },
-];
+function getAuditionInfo(t: TranslateFn) {
+  return {
+    categories: [
+      {
+        title: "Vocal",
+        description: t(
+          "노래 실력을 보여주세요. 장르 불문, 본인의 매력을 어필할 수 있는 곡을 선택해주세요.",
+          "Show us your singing skills. Choose a song that showcases your charm, regardless of genre."
+        ),
+      },
+      {
+        title: "Dance",
+        description: t(
+          "자유 안무 또는 기존 곡의 커버 댄스를 준비해주세요. 개성 있는 퍼포먼스를 보여주세요.",
+          "Prepare a free choreography or cover dance. Show us your unique performance."
+        ),
+      },
+      {
+        title: "Rap",
+        description: t(
+          "자작 랩 또는 기존 곡의 커버를 준비해주세요. 플로우와 가사 전달력을 중점적으로 봅니다.",
+          "Prepare an original rap or cover. We focus on flow and lyrical delivery."
+        ),
+      },
+      {
+        title: "Acting",
+        description: t(
+          "1분 내외의 자유 연기 또는 지정 대본 연기를 준비해주세요.",
+          "Prepare a 1-minute free acting piece or scripted performance."
+        ),
+      },
+    ],
+    requirements: [
+      t("만 10세 ~ 만 23세 (성별 무관)", "Ages 10-23 (all genders)"),
+      t("국적 불문", "All nationalities welcome"),
+      t("기획사 미소속자 또는 계약 만료자", "Not currently signed or contract expired"),
+      t("주 3회 이상 연습 참여 가능자", "Available for practice 3+ times per week"),
+    ],
+    process: [
+      { step: "01", title: t("온라인 접수", "Online Application"), description: t("지원서 및 프로필 제출", "Submit application & profile") },
+      { step: "02", title: t("1차 심사", "1st Screening"), description: t("서류 및 영상 심사", "Document & video review") },
+      { step: "03", title: t("2차 심사", "2nd Screening"), description: t("대면 오디션", "In-person audition") },
+      { step: "04", title: t("최종 합격", "Final Selection"), description: t("연습생 계약 체결", "Trainee contract signing") },
+    ],
+    faq: [
+      {
+        question: t("합격 연락은 언제 오나요?", "When will I hear about the results?"),
+        answer: t("합격자에 한하여 2~3주 내로 개별 공지됩니다.", "Selected candidates will be individually notified within 2-3 weeks."),
+      },
+      {
+        question: t("팀 지원이 가능한가요?", "Can I apply as a team?"),
+        answer: t(
+          "팀 지원은 받지 않습니다. 팀으로 지원하시면 심사 과정에서 탈락 처리됨으로 개별 지원해주시기 바랍니다.",
+          "Team applications are not accepted. Please apply individually."
+        ),
+      },
+      {
+        question: t("기존 오디션에 지원했었는데 재지원이 가능한가요?", "Can I reapply if I've auditioned before?"),
+        answer: t(
+          "네, 가능합니다. 국내 지원자와 동일한 방식으로 자료 첨부하여 홈페이지 혹은 우편으로 지원해주시면 됩니다.",
+          "Yes, you can. Please submit your materials through the website or by mail."
+        ),
+      },
+    ],
+  };
+}
+
+function getCountryCodes(t: TranslateFn) {
+  return [
+    { code: "+82", country: t("대한민국", "South Korea") },
+    { code: "+1", country: t("미국/캐나다", "US/Canada") },
+    { code: "+81", country: t("일본", "Japan") },
+    { code: "+86", country: t("중국", "China") },
+    { code: "+44", country: t("영국", "UK") },
+    { code: "+49", country: t("독일", "Germany") },
+    { code: "+33", country: t("프랑스", "France") },
+    { code: "+61", country: t("호주", "Australia") },
+    { code: "+65", country: t("싱가포르", "Singapore") },
+    { code: "+66", country: t("태국", "Thailand") },
+    { code: "+84", country: t("베트남", "Vietnam") },
+  ];
+}
 
 const years = Array.from({ length: 30 }, (_, i) => 2015 - i);
 const months = Array.from({ length: 12 }, (_, i) => i + 1);
@@ -93,6 +114,9 @@ interface AuditionFormData {
 }
 
 function AuditionApplyModal({ isOpen, onClose }: { isOpen: boolean; onClose: () => void }) {
+  const { t } = useLanguage();
+  const countryCodes = getCountryCodes(t);
+
   const [formData, setFormData] = useState<AuditionFormData>({
     name: "",
     nationality: "",
@@ -128,21 +152,21 @@ function AuditionApplyModal({ isOpen, onClose }: { isOpen: boolean; onClose: () 
 
     setImageError("");
     const validTypes = ["image/jpeg", "image/gif", "image/png"];
-    const maxSize = 2 * 1024 * 1024; // 2MB
+    const maxSize = 2 * 1024 * 1024;
     const maxFiles = 3;
 
     const newFiles: File[] = [];
     for (let i = 0; i < files.length; i++) {
       if (images.length + newFiles.length >= maxFiles) {
-        setImageError(`최대 ${maxFiles}개까지 업로드 가능합니다.`);
+        setImageError(t(`최대 ${maxFiles}개까지 업로드 가능합니다.`, `Maximum ${maxFiles} files allowed.`));
         break;
       }
       if (!validTypes.includes(files[i].type)) {
-        setImageError("JPG, GIF, PNG 파일만 업로드 가능합니다.");
+        setImageError(t("JPG, GIF, PNG 파일만 업로드 가능합니다.", "Only JPG, GIF, PNG files are allowed."));
         continue;
       }
       if (files[i].size > maxSize) {
-        setImageError("파일당 최대 2MB까지 업로드 가능합니다.");
+        setImageError(t("파일당 최대 2MB까지 업로드 가능합니다.", "Maximum 2MB per file."));
         continue;
       }
       newFiles.push(files[i]);
@@ -156,14 +180,14 @@ function AuditionApplyModal({ isOpen, onClose }: { isOpen: boolean; onClose: () 
 
     setVideoError("");
     const validTypes = ["video/mp4", "video/quicktime", "video/x-ms-wmv"];
-    const maxSize = 20 * 1024 * 1024; // 20MB
+    const maxSize = 20 * 1024 * 1024;
 
     if (!validTypes.includes(file.type)) {
-      setVideoError("MP4, MOV, WMV 파일만 업로드 가능합니다.");
+      setVideoError(t("MP4, MOV, WMV 파일만 업로드 가능합니다.", "Only MP4, MOV, WMV files are allowed."));
       return;
     }
     if (file.size > maxSize) {
-      setVideoError("최대 20MB까지 업로드 가능합니다.");
+      setVideoError(t("최대 20MB까지 업로드 가능합니다.", "Maximum 20MB allowed."));
       return;
     }
     setVideo(file);
@@ -176,15 +200,30 @@ function AuditionApplyModal({ isOpen, onClose }: { isOpen: boolean; onClose: () 
   const handleSubmit = async (e: React.FormEvent) => {
     e.preventDefault();
     if (!formData.privacyAgreed) {
-      alert("개인정보 수집 및 이용에 동의해주세요.");
+      alert(t("개인정보 수집 및 이용에 동의해주세요.", "Please agree to the privacy policy."));
       return;
     }
     setSubmitting(true);
     await new Promise((resolve) => setTimeout(resolve, 1500));
     setSubmitting(false);
-    alert("오디션 지원이 완료되었습니다.");
+    alert(t("오디션 지원이 완료되었습니다.", "Your audition application has been submitted."));
     onClose();
   };
+
+  const isFormValid =
+    formData.name.trim() !== "" &&
+    formData.nationality.trim() !== "" &&
+    formData.gender !== "" &&
+    formData.category !== "" &&
+    formData.height.trim() !== "" &&
+    formData.weight.trim() !== "" &&
+    formData.birthYear !== "" &&
+    formData.birthMonth !== "" &&
+    formData.birthDay !== "" &&
+    formData.phone.trim() !== "" &&
+    formData.email.trim() !== "" &&
+    formData.address.trim() !== "" &&
+    formData.privacyAgreed;
 
   const inputClass = "w-full bg-transparent border-b border-black/20 text-black focus:border-black focus:outline-none transition-colors placeholder:text-black/30";
   const labelClass = "block text-black/50 text-sm mb-1";
@@ -195,6 +234,7 @@ function AuditionApplyModal({ isOpen, onClose }: { isOpen: boolean; onClose: () 
       {isOpen && (
         <motion.div
           className="fixed inset-0 z-50 bg-white overflow-y-auto"
+          data-lenis-prevent
           initial={{ opacity: 0 }}
           animate={{ opacity: 1 }}
           exit={{ opacity: 0 }}
@@ -203,29 +243,28 @@ function AuditionApplyModal({ isOpen, onClose }: { isOpen: boolean; onClose: () 
           {/* Close Button */}
           <button
             onClick={onClose}
-            className="fixed top-6 right-6 z-50 flex items-center justify-center border border-black/20 hover:border-black transition-colors"
-            style={{ width: "24px", height: "24px" }}
+            className="fixed top-6 right-6 z-50 flex items-center justify-center hover:opacity-60 transition-opacity"
           >
-            <svg width="18" height="18" viewBox="0 0 24 24" fill="none" stroke="currentColor" strokeWidth="1.5">
-              <path d="M18 6L6 18M6 6l12 12" strokeLinecap="round" strokeLinejoin="round"/>
+            <svg width="32" height="32" viewBox="0 0 24 24" fill="none" stroke="black" strokeWidth="1">
+              <path d="M18 6L6 18M6 6l12 12"/>
             </svg>
           </button>
 
           {/* Form Content */}
           <div className="min-h-screen" style={{ padding: "80px 24px 60px" }}>
             <div className="max-w-3xl mx-auto">
-              <h1 className="text-3xl font-light text-black mb-2">오디션 지원</h1>
-              <p className="text-black/50 text-sm mb-12">* 표시는 필수 입력 항목입니다.</p>
+              <h1 className="text-3xl font-light text-black mb-2">{t("오디션 지원", "Audition Application")}</h1>
+              <p className="text-black/50 text-sm mb-12">{t("* 표시는 필수 입력 항목입니다.", "* Required fields")}</p>
 
               <form onSubmit={handleSubmit}>
-                {/* Row 1: 이름, 국적 */}
-                <div className="grid grid-cols-1 md:grid-cols-2 gap-10 mb-10">
+                {/* Row 1 */}
+                <div className="grid grid-cols-1 md:grid-cols-2 gap-10 mb-[20px]">
                   <div>
-                    <label className={labelClass}>이름 *</label>
+                    <label className={labelClass}>{t("이름", "Name")} *</label>
                     <input
                       type="text"
                       required
-                      placeholder="이름을 입력해주세요"
+                      placeholder={t("이름을 입력해주세요", "Enter your name")}
                       value={formData.name}
                       onChange={(e) => setFormData({ ...formData, name: e.target.value })}
                       className={inputClass}
@@ -233,11 +272,11 @@ function AuditionApplyModal({ isOpen, onClose }: { isOpen: boolean; onClose: () 
                     />
                   </div>
                   <div>
-                    <label className={labelClass}>국적 *</label>
+                    <label className={labelClass}>{t("국적", "Nationality")} *</label>
                     <input
                       type="text"
                       required
-                      placeholder="국적을 입력해주세요"
+                      placeholder={t("국적을 입력해주세요", "Enter your nationality")}
                       value={formData.nationality}
                       onChange={(e) => setFormData({ ...formData, nationality: e.target.value })}
                       className={inputClass}
@@ -246,10 +285,10 @@ function AuditionApplyModal({ isOpen, onClose }: { isOpen: boolean; onClose: () 
                   </div>
                 </div>
 
-                {/* Row 2: 성별, 지원분야 */}
-                <div className="grid grid-cols-1 md:grid-cols-2 gap-10 mb-10">
+                {/* Row 2 */}
+                <div className="grid grid-cols-1 md:grid-cols-2 gap-10 mb-[20px]">
                   <div>
-                    <label className={labelClass}>성별 *</label>
+                    <label className={labelClass}>{t("성별", "Gender")} *</label>
                     <select
                       required
                       value={formData.gender}
@@ -257,13 +296,13 @@ function AuditionApplyModal({ isOpen, onClose }: { isOpen: boolean; onClose: () 
                       className={selectClass}
                       style={{ height: "40px" }}
                     >
-                      <option value="">선택해주세요</option>
-                      <option value="female">여</option>
-                      <option value="male">남</option>
+                      <option value="">{t("선택해주세요", "Please select")}</option>
+                      <option value="female">{t("여", "Female")}</option>
+                      <option value="male">{t("남", "Male")}</option>
                     </select>
                   </div>
                   <div>
-                    <label className={labelClass}>지원분야 *</label>
+                    <label className={labelClass}>{t("지원분야", "Category")} *</label>
                     <select
                       required
                       value={formData.category}
@@ -271,23 +310,23 @@ function AuditionApplyModal({ isOpen, onClose }: { isOpen: boolean; onClose: () 
                       className={selectClass}
                       style={{ height: "40px" }}
                     >
-                      <option value="">선택해주세요</option>
-                      <option value="vocal">보컬</option>
-                      <option value="rap">랩</option>
-                      <option value="dance">댄스</option>
-                      <option value="acting">연기</option>
+                      <option value="">{t("선택해주세요", "Please select")}</option>
+                      <option value="vocal">{t("보컬", "Vocal")}</option>
+                      <option value="rap">{t("랩", "Rap")}</option>
+                      <option value="dance">{t("댄스", "Dance")}</option>
+                      <option value="acting">{t("연기", "Acting")}</option>
                     </select>
                   </div>
                 </div>
 
-                {/* Row 3: 신장, 체중 */}
-                <div className="grid grid-cols-1 md:grid-cols-2 gap-10 mb-10">
+                {/* Row 3 */}
+                <div className="grid grid-cols-1 md:grid-cols-2 gap-10 mb-[20px]">
                   <div>
-                    <label className={labelClass}>신장 (cm) *</label>
+                    <label className={labelClass}>{t("신장 (cm)", "Height (cm)")} *</label>
                     <input
                       type="number"
                       required
-                      placeholder="신장을 입력해주세요"
+                      placeholder={t("신장을 입력해주세요", "Enter your height")}
                       value={formData.height}
                       onChange={(e) => setFormData({ ...formData, height: e.target.value })}
                       className={inputClass}
@@ -295,11 +334,11 @@ function AuditionApplyModal({ isOpen, onClose }: { isOpen: boolean; onClose: () 
                     />
                   </div>
                   <div>
-                    <label className={labelClass}>체중 (kg) *</label>
+                    <label className={labelClass}>{t("체중 (kg)", "Weight (kg)")} *</label>
                     <input
                       type="number"
                       required
-                      placeholder="체중을 입력해주세요"
+                      placeholder={t("체중을 입력해주세요", "Enter your weight")}
                       value={formData.weight}
                       onChange={(e) => setFormData({ ...formData, weight: e.target.value })}
                       className={inputClass}
@@ -309,8 +348,8 @@ function AuditionApplyModal({ isOpen, onClose }: { isOpen: boolean; onClose: () 
                 </div>
 
                 {/* Row 4: 생년월일 */}
-                <div className="mb-10">
-                  <label className={labelClass}>생년월일 *</label>
+                <div className="mb-[20px]">
+                  <label className={labelClass}>{t("생년월일", "Date of Birth")} *</label>
                   <div className="grid grid-cols-3 gap-4">
                     <select
                       required
@@ -319,7 +358,7 @@ function AuditionApplyModal({ isOpen, onClose }: { isOpen: boolean; onClose: () 
                       className={selectClass}
                       style={{ height: "40px" }}
                     >
-                      <option value="">년</option>
+                      <option value="">{t("년", "Year")}</option>
                       {years.map((year) => (
                         <option key={year} value={year}>{year}</option>
                       ))}
@@ -331,7 +370,7 @@ function AuditionApplyModal({ isOpen, onClose }: { isOpen: boolean; onClose: () 
                       className={selectClass}
                       style={{ height: "40px" }}
                     >
-                      <option value="">월</option>
+                      <option value="">{t("월", "Month")}</option>
                       {months.map((month) => (
                         <option key={month} value={month}>{month}</option>
                       ))}
@@ -343,7 +382,7 @@ function AuditionApplyModal({ isOpen, onClose }: { isOpen: boolean; onClose: () 
                       className={selectClass}
                       style={{ height: "40px" }}
                     >
-                      <option value="">일</option>
+                      <option value="">{t("일", "Day")}</option>
                       {days.map((day) => (
                         <option key={day} value={day}>{day}</option>
                       ))}
@@ -351,12 +390,12 @@ function AuditionApplyModal({ isOpen, onClose }: { isOpen: boolean; onClose: () 
                   </div>
                 </div>
 
-                {/* Row 5: 학교/직업 */}
-                <div className="mb-10">
-                  <label className={labelClass}>학교/직업</label>
+                {/* Row 5 */}
+                <div className="mb-[20px]">
+                  <label className={labelClass}>{t("학교/직업", "School/Occupation")}</label>
                   <input
                     type="text"
-                    placeholder="학교 또는 직업을 입력해주세요"
+                    placeholder={t("학교 또는 직업을 입력해주세요", "Enter your school or occupation")}
                     value={formData.occupation}
                     onChange={(e) => setFormData({ ...formData, occupation: e.target.value })}
                     className={inputClass}
@@ -364,9 +403,9 @@ function AuditionApplyModal({ isOpen, onClose }: { isOpen: boolean; onClose: () 
                   />
                 </div>
 
-                {/* Row 6: 연락처 */}
-                <div className="mb-10">
-                  <label className={labelClass}>연락처 *</label>
+                {/* Row 6 */}
+                <div className="mb-[20px]">
+                  <label className={labelClass}>{t("연락처", "Phone")} *</label>
                   <div className="grid grid-cols-4 gap-4">
                     <select
                       required
@@ -383,7 +422,7 @@ function AuditionApplyModal({ isOpen, onClose }: { isOpen: boolean; onClose: () 
                       <input
                         type="tel"
                         required
-                        placeholder="연락처를 입력해주세요 (- 제외)"
+                        placeholder={t("연락처를 입력해주세요 (- 제외)", "Enter your phone number (without -)")}
                         value={formData.phone}
                         onChange={(e) => setFormData({ ...formData, phone: e.target.value })}
                         className={inputClass}
@@ -393,13 +432,13 @@ function AuditionApplyModal({ isOpen, onClose }: { isOpen: boolean; onClose: () 
                   </div>
                 </div>
 
-                {/* Row 7: 이메일 */}
-                <div className="mb-10">
-                  <label className={labelClass}>이메일 *</label>
+                {/* Row 7 */}
+                <div className="mb-[20px]">
+                  <label className={labelClass}>{t("이메일", "Email")} *</label>
                   <input
                     type="email"
                     required
-                    placeholder="이메일을 입력해주세요"
+                    placeholder={t("이메일을 입력해주세요", "Enter your email")}
                     value={formData.email}
                     onChange={(e) => setFormData({ ...formData, email: e.target.value })}
                     className={inputClass}
@@ -407,12 +446,12 @@ function AuditionApplyModal({ isOpen, onClose }: { isOpen: boolean; onClose: () 
                   />
                 </div>
 
-                {/* Row 8: SNS 링크 */}
-                <div className="mb-10">
-                  <label className={labelClass}>SNS 링크</label>
+                {/* Row 8 */}
+                <div className="mb-[20px]">
+                  <label className={labelClass}>{t("SNS 링크", "SNS Link")}</label>
                   <input
                     type="url"
-                    placeholder="SNS 프로필 링크를 입력해주세요"
+                    placeholder={t("SNS 프로필 링크를 입력해주세요", "Enter your SNS profile link")}
                     value={formData.sns}
                     onChange={(e) => setFormData({ ...formData, sns: e.target.value })}
                     className={inputClass}
@@ -420,13 +459,13 @@ function AuditionApplyModal({ isOpen, onClose }: { isOpen: boolean; onClose: () 
                   />
                 </div>
 
-                {/* Row 9: 주소 */}
-                <div className="mb-10">
-                  <label className={labelClass}>주소 *</label>
+                {/* Row 9 */}
+                <div className="mb-[20px]">
+                  <label className={labelClass}>{t("주소", "Address")} *</label>
                   <input
                     type="text"
                     required
-                    placeholder="주소를 입력해주세요"
+                    placeholder={t("주소를 입력해주세요", "Enter your address")}
                     value={formData.address}
                     onChange={(e) => setFormData({ ...formData, address: e.target.value })}
                     className={inputClass}
@@ -434,11 +473,11 @@ function AuditionApplyModal({ isOpen, onClose }: { isOpen: boolean; onClose: () 
                   />
                 </div>
 
-                {/* Row 10: 특기/경력사항 */}
-                <div className="mb-10">
-                  <label className={labelClass}>특기/경력사항</label>
+                {/* Row 10 */}
+                <div className="mb-[20px]">
+                  <label className={labelClass}>{t("특기/경력사항", "Skills/Experience")}</label>
                   <textarea
-                    placeholder="특기나 경력사항을 입력해주세요"
+                    placeholder={t("특기나 경력사항을 입력해주세요", "Enter your skills or experience")}
                     value={formData.skills}
                     onChange={(e) => setFormData({ ...formData, skills: e.target.value })}
                     className={`${inputClass} resize-none`}
@@ -447,8 +486,10 @@ function AuditionApplyModal({ isOpen, onClose }: { isOpen: boolean; onClose: () 
                 </div>
 
                 {/* Row 11: 이미지 첨부 */}
-                <div className="mb-10">
-                  <label className={labelClass}>이미지 첨부 (최대 3개, JPG/GIF/PNG, 각 2MB 이하)</label>
+                <div className="mb-[20px]">
+                  <label className={labelClass}>
+                    {t("이미지 첨부 (최대 3개, JPG/GIF/PNG, 각 2MB 이하)", "Attach images (max 3, JPG/GIF/PNG, 2MB each)")}
+                  </label>
                   <div className="flex flex-wrap gap-3 mt-2">
                     {images.map((file, index) => (
                       <div key={index} className="relative">
@@ -492,8 +533,10 @@ function AuditionApplyModal({ isOpen, onClose }: { isOpen: boolean; onClose: () 
                 </div>
 
                 {/* Row 12: 동영상 첨부 */}
-                <div className="mb-10">
-                  <label className={labelClass}>동영상 첨부 (최대 1개, MP4/MOV/WMV, 20MB 이하)</label>
+                <div className="mb-[20px]">
+                  <label className={labelClass}>
+                    {t("동영상 첨부 (최대 1개, MP4/MOV/WMV, 20MB 이하)", "Attach video (max 1, MP4/MOV/WMV, 20MB max)")}
+                  </label>
                   <div className="mt-2">
                     {video ? (
                       <div className="flex items-center gap-3 p-3 border border-black/20">
@@ -517,7 +560,7 @@ function AuditionApplyModal({ isOpen, onClose }: { isOpen: boolean; onClose: () 
                         onClick={() => videoInputRef.current?.click()}
                         className="w-full p-4 border border-dashed border-black/30 text-black/50 hover:border-black/50 hover:text-black/70 transition-colors text-sm"
                       >
-                        클릭하여 동영상 파일 선택
+                        {t("클릭하여 동영상 파일 선택", "Click to select a video file")}
                       </button>
                     )}
                   </div>
@@ -531,10 +574,10 @@ function AuditionApplyModal({ isOpen, onClose }: { isOpen: boolean; onClose: () 
                   {videoError && <p className="text-red-500 text-sm mt-1">{videoError}</p>}
                 </div>
 
-                {/* Row 13: 개인정보 수집 안내 */}
-                <div className="mb-10">
-                  <label className={labelClass}>개인정보 수집 및 이용에 대한 안내</label>
-                  <div className="mt-2 p-4 border border-black/10 bg-black/5 text-sm text-black/70 leading-relaxed max-h-48 overflow-y-auto">
+                {/* Row 13: 개인정보 */}
+                <div className="mb-[20px]">
+                  <label className={labelClass}>{t("개인정보 수집 및 이용에 대한 안내", "Privacy Collection Notice")}</label>
+                  <div className="mt-2 p-[16px] border border-black/10 bg-black/5 text-sm text-black/70 leading-relaxed max-h-48 overflow-y-auto">
                     <p className="mb-3">
                       IST Entertainment(이하 &apos;회사&apos;)는 지원자의 개인정보를 중요시하며,
                       &quot;정보통신망 이용촉진 및 정보보호&quot;에 관한 법률을 준수하고 있습니다.
@@ -559,24 +602,27 @@ function AuditionApplyModal({ isOpen, onClose }: { isOpen: boolean; onClose: () 
                       onChange={(e) => setFormData({ ...formData, privacyAgreed: e.target.checked })}
                       className="w-4 h-4 accent-[#ff1f5d]"
                     />
-                    <span className="text-sm text-black">개인정보 수집 및 이용에 동의합니다. *</span>
+                    <span className="text-sm text-black">
+                      {t("개인정보 수집 및 이용에 동의합니다.", "I agree to the collection and use of personal information.")} *
+                    </span>
                   </label>
                 </div>
 
-                {/* Submit Button */}
+                {/* Submit */}
                 <div className="flex justify-center">
                   <button
                     type="submit"
-                    disabled={submitting}
-                    className="text-white text-sm transition-all duration-200 disabled:opacity-50"
+                    disabled={submitting || !isFormValid}
+                    className="text-sm transition-all duration-200 disabled:cursor-not-allowed"
                     style={{
                       height: "40px",
                       paddingLeft: "32px",
                       paddingRight: "32px",
-                      backgroundColor: "#ff1f5d",
+                      backgroundColor: isFormValid && !submitting ? "#ff1f5d" : "#d1d5db",
+                      color: isFormValid && !submitting ? "#ffffff" : "#9ca3af",
                     }}
                     onMouseEnter={(e) => {
-                      if (!submitting) {
+                      if (isFormValid && !submitting) {
                         e.currentTarget.style.opacity = "0.8";
                       }
                     }}
@@ -584,7 +630,7 @@ function AuditionApplyModal({ isOpen, onClose }: { isOpen: boolean; onClose: () 
                       e.currentTarget.style.opacity = "1";
                     }}
                   >
-                    {submitting ? "제출 중..." : "오디션 지원하기"}
+                    {submitting ? t("제출 중...", "Submitting...") : t("오디션 지원하기", "Apply for Audition")}
                   </button>
                 </div>
               </form>
@@ -597,6 +643,8 @@ function AuditionApplyModal({ isOpen, onClose }: { isOpen: boolean; onClose: () 
 }
 
 export default function AuditionPage() {
+  const { t } = useLanguage();
+  const auditionInfo = getAuditionInfo(t);
   const [openFAQs, setOpenFAQs] = useState<Set<number>>(new Set());
   const [isApplyModalOpen, setIsApplyModalOpen] = useState(false);
   const gridClass = "grid grid-cols-12 gap-[24px] content-padding";
@@ -634,8 +682,10 @@ export default function AuditionPage() {
             animate={{ opacity: 1, y: 0 }}
             transition={{ duration: 0.6, delay: 0.1 }}
           >
-            IST Entertainment는 열정과 재능을 갖춘 미래의 스타를 찾고 있습니다.
-            당신의 꿈을 향한 첫 걸음을 함께 시작하세요.
+            {t(
+              "IST Entertainment는 열정과 재능을 갖춘 미래의 스타를 찾고 있습니다. 당신의 꿈을 향한 첫 걸음을 함께 시작하세요.",
+              "IST Entertainment is looking for future stars with passion and talent. Take the first step toward your dream with us."
+            )}
           </motion.p>
         </div>
       </section>
@@ -647,18 +697,16 @@ export default function AuditionPage() {
       <section className="border-t border-white/10">
         <div className="content-padding" style={{ paddingTop: "40px", paddingBottom: "40px" }}>
           <div className="grid grid-cols-12 gap-[24px]">
-            {/* Section Title */}
             <div className="col-span-12 md:col-span-3">
               <h2 className="text-sm text-white/40 tracking-wider uppercase">
-                Categories
+                {t("분야", "Categories")}
               </h2>
             </div>
-            {/* Category Grid */}
             <div className="col-span-12 md:col-span-9 md:col-start-4">
               <div className="grid grid-cols-1 md:grid-cols-2 gap-[24px]">
                 {auditionInfo.categories.map((category, index) => (
                   <motion.div
-                    key={category.title}
+                    key={index}
                     initial={{ opacity: 0, y: 20 }}
                     animate={{ opacity: 1, y: 0 }}
                     transition={{ duration: 0.4, delay: 0.1 + index * 0.05 }}
@@ -681,13 +729,11 @@ export default function AuditionPage() {
       <section className="border-t border-white/10">
         <div className="content-padding" style={{ paddingTop: "40px", paddingBottom: "40px" }}>
           <div className="grid grid-cols-12 gap-[24px]">
-            {/* Section Title */}
             <div className="col-span-12 md:col-span-3">
               <h2 className="text-sm text-white/40 tracking-wider uppercase">
-                Requirements
+                {t("자격 요건", "Requirements")}
               </h2>
             </div>
-            {/* Requirements List */}
             <div className="col-span-12 md:col-span-6 md:col-start-4">
               <ul className="space-y-4">
                 {auditionInfo.requirements.map((req, index) => (
@@ -712,13 +758,11 @@ export default function AuditionPage() {
       <section className="border-t border-white/10">
         <div className="content-padding" style={{ paddingTop: "40px", paddingBottom: "40px" }}>
           <div className="grid grid-cols-12 gap-[24px]">
-            {/* Section Title */}
             <div className="col-span-12 md:col-span-3">
               <h2 className="text-sm text-white/40 tracking-wider uppercase">
-                Process
+                {t("절차", "Process")}
               </h2>
             </div>
-            {/* Process Steps */}
             <div className="col-span-12 md:col-span-9 md:col-start-4">
               <div className="grid grid-cols-2 md:grid-cols-4 gap-[24px]">
                 {auditionInfo.process.map((item, index) => (
@@ -746,13 +790,11 @@ export default function AuditionPage() {
       <section className="border-t border-white/10">
         <div className="content-padding" style={{ paddingTop: "40px", paddingBottom: "40px" }}>
           <div className="grid grid-cols-12 gap-[24px]">
-            {/* Section Title */}
             <div className="col-span-12 md:col-span-3">
               <h2 className="text-sm text-white/40 tracking-wider uppercase">
                 FAQ
               </h2>
             </div>
-            {/* FAQ List */}
             <div className="col-span-12 md:col-span-9 md:col-start-4">
               <div className="flex flex-col gap-6">
                 {auditionInfo.faq.map((item, index) => (
@@ -811,7 +853,7 @@ export default function AuditionPage() {
                 animate={{ opacity: 1, y: 0 }}
                 transition={{ duration: 0.6 }}
               >
-                지금 바로 지원하세요
+                {t("지금 바로 지원하세요", "Apply Now")}
               </motion.h2>
               <motion.p
                 className="text-white/50"
@@ -820,9 +862,12 @@ export default function AuditionPage() {
                 animate={{ opacity: 1, y: 0 }}
                 transition={{ duration: 0.6, delay: 0.1 }}
               >
-                온라인으로 간편하게 오디션에 지원할 수 있습니다.
+                {t(
+                  "온라인으로 간편하게 오디션에 지원할 수 있습니다.",
+                  "You can easily apply for auditions online."
+                )}
                 <br />
-                프로필과 영상을 준비해주세요.
+                {t("프로필과 영상을 준비해주세요.", "Please prepare your profile and video.")}
               </motion.p>
               <motion.button
                 onClick={() => setIsApplyModalOpen(true)}
@@ -843,7 +888,7 @@ export default function AuditionPage() {
                   e.currentTarget.style.opacity = "1";
                 }}
               >
-                오디션 지원하기
+                {t("오디션 지원하기", "Apply for Audition")}
               </motion.button>
             </div>
           </div>

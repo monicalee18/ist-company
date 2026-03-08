@@ -19,8 +19,6 @@
 
 * {
   box-sizing: border-box;
-  margin: 0;
-  padding: 0;
 }
 
 html.lenis, html.lenis body {
@@ -116,6 +114,13 @@ img[data-loading="true"] {
   .header-padding {
     padding-left: 24px;
     padding-right: 24px;
+  }
+}
+
+/* Custom cursor - hide default on desktop */
+@media (pointer: fine) {
+  *, a, button, [role='button'], input, select, [data-clickable] {
+    cursor: none !important;
   }
 }
 

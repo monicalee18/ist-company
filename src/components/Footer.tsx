@@ -1,20 +1,7 @@
 "use client";
 
 import Link from "next/link";
-
-const footerLinks = {
-  social: [
-    { label: "Instagram", href: "https://instagram.com" },
-    { label: "X", href: "https://x.com" },
-  ],
-  company: [
-    { label: "Contact", href: "/contact" },
-    { label: "Audition", href: "/audition" },
-  ],
-  legal: [
-    { label: "Privacy", href: "/privacy" },
-  ],
-};
+import { useLanguage } from "@/context/LanguageContext";
 
 function FooterLink({ href, children }: { href: string; children: React.ReactNode }) {
   const isExternal = href.startsWith("http");
@@ -42,6 +29,22 @@ function FooterLink({ href, children }: { href: string; children: React.ReactNod
 }
 
 export default function Footer() {
+  const { t } = useLanguage();
+
+  const footerLinks = {
+    social: [
+      { label: "Instagram", href: "https://www.instagram.com/ist_entertainment" },
+      { label: "X", href: "https://x.com" },
+    ],
+    company: [
+      { label: t("오디션", "Audition"), href: "/audition" },
+      { label: t("문의", "Contact"), href: "/contact" },
+    ],
+    legal: [
+      { label: t("개인정보처리방침", "Privacy"), href: "/privacy" },
+    ],
+  };
+
   return (
     <footer className="bg-black">
       <div className="content-padding" style={{ paddingTop: "40px", paddingBottom: "40px" }}>
