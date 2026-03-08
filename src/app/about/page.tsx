@@ -111,12 +111,12 @@ export default function AboutPage() {
       <section className={gridClass}>
         <div className="col-span-11 md:col-span-7 md:col-start-2">
           <h2
-            className="text-[36px] md:text-4xl lg:text-5xl font-light text-white"
+            className="text-[32px] md:text-4xl lg:text-5xl font-light text-white"
             style={{ lineHeight: 1.2 }}
           >
             {t(
-              "Since 2013, we've been discovering and developing artists who define the next generation of K-Pop",
-              "Since 2013, we've been discovering and developing artists who define the next generation of K-Pop"
+              "Since 2006, we have been building a strong foundation for artists by combining creative direction, strategic management, and global production capabilities.",
+              "Since 2006, we have been building a strong foundation for artists by combining creative direction, strategic management, and global production capabilities."
             )}
           </h2>
         </div>
@@ -180,7 +180,7 @@ export default function AboutPage() {
         </div>
       </section>
 
-      {/* Section 5-1: Define a clear vision */}
+      {/* Section 5-1: Discovering and Developing Future Artists */}
       <section style={{ borderTop: "1px solid #313033" }}>
         <div className="content-padding" style={{ paddingTop: "40px", paddingBottom: "40px" }}>
           <div className="grid grid-cols-12 gap-[24px] items-start">
@@ -189,7 +189,7 @@ export default function AboutPage() {
                 className="font-light text-white text-[24px] md:text-[40px]"
                 style={{ lineHeight: 1.3 }}
               >
-                Define a clear vision for the future
+                Discovering and Developing Future Artists
               </h3>
             </div>
             <div className="col-span-12 md:col-span-3 md:col-start-7">
@@ -197,17 +197,14 @@ export default function AboutPage() {
             </div>
             <div className="col-span-12 md:col-span-3 md:col-start-10">
               <p className="font-light leading-snug font-mono" style={{ fontSize: "14px", color: "#79767a" }}>
-                {t(
-                  "We lead the global entertainment market through the discovery and development of K-Pop artists. We maximize artist potential through innovative content and systematic management.",
-                  "We lead the global entertainment market through the discovery and development of K-Pop artists. We maximize artist potential through innovative content and systematic management."
-                )}
+                We discover promising talent and support artists through every stage of their journey. From training and creative development to debut and long-term career growth, we provide an environment where artists can refine their skills and build their identity while growing into performers who connect with audiences worldwide
               </p>
             </div>
           </div>
         </div>
       </section>
 
-      {/* Section 5-2: Set the bar */}
+      {/* Section 5-2: Producing Music and Creative Artist Content */}
       <section style={{ borderTop: "1px solid #313033" }}>
         <div className="content-padding" style={{ paddingTop: "40px", paddingBottom: "40px" }}>
           <div className="grid grid-cols-12 gap-[24px] items-start">
@@ -216,7 +213,7 @@ export default function AboutPage() {
                 className="font-light text-white text-[24px] md:text-[40px]"
                 style={{ lineHeight: 1.3 }}
               >
-                Set the bar for category defining design
+                Producing Music and Creative Artist Content
               </h3>
             </div>
             <div className="col-span-12 md:col-span-3 md:col-start-7">
@@ -224,17 +221,14 @@ export default function AboutPage() {
             </div>
             <div className="col-span-12 md:col-span-3 md:col-start-10">
               <p className="font-light leading-snug font-mono" style={{ fontSize: "14px", color: "#79767a" }}>
-                {t(
-                  "Growing as a creative content company leading the global entertainment industry. We deliver inspiration to fans worldwide, transcending cultural boundaries.",
-                  "Growing as a creative content company leading the global entertainment industry. We deliver inspiration to fans worldwide, transcending cultural boundaries."
-                )}
+                We create music and visual content that reflect each artist&apos;s unique identity. From songwriting and recording to music videos and digital media, our creative teams collaborate closely with artists to produce work that resonates with audiences and strengthens their artistic voice
               </p>
             </div>
           </div>
         </div>
       </section>
 
-      {/* Section 5-3: Ship new products */}
+      {/* Section 5-3: Connecting Artists with Fans Around the World */}
       <section style={{ borderTop: "1px solid #313033" }}>
         <div className="content-padding" style={{ paddingTop: "40px", paddingBottom: "40px" }}>
           <div className="grid grid-cols-12 gap-[24px] items-start">
@@ -243,7 +237,7 @@ export default function AboutPage() {
                 className="font-light text-white text-[24px] md:text-[40px]"
                 style={{ lineHeight: 1.3 }}
               >
-                Ship new products from zero-to-one
+                Connecting Artists with Fans Around the World
               </h3>
             </div>
             <div className="col-span-12 md:col-span-3 md:col-start-7">
@@ -251,10 +245,7 @@ export default function AboutPage() {
             </div>
             <div className="col-span-12 md:col-span-3 md:col-start-10">
               <p className="font-light leading-snug font-mono" style={{ fontSize: "14px", color: "#79767a" }}>
-                {t(
-                  "Creating meaningful experiences that connect artists and fans. Through music, content, and live performances, we create unforgettable moments.",
-                  "Creating meaningful experiences that connect artists and fans. Through music, content, and live performances, we create unforgettable moments."
-                )}
+                We bring artists and fans together through strategic promotion and global partnerships. Through performances, digital platforms, and international collaborations, we help artists expand their reach and build meaningful connections with audiences across cultures and markets
               </p>
             </div>
           </div>
@@ -286,15 +277,15 @@ export default function AboutPage() {
                 className="text-white font-normal"
                 style={{ fontSize: "18px", lineHeight: 1.2, fontFamily: "var(--font-geist-sans)" }}
               >
-                Global users
+                Global tours
                 <br />
-                reached
+                performed
               </p>
               <p
                 className="text-white font-normal"
                 style={{ fontSize: "84px", lineHeight: 1.2, fontFamily: "var(--font-geist-sans)" }}
               >
-                2.2B
+                15+
               </p>
             </div>
           </div>
@@ -309,15 +300,15 @@ export default function AboutPage() {
                 className="text-white font-normal"
                 style={{ fontSize: "18px", lineHeight: 1.2, fontFamily: "var(--font-geist-sans)" }}
               >
-                Products
+                Awards
                 <br />
-                shipped
+                won
               </p>
               <p
                 className="text-white font-normal"
                 style={{ fontSize: "84px", lineHeight: 1.2, fontFamily: "var(--font-geist-sans)" }}
               >
-                455
+                40+
               </p>
             </div>
           </div>
@@ -332,15 +323,15 @@ export default function AboutPage() {
                 className="text-white font-normal"
                 style={{ fontSize: "18px", lineHeight: 1.2, fontFamily: "var(--font-geist-sans)" }}
               >
-                Unicon
+                Global fans
                 <br />
-                shipped
+                reached
               </p>
               <p
                 className="text-white font-normal"
                 style={{ fontSize: "84px", lineHeight: 1.2, fontFamily: "var(--font-geist-sans)" }}
               >
-                18
+                120M+
               </p>
             </div>
           </div>
@@ -355,9 +346,9 @@ export default function AboutPage() {
             className="text-white font-semibold"
             style={{ fontSize: "clamp(44px, 7vw, 88px)", lineHeight: 1.2, fontFamily: "var(--font-geist-sans)" }}
           >
-            How can
+            Join the
             <br />
-            we help?
+            future of IST
           </h2>
         </div>
 
@@ -375,15 +366,15 @@ export default function AboutPage() {
             <span>Audition</span>
             <div className="w-[24px] h-[24px] flex items-center justify-center">
               <svg
-                width="16"
-                height="16"
+                width="12"
+                height="12"
                 viewBox="0 0 16 16"
                 fill="none"
                 stroke="currentColor"
                 strokeWidth="1.5"
                 className="opacity-50 group-hover:opacity-100 transition-opacity"
               >
-                <path d="M4.5 11.5L11.5 4.5M11.5 4.5H4.5M11.5 4.5V11.5" strokeLinecap="round" strokeLinejoin="round"/>
+                <path d="M1 15L15 1M15 1H1M15 1V15" strokeLinecap="round" strokeLinejoin="round"/>
               </svg>
             </div>
           </Link>
@@ -400,15 +391,15 @@ export default function AboutPage() {
             <span>Contact</span>
             <div className="w-[24px] h-[24px] flex items-center justify-center">
               <svg
-                width="16"
-                height="16"
+                width="12"
+                height="12"
                 viewBox="0 0 16 16"
                 fill="none"
                 stroke="currentColor"
                 strokeWidth="1.5"
                 className="opacity-50 group-hover:opacity-100 transition-opacity"
               >
-                <path d="M4.5 11.5L11.5 4.5M11.5 4.5H4.5M11.5 4.5V11.5" strokeLinecap="round" strokeLinejoin="round"/>
+                <path d="M1 15L15 1M15 1H1M15 1V15" strokeLinecap="round" strokeLinejoin="round"/>
               </svg>
             </div>
           </Link>
