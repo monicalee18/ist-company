@@ -683,8 +683,8 @@ export default function AuditionPage() {
             transition={{ duration: 0.6, delay: 0.1 }}
           >
             {t(
-              "IST Entertainment는 열정과 재능을 갖춘 미래의 스타를 찾고 있습니다. 당신의 꿈을 향한 첫 걸음을 함께 시작하세요.",
-              "IST Entertainment is looking for future stars with passion and talent. Take the first step toward your dream with us."
+              <>IST Entertainment는 열정과 재능을 갖춘 미래의 스타를 찾고 있습니다.<br />당신의 꿈을 향한 첫 걸음을 함께 시작하세요.</>,
+              <>IST Entertainment is looking for future stars with passion and talent.<br />Take the first step toward your dream with us.</>
             )}
           </motion.p>
         </div>

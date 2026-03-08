@@ -121,7 +121,7 @@ export default function ArtistPage() {
       >
         {/* Artists Label */}
         <p className="text-white text-[18px] font-normal leading-[1.2] text-center font-[family-name:var(--font-geist-sans)]">
-          {t("아티스트", "Artist")}
+          Artist
         </p>
 
         {/* Artist Logo */}

@@ -25,6 +25,10 @@ export function LanguageProvider({ children }: { children: ReactNode }) {
     setLanguage(detectBrowserLanguage());
   }, []);
 
+  useEffect(() => {
+    document.documentElement.setAttribute("data-lang", language);
+  }, [language]);
+
   const t = <T extends ReactNode>(ko: T, en: T): T => (language === "KO" ? ko : en);
 
   return (

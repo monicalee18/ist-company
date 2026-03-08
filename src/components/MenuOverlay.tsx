@@ -10,11 +10,11 @@ import { motion, AnimatePresence } from "framer-motion";
 import { getLatestNews } from "@/lib/news";
 
 const menuItemsData = [
-  { label: "About", href: "/about", image: "/menu/about-v2.jpg" },
-  { label: "Artist", href: "/artist", image: "/menu/artist-v2.jpg" },
-  { label: "Latest News", href: "/news", image: "/menu/news-v2.jpg" },
-  { label: "Audition", href: "/audition", image: "/menu/audition-v2.jpg" },
-  { label: "Contact", href: "/contact", image: "/menu/contact-v2.jpg" },
+  { label: "About", href: "/about", image: "/menu/about.webp" },
+  { label: "Artist", href: "/artist", image: "/menu/artist.webp" },
+  { label: "Latest News", href: "/news", image: "/menu/news.webp" },
+  { label: "Audition", href: "/audition", image: "/menu/audition.webp" },
+  { label: "Contact", href: "/contact", image: "/menu/contact.webp" },
 ];
 
 // Latest news from shared data
@@ -148,6 +148,7 @@ export default function MenuOverlay() {
   const pathname = usePathname();
   const [hoveredIndex, setHoveredIndex] = useState<number | null>(null);
   const [activeImage, setActiveImage] = useState(menuItemsData[0].image);
+  const [mobileTransition, setMobileTransition] = useState<"idle" | "image" | "expand" | "slidedown">("idle");
 
   const menuItems = menuItemsData;
   const [translatedNews, setTranslatedNews] = useState<Record<string, string>>({});
@@ -189,6 +190,7 @@ export default function MenuOverlay() {
   // Set initial image and hover state based on current page when menu opens
   useEffect(() => {
     if (isMenuOpen) {
+      setMobileTransition("idle");
       const currentIndex = menuItemsData.findIndex(item => item.href === pathname);
       if (currentIndex !== -1) {
         setActiveImage(menuItemsData[currentIndex].image);
@@ -222,6 +224,31 @@ export default function MenuOverlay() {
     router.push(href);
   };
 
+  const handleMobileMenuClick = (href: string, index: number) => {
+    // 1. Navigate immediately so page renders behind overlay
+    router.prefetch(href);
+    router.push(href);
+
+    // 2. Image swap
+    setActiveImage(menuItemsData[index].image);
+    setMobileTransition("image");
+
+    // 3. Fullscreen expand
+    setTimeout(() => {
+      setMobileTransition("expand");
+    }, 500);
+
+    // 4. Slide down (extra delay to let page render underneath)
+    setTimeout(() => {
+      setMobileTransition("slidedown");
+    }, 1500);
+
+    // 5. Clean up — don't reset mobileTransition here (reset on next menu open)
+    setTimeout(() => {
+      closeMenu();
+    }, 2500);
+  };
+
   return (
     <AnimatePresence>
       {isMenuOpen && (
@@ -232,12 +259,18 @@ export default function MenuOverlay() {
           exit={{ opacity: 0 }}
           transition={{ duration: 0.6, delay: 0.4 }}
         >
-          {/* Solid background to prevent page content showing through */}
-          <div className="absolute inset-0 z-0 bg-black" />
-
-          {/* Background Image - Full screen, appears behind content */}
+          {/* Solid background — slides down with mobile content to reveal page beneath */}
           <motion.div
-            className="absolute inset-0 z-[1]"
+            className="absolute inset-0 z-0 bg-black"
+            animate={{
+              y: mobileTransition === "slidedown" ? "100vh" : 0,
+            }}
+            transition={{ duration: 0.9, ease: [0.25, 0.1, 0.25, 1] }}
+          />
+
+          {/* Background Image - Full screen, appears behind content (desktop only) */}
+          <motion.div
+            className="absolute inset-0 z-[1] hidden md:block"
             variants={backgroundVariants}
             initial="initial"
             animate="animate"
@@ -256,6 +289,8 @@ export default function MenuOverlay() {
                   src={activeImage}
                   alt="Featured"
                   fill
+                  sizes="100vw"
+                  quality={100}
                   className="object-cover"
                   priority
                 />
@@ -263,10 +298,10 @@ export default function MenuOverlay() {
             </AnimatePresence>
           </motion.div>
 
-          {/* White overlay frames that slide in over the image */}
+          {/* White overlay frames that slide in over the image (desktop only) */}
           {/* Left frame */}
           <motion.div
-            className="absolute top-0 bottom-0 left-0 bg-white z-10"
+            className="absolute top-0 bottom-0 left-0 bg-white z-10 hidden md:block"
             variants={leftFrameVariants}
             initial="initial"
             animate="animate"
@@ -275,7 +310,7 @@ export default function MenuOverlay() {
           />
           {/* Right frame */}
           <motion.div
-            className="absolute top-0 bottom-0 right-0 bg-white z-10"
+            className="absolute top-0 bottom-0 right-0 bg-white z-10 hidden md:block"
             variants={rightFrameVariants}
             initial="initial"
             animate="animate"
@@ -284,7 +319,7 @@ export default function MenuOverlay() {
           />
           {/* Top frame */}
           <motion.div
-            className="absolute top-0 left-0 right-0 bg-white z-10"
+            className="absolute top-0 left-0 right-0 bg-white z-10 hidden md:block"
             variants={topFrameVariants}
             initial="initial"
             animate="animate"
@@ -293,7 +328,7 @@ export default function MenuOverlay() {
           />
           {/* Bottom frame */}
           <motion.div
-            className="absolute bottom-0 left-0 right-0 bg-white z-10"
+            className="absolute bottom-0 left-0 right-0 bg-white z-10 hidden md:block"
             variants={bottomFrameVariants}
             initial="initial"
             animate="animate"
@@ -478,9 +513,13 @@ export default function MenuOverlay() {
           </div>
 
           {/* Mobile Layout */}
-          <div
+          <motion.div
             className="md:hidden h-full w-full flex flex-col overflow-hidden relative z-20"
             style={{ paddingTop: "78px", paddingBottom: "16px", paddingLeft: "16px", paddingRight: "0px" }}
+            animate={{
+              y: mobileTransition === "slidedown" ? "100vh" : 0,
+            }}
+            transition={{ duration: 0.9, ease: [0.25, 0.1, 0.25, 1] }}
           >
             {/* White background for mobile */}
             <motion.div
@@ -490,6 +529,26 @@ export default function MenuOverlay() {
               exit={{ opacity: 0 }}
               transition={{ duration: 0.5 }}
             />
+
+            {/* Fullscreen image overlay for transition */}
+            <motion.div
+              className="absolute inset-0 z-30 overflow-hidden"
+              initial={{ opacity: 0 }}
+              animate={{
+                opacity: mobileTransition !== "idle" && mobileTransition !== "image" ? 1 : 0,
+              }}
+              transition={{ duration: 0.5, ease: [0.4, 0, 0.2, 1] }}
+              style={{ pointerEvents: "none" }}
+            >
+              <Image
+                src={activeImage}
+                alt="Transition"
+                fill
+                sizes="100vw"
+                quality={100}
+                className="object-cover"
+              />
+            </motion.div>
 
             {/* Featured Image */}
             <motion.div
@@ -501,12 +560,25 @@ export default function MenuOverlay() {
               transition={{ duration: 0.7, delay: 0.1, ease: [0.16, 1, 0.3, 1] }}
             >
               <div className="relative w-full aspect-[4/3] overflow-hidden">
-                <Image
-                  src={activeImage}
-                  alt="Featured"
-                  fill
-                  className="object-cover"
-                />
+                <AnimatePresence mode="sync">
+                  <motion.div
+                    key={activeImage}
+                    className="absolute inset-0"
+                    initial={{ opacity: 0 }}
+                    animate={{ opacity: 1 }}
+                    exit={{ opacity: 0 }}
+                    transition={{ duration: 0.4, ease: "easeInOut" }}
+                  >
+                    <Image
+                      src={activeImage}
+                      alt="Featured"
+                      fill
+                      sizes="100vw"
+                      quality={100}
+                      className="object-cover"
+                    />
+                  </motion.div>
+                </AnimatePresence>
               </div>
             </motion.div>
 
@@ -514,9 +586,15 @@ export default function MenuOverlay() {
             <motion.nav
               style={{ marginBottom: "30px" }}
               initial={{ opacity: 0, x: -30 }}
-              animate={{ opacity: 1, x: 0 }}
+              animate={{
+                opacity: mobileTransition !== "idle" ? 0 : 1,
+                x: 0,
+              }}
               exit={{ opacity: 0, x: -50 }}
-              transition={{ duration: 0.7, delay: 0.3, ease: [0.16, 1, 0.3, 1] }}
+              transition={{
+                opacity: { duration: 0.3, ease: "easeOut" },
+                x: { duration: 0.7, delay: 0.3, ease: [0.16, 1, 0.3, 1] },
+              }}
             >
               <ul className="flex flex-col" style={{ gap: "0px" }}>
                 {menuItems.map((item, index) => (
@@ -530,7 +608,7 @@ export default function MenuOverlay() {
                       href={item.href}
                       onClick={(e) => {
                         e.preventDefault();
-                        handleMenuClick(item.href);
+                        handleMobileMenuClick(item.href, index);
                       }}
                       className="inline-block relative"
                       style={{ paddingTop: "2px", paddingBottom: "2px" }}
@@ -579,10 +657,16 @@ export default function MenuOverlay() {
 
             {/* Horizontal Scrollable News */}
             <motion.div
-              initial={{ opacity: 0, y: 30 }}
-              animate={{ opacity: 1, y: 0 }}
-              exit={{ opacity: 0, y: 20 }}
-              transition={{ duration: 0.7, delay: 0.5, ease: [0.16, 1, 0.3, 1] }}
+              initial={{ opacity: 0, x: 200 }}
+              animate={{
+                opacity: mobileTransition !== "idle" ? 0 : 1,
+                x: 0,
+              }}
+              exit={{ opacity: 0, x: 40 }}
+              transition={{
+                opacity: { duration: 0.6, delay: 0.4, ease: "easeOut" },
+                x: { duration: 1.2, delay: 0.4, ease: [0.16, 1, 0.3, 1] },
+              }}
             >
               <div className="flex overflow-x-auto scrollbar-hide" style={{ gap: "4px", paddingRight: "16px" }}>
                 {latestNews.map((news) => (
@@ -632,7 +716,7 @@ export default function MenuOverlay() {
                 ))}
               </div>
             </motion.div>
-          </div>
+          </motion.div>
         </motion.div>
       )}
     </AnimatePresence>

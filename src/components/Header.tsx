@@ -87,7 +87,7 @@ export default function Header() {
             e.currentTarget.style.borderColor = "transparent";
           }}
         >
-          <span>{isMenuOpen ? t("닫기", "Close") : t("메뉴", "Menu")}</span>
+          <span>{isMenuOpen ? "Close" : "Menu"}</span>
           {isMenuOpen && (
             <svg
               width="8"

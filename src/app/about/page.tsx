@@ -66,10 +66,10 @@ export default function AboutPage() {
   return (
     <div className="min-h-screen bg-black">
       {/* Section 1: Hero Title */}
-      <section className={gridClass} style={{ paddingTop: "174px" }}>
+      <section className={`${gridClass} pt-[138px] md:pt-[174px]`}>
         <div className="col-span-12">
           <h1
-            className="text-center text-5xl md:text-6xl lg:text-7xl font-light text-white"
+            className="text-center text-[40px] md:text-6xl lg:text-7xl font-light text-white"
             style={{ lineHeight: 1.1 }}
           >
             {t("Music. Artists. Global Impact.", "Music. Artists. Global Impact.")}
@@ -79,8 +79,8 @@ export default function AboutPage() {
         </div>
       </section>
 
-      {/* Gap: 30px mobile, 90px desktop */}
-      <div className="h-[30px] md:h-[90px]" />
+      {/* Gap: 60px mobile, 90px desktop */}
+      <div className="h-[60px] md:h-[90px]" />
 
       {/* Section 2: Video */}
       <section ref={videoSectionRef} className={gridClass}>
@@ -109,7 +109,7 @@ export default function AboutPage() {
 
       {/* Section 3: Second Title */}
       <section className={gridClass}>
-        <div className="col-span-12 md:col-span-7 md:col-start-2">
+        <div className="col-span-11 md:col-span-7 md:col-start-2">
           <h2
             className="text-[36px] md:text-4xl lg:text-5xl font-light text-white"
             style={{ lineHeight: 1.2 }}
@@ -122,13 +122,13 @@ export default function AboutPage() {
         </div>
       </section>
 
-      {/* Gap: 30px mobile, 200px desktop */}
-      <div className="h-[30px] md:h-[200px]" />
+      {/* Gap: 40px mobile, 200px desktop */}
+      <div className="h-[40px] md:h-[200px]" />
 
       {/* Section 4: Image Slider - Former Artists */}
       <section
         ref={sliderSectionRef}
-        className="relative overflow-hidden py-24 content-padding"
+        className="relative overflow-hidden content-padding"
       >
         <motion.div
           className="flex gap-[16px]"
@@ -168,28 +168,35 @@ export default function AboutPage() {
         </motion.div>
       </section>
 
-      {/* Gap: 140px mobile, 200px desktop */}
-      <div className="h-[140px] md:h-[200px]" />
+      {/* Gap: 120px mobile, 200px desktop */}
+      <div className="h-[120px] md:h-[200px]" />
 
-      {/* Section 5: What We Do */}
-      <section className="border-t border-white/10">
+      {/* Section 5: What We Do - Title */}
+      <section>
+        <div className="content-padding" style={{ paddingTop: "40px", paddingBottom: "40px" }}>
+          <h2 className="text-3xl lg:text-4xl font-light text-white">
+            {t("What we do", "What we do")}
+          </h2>
+        </div>
+      </section>
+
+      {/* Section 5-1: Define a clear vision */}
+      <section style={{ borderTop: "1px solid #313033" }}>
         <div className="content-padding" style={{ paddingTop: "40px", paddingBottom: "40px" }}>
           <div className="grid grid-cols-12 gap-[24px] items-start">
-            {/* Title: Column 1-3 */}
-            <div className="col-span-12 md:col-span-3">
-              <h2
-                className="text-3xl lg:text-4xl font-light text-white"
+            <div className="col-span-8 md:col-span-3">
+              <h3
+                className="font-light text-white text-[24px] md:text-[40px]"
+                style={{ lineHeight: 1.3 }}
               >
-                {t("What we do", "What we do")}
-              </h2>
+                Define a clear vision for the future
+              </h3>
             </div>
-            {/* Image: Column 7-9 */}
             <div className="col-span-12 md:col-span-3 md:col-start-7">
               <div className="bg-white/10 w-full aspect-[16/9]" />
             </div>
-            {/* Description: Column 10-12 */}
             <div className="col-span-12 md:col-span-3 md:col-start-10">
-              <p className="text-white/50 font-light leading-snug font-mono" style={{ fontSize: "14px" }}>
+              <p className="font-light leading-snug font-mono" style={{ fontSize: "14px", color: "#79767a" }}>
                 {t(
                   "We lead the global entertainment market through the discovery and development of K-Pop artists. We maximize artist potential through innovative content and systematic management.",
                   "We lead the global entertainment market through the discovery and development of K-Pop artists. We maximize artist potential through innovative content and systematic management."
@@ -200,25 +207,23 @@ export default function AboutPage() {
         </div>
       </section>
 
-      {/* Section 6: Vision */}
-      <section className="border-t border-white/10">
+      {/* Section 5-2: Set the bar */}
+      <section style={{ borderTop: "1px solid #313033" }}>
         <div className="content-padding" style={{ paddingTop: "40px", paddingBottom: "40px" }}>
           <div className="grid grid-cols-12 gap-[24px] items-start">
-            {/* Title: Column 1-3 */}
-            <div className="col-span-12 md:col-span-3">
-              <h2
-                className="text-3xl lg:text-4xl font-light text-white"
+            <div className="col-span-8 md:col-span-3">
+              <h3
+                className="font-light text-white text-[24px] md:text-[40px]"
+                style={{ lineHeight: 1.3 }}
               >
-                {t("Vision", "Vision")}
-              </h2>
+                Set the bar for category defining design
+              </h3>
             </div>
-            {/* Image: Column 7-9 */}
             <div className="col-span-12 md:col-span-3 md:col-start-7">
               <div className="bg-white/10 w-full aspect-[16/9]" />
             </div>
-            {/* Description: Column 10-12 */}
             <div className="col-span-12 md:col-span-3 md:col-start-10">
-              <p className="text-white/50 font-light leading-snug font-mono" style={{ fontSize: "14px" }}>
+              <p className="font-light leading-snug font-mono" style={{ fontSize: "14px", color: "#79767a" }}>
                 {t(
                   "Growing as a creative content company leading the global entertainment industry. We deliver inspiration to fans worldwide, transcending cultural boundaries.",
                   "Growing as a creative content company leading the global entertainment industry. We deliver inspiration to fans worldwide, transcending cultural boundaries."
@@ -229,25 +234,23 @@ export default function AboutPage() {
         </div>
       </section>
 
-      {/* Section 7: Mission */}
-      <section className="border-t border-white/10">
+      {/* Section 5-3: Ship new products */}
+      <section style={{ borderTop: "1px solid #313033" }}>
         <div className="content-padding" style={{ paddingTop: "40px", paddingBottom: "40px" }}>
           <div className="grid grid-cols-12 gap-[24px] items-start">
-            {/* Title: Column 1-3 */}
-            <div className="col-span-12 md:col-span-3">
-              <h2
-                className="text-3xl lg:text-4xl font-light text-white"
+            <div className="col-span-8 md:col-span-3">
+              <h3
+                className="font-light text-white text-[24px] md:text-[40px]"
+                style={{ lineHeight: 1.3 }}
               >
-                {t("Mission", "Mission")}
-              </h2>
+                Ship new products from zero-to-one
+              </h3>
             </div>
-            {/* Image: Column 7-9 */}
             <div className="col-span-12 md:col-span-3 md:col-start-7">
               <div className="bg-white/10 w-full aspect-[16/9]" />
             </div>
-            {/* Description: Column 10-12 */}
             <div className="col-span-12 md:col-span-3 md:col-start-10">
-              <p className="text-white/50 font-light leading-snug font-mono" style={{ fontSize: "14px" }}>
+              <p className="font-light leading-snug font-mono" style={{ fontSize: "14px", color: "#79767a" }}>
                 {t(
                   "Creating meaningful experiences that connect artists and fans. Through music, content, and live performances, we create unforgettable moments.",
                   "Creating meaningful experiences that connect artists and fans. Through music, content, and live performances, we create unforgettable moments."
@@ -259,29 +262,29 @@ export default function AboutPage() {
       </section>
 
       {/* Section 8: Impact Statement */}
-      <section className={gridClass} style={{ paddingTop: "clamp(80px, 10vw, 140px)" }}>
+      <section className={gridClass} style={{ paddingTop: "clamp(100px, 10vw, 140px)" }}>
         <div className="col-span-12 md:col-span-10 md:col-start-2">
           <h2
             className="text-white font-normal"
-            style={{ fontSize: "clamp(32px, 5vw, 64px)", lineHeight: 1.2, fontFamily: "var(--font-geist-sans)" }}
+            style={{ fontSize: "clamp(36px, 5vw, 64px)", lineHeight: 1.2, fontFamily: "var(--font-geist-sans)" }}
           >
             We measure our value in real-
-            <br />
+            <br className="hidden md:block" />
             world impact
           </h2>
         </div>
       </section>
 
       {/* Section 9: Proof of Numbers */}
-      <section className={gridClass} style={{ paddingTop: "clamp(80px, 10vw, 140px)", paddingBottom: "clamp(80px, 10vw, 140px)" }}>
+      <section className={gridClass} style={{ paddingTop: "clamp(60px, 10vw, 120px)", paddingBottom: "clamp(80px, 10vw, 140px)" }}>
         {/* Grid 1-4: Global users reached */}
         <div className="col-span-12 md:col-span-4">
-          <div className="flex">
-            <div className="border-l border-accent" style={{ marginRight: "16px" }} />
-            <div className="flex flex-col" style={{ gap: "clamp(40px, 8vw, 100px)" }}>
+          <div className="flex flex-col md:flex-row">
+            <div className="border-t md:border-t-0 md:border-l border-accent w-full md:w-auto md:self-stretch" style={{ marginBottom: "16px" }} />
+            <div className="flex flex-col md:ml-[16px]" style={{ gap: "clamp(40px, 8vw, 100px)" }}>
               <p
                 className="text-white font-normal"
-                style={{ fontSize: "clamp(16px, 2vw, 24px)", lineHeight: 1.2, fontFamily: "var(--font-geist-sans)" }}
+                style={{ fontSize: "18px", lineHeight: 1.2, fontFamily: "var(--font-geist-sans)" }}
               >
                 Global users
                 <br />
@@ -299,12 +302,12 @@ export default function AboutPage() {
 
         {/* Grid 5-8: Products shipped */}
         <div className="col-span-12 md:col-span-4">
-          <div className="flex">
-            <div className="border-l border-accent" style={{ marginRight: "16px" }} />
-            <div className="flex flex-col" style={{ gap: "clamp(40px, 8vw, 100px)" }}>
+          <div className="flex flex-col md:flex-row">
+            <div className="border-t md:border-t-0 md:border-l border-accent w-full md:w-auto md:self-stretch" style={{ marginBottom: "16px" }} />
+            <div className="flex flex-col md:ml-[16px]" style={{ gap: "clamp(40px, 8vw, 100px)" }}>
               <p
                 className="text-white font-normal"
-                style={{ fontSize: "clamp(16px, 2vw, 24px)", lineHeight: 1.2, fontFamily: "var(--font-geist-sans)" }}
+                style={{ fontSize: "18px", lineHeight: 1.2, fontFamily: "var(--font-geist-sans)" }}
               >
                 Products
                 <br />
@@ -322,12 +325,12 @@ export default function AboutPage() {
 
         {/* Grid 9-12: Unicon shipped */}
         <div className="col-span-12 md:col-span-4">
-          <div className="flex">
-            <div className="border-l border-accent" style={{ marginRight: "16px" }} />
-            <div className="flex flex-col" style={{ gap: "clamp(40px, 8vw, 100px)" }}>
+          <div className="flex flex-col md:flex-row">
+            <div className="border-t md:border-t-0 md:border-l border-accent w-full md:w-auto md:self-stretch" style={{ marginBottom: "16px" }} />
+            <div className="flex flex-col md:ml-[16px]" style={{ gap: "clamp(40px, 8vw, 100px)" }}>
               <p
                 className="text-white font-normal"
-                style={{ fontSize: "clamp(16px, 2vw, 24px)", lineHeight: 1.2, fontFamily: "var(--font-geist-sans)" }}
+                style={{ fontSize: "18px", lineHeight: 1.2, fontFamily: "var(--font-geist-sans)" }}
               >
                 Unicon
                 <br />
@@ -345,12 +348,12 @@ export default function AboutPage() {
       </section>
 
       {/* Section 10: How can we help? */}
-      <section className={gridClass} style={{ paddingTop: "clamp(80px, 10vw, 140px)", paddingBottom: "clamp(80px, 10vw, 140px)" }}>
+      <section className={gridClass} style={{ paddingTop: "clamp(80px, 10vw, 140px)", paddingBottom: "40px" }}>
         {/* Title: Left side */}
-        <div className="col-span-12 md:col-span-5">
+        <div className="col-span-12 md:col-span-5" style={{ marginBottom: "16px" }}>
           <h2
             className="text-white font-semibold"
-            style={{ fontSize: "clamp(48px, 7vw, 88px)", lineHeight: 1.2, fontFamily: "var(--font-geist-sans)" }}
+            style={{ fontSize: "clamp(44px, 7vw, 88px)", lineHeight: 1.2, fontFamily: "var(--font-geist-sans)" }}
           >
             How can
             <br />
@@ -359,7 +362,7 @@ export default function AboutPage() {
         </div>
 
         {/* Links: Right side */}
-        <div className="col-span-12 md:col-span-5 md:col-start-8 flex flex-col gap-[24px]">
+        <div className="col-span-12 md:col-span-4 md:col-start-7 flex flex-col gap-[24px]">
           {/* Top line */}
           <div className="w-full h-px bg-white/20" />
 
@@ -367,20 +370,22 @@ export default function AboutPage() {
           <Link
             href="/audition"
             className="flex items-center justify-between text-white hover:text-accent transition-colors group"
-            style={{ fontSize: "clamp(14px, 1.5vw, 16px)", lineHeight: 1.2, fontFamily: "var(--font-geist-sans)" }}
+            style={{ fontSize: "16px", lineHeight: 1.2, fontFamily: "var(--font-geist-sans)" }}
           >
             <span>Audition</span>
-            <svg
-              width="16"
-              height="16"
-              viewBox="0 0 24 24"
-              fill="none"
-              stroke="currentColor"
-              strokeWidth="1.5"
-              className="opacity-50 group-hover:opacity-100 transition-opacity"
-            >
-              <path d="M7 17L17 7M17 7H7M17 7V17" strokeLinecap="round" strokeLinejoin="round"/>
-            </svg>
+            <div className="w-[24px] h-[24px] flex items-center justify-center">
+              <svg
+                width="16"
+                height="16"
+                viewBox="0 0 16 16"
+                fill="none"
+                stroke="currentColor"
+                strokeWidth="1.5"
+                className="opacity-50 group-hover:opacity-100 transition-opacity"
+              >
+                <path d="M4.5 11.5L11.5 4.5M11.5 4.5H4.5M11.5 4.5V11.5" strokeLinecap="round" strokeLinejoin="round"/>
+              </svg>
+            </div>
           </Link>
 
           {/* Middle line */}
@@ -390,20 +395,22 @@ export default function AboutPage() {
           <Link
             href="/contact"
             className="flex items-center justify-between text-white hover:text-accent transition-colors group"
-            style={{ fontSize: "clamp(14px, 1.5vw, 16px)", lineHeight: 1.2, fontFamily: "var(--font-geist-sans)" }}
+            style={{ fontSize: "16px", lineHeight: 1.2, fontFamily: "var(--font-geist-sans)" }}
           >
             <span>Contact</span>
-            <svg
-              width="16"
-              height="16"
-              viewBox="0 0 24 24"
-              fill="none"
-              stroke="currentColor"
-              strokeWidth="1.5"
-              className="opacity-50 group-hover:opacity-100 transition-opacity"
-            >
-              <path d="M7 17L17 7M17 7H7M17 7V17" strokeLinecap="round" strokeLinejoin="round"/>
-            </svg>
+            <div className="w-[24px] h-[24px] flex items-center justify-center">
+              <svg
+                width="16"
+                height="16"
+                viewBox="0 0 16 16"
+                fill="none"
+                stroke="currentColor"
+                strokeWidth="1.5"
+                className="opacity-50 group-hover:opacity-100 transition-opacity"
+              >
+                <path d="M4.5 11.5L11.5 4.5M11.5 4.5H4.5M11.5 4.5V11.5" strokeLinecap="round" strokeLinejoin="round"/>
+              </svg>
+            </div>
           </Link>
 
           {/* Bottom line */}

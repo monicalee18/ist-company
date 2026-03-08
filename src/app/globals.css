@@ -48,10 +48,35 @@ body {
   overflow-x: hidden;
 }
 
-/* Headings - Geist Medium for English, Pretendard for Korean */
+/* Headings */
 h1, h2, h3, h4, h5, h6 {
   font-family: var(--font-geist-sans), "Pretendard", -apple-system, BlinkMacSystemFont, system-ui, sans-serif;
   font-weight: 500;
+}
+
+/* KO mode: Pretendard first for all elements */
+html[data-lang="KO"] body,
+html[data-lang="KO"] h1,
+html[data-lang="KO"] h2,
+html[data-lang="KO"] h3,
+html[data-lang="KO"] h4,
+html[data-lang="KO"] h5,
+html[data-lang="KO"] h6,
+html[data-lang="KO"] p,
+html[data-lang="KO"] span,
+html[data-lang="KO"] a,
+html[data-lang="KO"] button,
+html[data-lang="KO"] input,
+html[data-lang="KO"] select,
+html[data-lang="KO"] textarea,
+html[data-lang="KO"] label,
+html[data-lang="KO"] li {
+  font-family: "Pretendard", var(--font-geist-sans), -apple-system, BlinkMacSystemFont, system-ui, sans-serif !important;
+}
+
+/* Force English font for elements that should not use Pretendard */
+html[data-lang="KO"] .font-en {
+  font-family: var(--font-geist-sans), -apple-system, BlinkMacSystemFont, system-ui, sans-serif !important;
 }
 
 /* Monospace - Geist Mono Regular */

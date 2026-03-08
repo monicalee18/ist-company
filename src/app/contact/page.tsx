@@ -105,7 +105,7 @@ export default function ContactPage() {
                 <div>
                   <div className="space-y-2">
                     <div>
-                      <span className="text-white/50 text-sm">{t("비즈니스", "Business")}</span>
+                      <span className="text-white/50 text-sm">Business</span>
                       <a
                         href="mailto:istent_business@istent.co.kr"
                         className="block text-white hover:text-white/70 transition-colors"
@@ -115,7 +115,7 @@ export default function ContactPage() {
                       </a>
                     </div>
                     <div>
-                      <span className="text-white/50 text-sm">{t("팬스태프", "Fan Staff")}</span>
+                      <span className="text-white/50 text-sm">Fan Staff</span>
                       <a
                         href="mailto:istent_fanstaff@istent.co.kr"
                         className="block text-white hover:text-white/70 transition-colors"
@@ -125,7 +125,7 @@ export default function ContactPage() {
                       </a>
                     </div>
                     <div>
-                      <span className="text-white/50 text-sm">{t("오디션", "Audition")}</span>
+                      <span className="text-white/50 text-sm">Audition</span>
                       <a
                         href="mailto:audition@istent.co.kr"
                         className="block text-white hover:text-white/70 transition-colors"
@@ -241,8 +241,8 @@ export default function ContactPage() {
                     >
                       <option value="" className="bg-black text-white/50">{t("선택해주세요", "Select one")}</option>
                       <option value="business" className="bg-black">{t("비즈니스 제휴", "Business Partnership")}</option>
-                      <option value="audition" className="bg-black">{t("오디션", "Audition")}</option>
-                      <option value="fanstaff" className="bg-black">{t("팬스태프", "Fan Staff")}</option>
+                      <option value="audition" className="bg-black">Audition</option>
+                      <option value="fanstaff" className="bg-black">Fan Staff</option>
                       <option value="media" className="bg-black">{t("미디어/언론", "Media/Press")}</option>
                       <option value="other" className="bg-black">{t("기타", "Other")}</option>
                     </select>
@@ -370,19 +370,19 @@ export default function ContactPage() {
               {/* Email */}
               <div className="space-y-1">
                 <div>
-                  <span className="text-white/50 text-xs">{t("비즈니스", "Business")}</span>
+                  <span className="text-white/50 text-xs">Business</span>
                   <a href="mailto:istent_business@istent.co.kr" className="block text-white hover:text-white/70 transition-colors" style={{ fontSize: "14px" }}>
                     istent_business@istent.co.kr
                   </a>
                 </div>
                 <div>
-                  <span className="text-white/50 text-xs">{t("팬스태프", "Fan Staff")}</span>
+                  <span className="text-white/50 text-xs">Fan Staff</span>
                   <a href="mailto:istent_fanstaff@istent.co.kr" className="block text-white hover:text-white/70 transition-colors" style={{ fontSize: "14px" }}>
                     istent_fanstaff@istent.co.kr
                   </a>
                 </div>
                 <div>
-                  <span className="text-white/50 text-xs">{t("오디션", "Audition")}</span>
+                  <span className="text-white/50 text-xs">Audition</span>
                   <a href="mailto:audition@istent.co.kr" className="block text-white hover:text-white/70 transition-colors" style={{ fontSize: "14px" }}>
                     audition@istent.co.kr
                   </a>
@@ -391,7 +391,7 @@ export default function ContactPage() {
 
               {/* Address */}
               <div>
-                <h3 className="text-white/40 text-xs tracking-widest uppercase mb-2">
+                <h3 className="text-white/40 text-xs tracking-widest uppercase mb-1">
                   {t("주소", "Address")}
                 </h3>
                 <p className="text-white" style={{ fontSize: "14px" }}>
@@ -470,8 +470,8 @@ export default function ContactPage() {
                 >
                   <option value="" className="bg-black text-white/50">{t("선택해주세요", "Select one")}</option>
                   <option value="business" className="bg-black">{t("비즈니스 제휴", "Business Partnership")}</option>
-                  <option value="audition" className="bg-black">{t("오디션", "Audition")}</option>
-                  <option value="fanstaff" className="bg-black">{t("팬스태프", "Fan Staff")}</option>
+                  <option value="audition" className="bg-black">Audition</option>
+                  <option value="fanstaff" className="bg-black">Fan Staff</option>
                   <option value="media" className="bg-black">{t("미디어/언론", "Media/Press")}</option>
                   <option value="other" className="bg-black">{t("기타", "Other")}</option>
                 </select>

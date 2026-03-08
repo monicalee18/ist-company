@@ -23,12 +23,42 @@ export default function Home() {
         <div className="absolute inset-0" style={{ backgroundColor: "rgba(91, 0, 25, 0.5)" }} />
       </div>
 
-      {/* Content Layer */}
-      <div className="relative z-10 h-full content-padding">
+      {/* Content Layer - Mobile */}
+      <div className="relative z-10 h-full content-padding md:hidden">
+        <div className="grid grid-cols-12 gap-[24px]" style={{ paddingTop: "calc(78px + 80px)" }}>
+          {/* Title - left aligned */}
+          <div className="col-span-12">
+            <h1
+              className="text-white capitalize font-en"
+              style={{ fontSize: "54px", lineHeight: 1.05, fontWeight: 600, marginBottom: "8px" }}
+            >
+              Creating
+              <br />
+              Tomorrow&apos;s Stars
+            </h1>
+          </div>
+
+          {/* Description - col 1-10, 24px gap handled by grid */}
+          <div className="col-span-10">
+            <p
+              className="text-white font-[family-name:var(--font-geist-mono)]"
+              style={{ fontSize: "16px", lineHeight: 1.4 }}
+            >
+              {t(
+                "2006년부터 IST Entertainment는 음악과 글로벌 문화를 이끌어갈 아티스트를 발굴하고 성장시키며 함께 새로운 가능성을 만들어가고 있습니다",
+                "Since 2006, IST Entertainment has been discovering, developing, and empowering artists who shape the future of music and global culture"
+              )}
+            </p>
+          </div>
+        </div>
+      </div>
+
+      {/* Content Layer - Desktop */}
+      <div className="relative z-10 h-full content-padding hidden md:block">
         <div className="h-full grid grid-cols-12 gap-[24px]">
           {/* Top Right - Description (9-10 grid) */}
           <div
-            className="col-span-12 md:col-span-2 md:col-start-9 self-start"
+            className="col-span-2 col-start-9 self-start"
             style={{ paddingTop: "calc(54px + 120px)" }}
           >
             <p
@@ -36,8 +66,8 @@ export default function Home() {
               style={{ fontSize: "16px", lineHeight: "normal" }}
             >
               {t(
-                "2006년부터, 우리는 가장 혁신적인 스타트업과 신뢰받는 브랜드가 이야기할 가치가 있는 제품을 디자인하고 구축하며 출시하는 것을 도와왔습니다.",
-                "Since 2006, we've helped the most innovative startups and reputable brands designs, build, and ship products worth talking about."
+                "2006년부터 IST Entertainment는 음악과 글로벌 문화를 이끌어갈 아티스트를 발굴하고 성장시키며 함께 새로운 가능성을 만들어가고 있습니다",
+                "Since 2006, IST Entertainment has been discovering, developing, and empowering artists who shape the future of music and global culture"
               )}
             </p>
           </div>
@@ -48,20 +78,20 @@ export default function Home() {
             style={{ paddingBottom: "120px" }}
           >
             <div className="grid grid-cols-12 gap-0">
-              <div className="col-span-12 md:col-start-4 md:col-span-9">
+              <div className="col-start-4 col-span-9">
                 <h1
                   className="text-white font-semibold capitalize font-[family-name:var(--font-geist-sans)]"
                   style={{ fontSize: "clamp(48px, 6vw, 92px)", lineHeight: 1.05 }}
                 >
-                  {t("내일의 스타를", "Creating")}
+                  Creating
                 </h1>
               </div>
-              <div className="col-span-12 md:col-start-5 md:col-span-8">
+              <div className="col-start-5 col-span-8">
                 <h1
                   className="text-white font-semibold capitalize font-[family-name:var(--font-geist-sans)]"
                   style={{ fontSize: "clamp(48px, 6vw, 92px)", lineHeight: 1.05 }}
                 >
-                  {t("만들어갑니다", "Tomorrow's Stars")}
+                  Tomorrow&apos;s Stars
                 </h1>
               </div>
             </div>

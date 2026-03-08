@@ -80,7 +80,7 @@ export default function NewsPage() {
           style={{ gridColumn: "2 / 12" }}
         >
           <h1 className="text-6xl font-light text-white">
-            {t("최신 뉴스", "Latest News")}
+            Latest News
           </h1>
         </motion.div>
       </div>
@@ -101,7 +101,7 @@ export default function NewsPage() {
           transition={{ duration: 0.6 }}
         >
           <h1 className="text-4xl font-light text-white">
-            {t("최신 뉴스", "Latest News")}
+            Latest News
           </h1>
         </motion.div>
       </div>
@@ -115,8 +115,8 @@ export default function NewsPage() {
             animate={{ opacity: 1, y: 0 }}
             transition={{ duration: 0.4, delay: index * 0.1 }}
             style={{
-              borderTop: index === 0 ? "1px solid rgba(255,255,255,0.1)" : "none",
-              borderBottom: "1px solid rgba(255,255,255,0.1)",
+              borderTop: index === 0 ? "1px solid #313033" : "none",
+              borderBottom: "1px solid #313033",
             }}
           >
             {/* Desktop Layout */}
@@ -219,14 +219,14 @@ export default function NewsPage() {
               {/* Content - Below */}
               <div className="min-w-0">
                 <span
-                  className="text-sm text-white/40 block"
-                  style={{ marginBottom: "8px" }}
+                  className="text-sm block"
+                  style={{ marginBottom: "8px", color: "#79767a" }}
                 >
                   {item.pubDate}
                 </span>
                 <h2
-                  className="text-xl text-white group-hover:text-white/80 transition-colors line-clamp-3"
-                    style={{ fontWeight: 400 }}
+                  className="text-white group-hover:text-white/80 transition-colors line-clamp-3"
+                  style={{ fontWeight: 400, fontSize: "clamp(1rem, 4.6vw, 1.25rem)" }}
                 >
                   {getTitle(item.title)}
                 </h2>
@@ -238,13 +238,18 @@ export default function NewsPage() {
 
       {/* See more */}
       {hasMore && (
-        <div className="flex justify-center" style={{ paddingTop: "40px", paddingBottom: "40px" }}>
+        <div className="flex flex-col items-center" style={{ paddingTop: "40px", paddingBottom: "40px" }}>
           <button
             onClick={() => setVisibleCount((prev) => prev + PAGE_SIZE)}
-            className="text-white/60 text-sm hover:text-white transition-colors underline underline-offset-4"
+            className="text-white/60 text-base hover:text-white transition-colors underline underline-offset-4"
           >
-            {t("더 보기", "See more")}
+            {t("더보기", "See more")}
           </button>
+          <span
+            style={{ marginTop: "24px", fontSize: "clamp(0.875rem, 4.1vw, 1rem)", color: "#79767a" }}
+          >
+            You&apos;ve seen {visibleCount} of {newsData.length}
+          </span>
         </div>
       )}
 
