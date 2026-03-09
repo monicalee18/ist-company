@@ -58,7 +58,7 @@ export default function ContactPage() {
               <div style={{ marginBottom: "40px" }}>
                 <svg
                   viewBox="0 0 317.50661 60.325002"
-                  style={{ height: "80px", width: "auto" }}
+                  style={{ width: "100%", maxWidth: "420px", height: "auto" }}
                 >
                   <defs>
                     <clipPath id="contact-logo-a">
@@ -326,7 +326,7 @@ export default function ContactPage() {
             <div style={{ marginBottom: "30px" }}>
               <svg
                 viewBox="0 0 317.50661 60.325002"
-                style={{ height: "60px", width: "auto" }}
+                style={{ width: "100%", maxWidth: "300px", height: "auto" }}
               >
                 <defs>
                   <clipPath id="mobile-logo-a">
