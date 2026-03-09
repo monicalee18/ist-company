@@ -248,7 +248,7 @@ export default function NewsPage() {
           <span
             style={{ marginTop: "24px", fontSize: "clamp(0.875rem, 4.1vw, 1rem)", color: "#79767a" }}
           >
-            You&apos;ve seen {visibleCount} of {newsData.length}
+            {t(`${newsData.length}개 중 ${visibleCount}개 표시`, `You've seen ${visibleCount} of ${newsData.length}`)}
           </span>
         </div>
       )}

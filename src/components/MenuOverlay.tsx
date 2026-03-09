@@ -372,6 +372,7 @@ export default function MenuOverlay() {
                   <motion.li
                     key={item.href}
                     variants={menuItemVariants}
+                    className="font-en"
                   >
                     <Link
                       href={item.href}
@@ -381,12 +382,12 @@ export default function MenuOverlay() {
                       }}
                       onMouseEnter={() => handleMouseEnter(index)}
                       onMouseLeave={handleMouseLeave}
-                      className="group inline-block relative"
+                      className="font-en group inline-block relative"
                     >
                       <span
-                        className="text-3xl lg:text-4xl xl:text-5xl font-medium transition-colors duration-300"
+                        className="font-en text-3xl lg:text-4xl xl:text-5xl font-medium transition-colors duration-300"
                         style={{
-                          fontFamily: "var(--font-geist-sans)",
+                          lineHeight: 1,
                           color:
                             hoveredIndex === null
                               ? "#000000"

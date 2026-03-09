@@ -34,7 +34,8 @@ export default function Footer() {
   const footerLinks = {
     social: [
       { label: t("인스타그램", "Instagram"), href: "https://www.instagram.com/ist_entertainment" },
-      { label: "X", href: "https://x.com" },
+      { label: "X", href: "https://x.com/ist_ent" },
+      { label: t("유튜브", "YouTube"), href: "https://www.youtube.com/c/istentertainment" },
     ],
     company: [
       { label: t("오디션", "Audition"), href: "/audition" },
