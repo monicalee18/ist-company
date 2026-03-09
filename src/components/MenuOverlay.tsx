@@ -113,15 +113,16 @@ const menuItemVariants = {
 };
 
 const rightContentVariants = {
-  initial: { opacity: 1, x: 40 },
+  initial: { opacity: 0, x: 50 },
   animate: {
     opacity: 1,
     x: 0,
     transition: {
-      duration: 0.9,
+      type: "spring",
+      stiffness: 80,
+      damping: 20,
       delay: 0.4,
-      ease: [0.16, 1, 0.3, 1] as const,
-      staggerChildren: 0.07,
+      staggerChildren: 0.1,
       delayChildren: 0.5
     }
   },
@@ -133,11 +134,15 @@ const rightContentVariants = {
 };
 
 const newsItemVariants = {
-  initial: { opacity: 0, x: 25 },
+  initial: { opacity: 0, x: 30 },
   animate: {
     opacity: 1,
     x: 0,
-    transition: { duration: 0.6, ease: [0.16, 1, 0.3, 1] as const }
+    transition: {
+      type: "spring",
+      stiffness: 100,
+      damping: 18
+    }
   }
 };
 

@@ -35,6 +35,26 @@ export const metadata: Metadata = {
   icons: {
     icon: "/favicon.ico",
   },
+  openGraph: {
+    title: "IST COMPANY",
+    description: "IST Entertainment - K-Pop Entertainment Company",
+    siteName: "IST COMPANY",
+    images: [
+      {
+        url: "/og-image.png",
+        width: 1200,
+        height: 630,
+        alt: "IST Entertainment",
+      },
+    ],
+    type: "website",
+  },
+  twitter: {
+    card: "summary_large_image",
+    title: "IST COMPANY",
+    description: "IST Entertainment - K-Pop Entertainment Company",
+    images: ["/og-image.png"],
+  },
 };
 
 export default function RootLayout({

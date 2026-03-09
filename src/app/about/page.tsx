@@ -115,8 +115,8 @@ export default function AboutPage() {
             style={{ lineHeight: 1.2 }}
           >
             {t(
-              "Since 2006, we have been building a strong foundation for artists by combining creative direction, strategic management, and global production capabilities.",
-              "Since 2006, we have been building a strong foundation for artists by combining creative direction, strategic management, and global production capabilities."
+              "Since 2006, we have been building a strong foundation for artists by combining creative direction, strategic management, and global production capabilities",
+              "Since 2006, we have been building a strong foundation for artists by combining creative direction, strategic management, and global production capabilities"
             )}
           </h2>
         </div>
@@ -157,12 +157,20 @@ export default function AboutPage() {
                   className="object-cover grayscale"
                 />
               </div>
-              <span
-                className="text-white/50 font-mono"
-                style={{ fontSize: "12px", marginTop: "10px" }}
-              >
-                {image.debut}
-              </span>
+              <div style={{ marginTop: "8px", lineHeight: 1 }}>
+                <span
+                  className="text-white/70 font-mono"
+                  style={{ fontSize: "12px" }}
+                >
+                  {image.name}
+                </span>
+                <span
+                  className="text-white/70 font-mono"
+                  style={{ fontSize: "12px", marginLeft: "8px" }}
+                >
+                  {image.debut}
+                </span>
+              </div>
             </div>
           ))}
         </motion.div>

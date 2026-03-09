@@ -77,7 +77,7 @@ export default function NewsPage() {
           initial={{ opacity: 0, y: 30 }}
           animate={{ opacity: 1, y: 0 }}
           transition={{ duration: 0.6 }}
-          style={{ gridColumn: "2 / 12" }}
+          style={{ gridColumn: "1 / 9" }}
         >
           <h1 className="text-6xl font-light text-white">
             Latest News

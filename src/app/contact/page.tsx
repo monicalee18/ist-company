@@ -139,7 +139,7 @@ export default function ContactPage() {
 
                 {/* Address */}
                 <div>
-                  <h3 className="text-white/40 text-xs tracking-widest uppercase mb-3">
+                  <h3 className="text-white/40 text-xs tracking-widest uppercase mb-1">
                     {t("주소", "Address")}
                   </h3>
                   <p className="text-white leading-relaxed" style={{ fontSize: "14px" }}>
@@ -149,7 +149,7 @@ export default function ContactPage() {
                     )}
                   </p>
                   {/* Google Map */}
-                  <div style={{ marginTop: "12px", width: "100%", height: "120px" }}>
+                  <div style={{ marginTop: "10px", width: "100%", height: "120px" }}>
                     <iframe
                       src="https://www.google.com/maps/embed?pb=!1m18!1m12!1m3!1d3165.4!2d127.0285!3d37.4965!2m3!1f0!2f0!3f0!3m2!1i1024!2i768!4f13.1!3m3!1m2!1s0x357ca159a0000001%3A0x1234567890!2z7ISc7Jq4IOqwleuCqOq1rCDqsJXrgqjrjIDroZwxNDbquLggMzk!5e0!3m2!1sko!2skr!4v1709654321"
                       width="100%"
@@ -262,7 +262,7 @@ export default function ContactPage() {
                 </div>
 
                 {/* Message */}
-                <div style={{ marginBottom: "60px" }}>
+                <div style={{ marginBottom: "40px" }}>
                   <label className="block text-white/50 text-sm" style={{ marginBottom: "10px" }}>{t("문의 내용", "Message")}*</label>
                   <textarea
                     required
@@ -270,7 +270,7 @@ export default function ContactPage() {
                     value={formData.message}
                     onChange={(e) => setFormData({ ...formData, message: e.target.value })}
                     className="w-full bg-transparent border-b border-white/20 text-white focus:border-white focus:outline-none transition-colors resize-none placeholder:text-white/30"
-                    style={{ height: "120px" }}
+                    style={{ height: "100px" }}
                   />
                 </div>
 
@@ -401,7 +401,7 @@ export default function ContactPage() {
                   )}
                 </p>
                 {/* Google Map */}
-                <div style={{ marginTop: "12px", width: "100%", height: "120px" }}>
+                <div style={{ marginTop: "10px", width: "100%", height: "120px" }}>
                   <iframe
                     src="https://www.google.com/maps/embed?pb=!1m18!1m12!1m3!1d3165.4!2d127.0285!3d37.4965!2m3!1f0!2f0!3f0!3m2!1i1024!2i768!4f13.1!3m3!1m2!1s0x357ca159a0000001%3A0x1234567890!2z7ISc7Jq4IOqwleuCqOq1rCDqsJXrgqjrjIDroZwxNDbquLggMzk!5e0!3m2!1sko!2skr!4v1709654321"
                     width="100%"
