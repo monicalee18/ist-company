@@ -1,12 +1,124 @@
 "use client";
 
-import { useState, useEffect, useCallback } from "react";
-import { motion } from "framer-motion";
+import { useRef, useState, useEffect, useCallback } from "react";
+import { motion, useInView } from "framer-motion";
 import Image from "next/image";
 import { useLanguage } from "@/context/LanguageContext";
 import { newsData } from "@/lib/news";
 
 const PAGE_SIZE = 10;
+
+function NewsItem({ item, index, getTitle }: { item: typeof newsData[number]; index: number; getTitle: (t: string) => string }) {
+  const ref = useRef<HTMLElement>(null);
+  const isInView = useInView(ref, { once: true, margin: "-60px" });
+
+  return (
+    <motion.article
+      ref={ref}
+      initial={{ opacity: 0, y: 25 }}
+      animate={isInView ? { opacity: 1, y: 0 } : { opacity: 0, y: 25 }}
+      transition={{ duration: 0.6, ease: [0.16, 1, 0.3, 1] }}
+      style={{
+        borderTop: index === 0 ? "1px solid #313033" : "none",
+        borderBottom: "1px solid #313033",
+      }}
+    >
+      {/* Desktop Layout */}
+      <a
+        href={item.link}
+        target="_blank"
+        rel="noopener noreferrer"
+        className="group hidden md:grid"
+        style={{
+          gridTemplateColumns: "repeat(12, 1fr)",
+          gap: "24px",
+          paddingTop: "30px",
+          paddingBottom: "30px",
+          paddingLeft: "24px",
+          paddingRight: "24px",
+          alignItems: "center",
+        }}
+      >
+        <div className="min-w-0" style={{ gridColumn: "2 / 10" }}>
+          <span className="text-sm text-white/40 block" style={{ marginBottom: "8px" }}>
+            {item.pubDate}
+          </span>
+          <h2
+            className="text-2xl text-white group-hover:text-white/80 transition-colors line-clamp-3"
+            style={{ fontWeight: 400 }}
+          >
+            {getTitle(item.title)}
+          </h2>
+        </div>
+        <div
+          className="overflow-hidden"
+          style={{
+            gridColumn: "10 / 12",
+            aspectRatio: "16 / 10",
+            maxWidth: "370px",
+            marginLeft: "auto",
+          }}
+        >
+          {item.thumbnail ? (
+            <Image
+              src={item.thumbnail}
+              alt={item.title}
+              width={320}
+              height={200}
+              className="w-full h-full object-cover"
+            />
+          ) : (
+            <div className="w-full h-full bg-white/5 flex items-center justify-center">
+              <span className="text-white/20 text-sm">IMG</span>
+            </div>
+          )}
+        </div>
+      </a>
+
+      {/* Mobile Layout */}
+      <a
+        href={item.link}
+        target="_blank"
+        rel="noopener noreferrer"
+        className="group flex flex-col md:hidden"
+        style={{
+          paddingTop: "24px",
+          paddingBottom: "24px",
+          paddingLeft: "16px",
+          paddingRight: "16px",
+          gap: "20px",
+        }}
+      >
+        <div className="overflow-hidden w-full" style={{ aspectRatio: "16 / 10" }}>
+          {item.thumbnail ? (
+            <Image
+              src={item.thumbnail}
+              alt={item.title}
+              width={600}
+              height={375}
+              className="w-full h-full object-cover"
+            />
+          ) : (
+            <div className="w-full h-full bg-white/5 flex items-center justify-center">
+              <span className="text-white/20 text-sm">IMG</span>
+            </div>
+          )}
+        </div>
+        <div className="min-w-0">
+          <span className="text-sm block" style={{ marginBottom: "8px", color: "#79767a" }}>
+            {item.pubDate}
+          </span>
+          <h2
+            className="text-white group-hover:text-white/80 transition-colors line-clamp-3"
+            style={{ fontWeight: 400, fontSize: "clamp(1rem, 4.6vw, 1.25rem)" }}
+          >
+            {getTitle(item.title)}
+          </h2>
+        </div>
+      </a>
+    </motion.article>
+  );
+}
 
 export default function NewsPage() {
   const { language, t } = useLanguage();
@@ -109,130 +221,7 @@ export default function NewsPage() {
       {/* News List - Full width borders */}
       <div>
         {news.map((item, index) => (
-          <motion.article
-            key={index}
-            initial={{ opacity: 0, y: 20 }}
-            animate={{ opacity: 1, y: 0 }}
-            transition={{ duration: 0.4, delay: index * 0.1 }}
-            style={{
-              borderTop: index === 0 ? "1px solid #313033" : "none",
-              borderBottom: "1px solid #313033",
-            }}
-          >
-            {/* Desktop Layout */}
-            <a
-              href={item.link}
-              target="_blank"
-              rel="noopener noreferrer"
-              className="group hidden md:grid"
-              style={{
-                gridTemplateColumns: "repeat(12, 1fr)",
-                gap: "24px",
-                paddingTop: "30px",
-                paddingBottom: "30px",
-                paddingLeft: "24px",
-                paddingRight: "24px",
-                alignItems: "center",
-              }}
-            >
-              {/* Content - starts at column 2 */}
-              <div
-                className="min-w-0"
-                style={{ gridColumn: "2 / 10" }}
-              >
-                <span
-                  className="text-sm text-white/40 block"
-                  style={{ marginBottom: "8px" }}
-                >
-                  {item.pubDate}
-                </span>
-                <h2
-                  className="text-2xl text-white group-hover:text-white/80 transition-colors line-clamp-3"
-                    style={{ fontWeight: 400 }}
-                >
-                  {getTitle(item.title)}
-                </h2>
-              </div>
-
-              {/* Thumbnail - ends at column 11 */}
-              <div
-                className="overflow-hidden"
-                style={{
-                  gridColumn: "10 / 12",
-                  aspectRatio: "16 / 10",
-                  maxWidth: "370px",
-                  marginLeft: "auto",
-                }}
-              >
-                {item.thumbnail ? (
-                  <Image
-                    src={item.thumbnail}
-                    alt={item.title}
-                    width={320}
-                    height={200}
-                    className="w-full h-full object-cover"
-                  />
-                ) : (
-                  <div className="w-full h-full bg-white/5 flex items-center justify-center">
-                    <span className="text-white/20 text-sm">IMG</span>
-                  </div>
-                )}
-              </div>
-            </a>
-
-            {/* Mobile Layout */}
-            <a
-              href={item.link}
-              target="_blank"
-              rel="noopener noreferrer"
-              className="group flex flex-col md:hidden"
-              style={{
-                paddingTop: "24px",
-                paddingBottom: "24px",
-                paddingLeft: "16px",
-                paddingRight: "16px",
-                gap: "20px",
-              }}
-            >
-              {/* Thumbnail - Top */}
-              <div
-                className="overflow-hidden w-full"
-                style={{
-                  aspectRatio: "16 / 10",
-                }}
-              >
-                {item.thumbnail ? (
-                  <Image
-                    src={item.thumbnail}
-                    alt={item.title}
-                    width={600}
-                    height={375}
-                    className="w-full h-full object-cover"
-                  />
-                ) : (
-                  <div className="w-full h-full bg-white/5 flex items-center justify-center">
-                    <span className="text-white/20 text-sm">IMG</span>
-                  </div>
-                )}
-              </div>
-
-              {/* Content - Below */}
-              <div className="min-w-0">
-                <span
-                  className="text-sm block"
-                  style={{ marginBottom: "8px", color: "#79767a" }}
-                >
-                  {item.pubDate}
-                </span>
-                <h2
-                  className="text-white group-hover:text-white/80 transition-colors line-clamp-3"
-                  style={{ fontWeight: 400, fontSize: "clamp(1rem, 4.6vw, 1.25rem)" }}
-                >
-                  {getTitle(item.title)}
-                </h2>
-              </div>
-            </a>
-          </motion.article>
+          <NewsItem key={index} item={item} index={index} getTitle={getTitle} />
         ))}
       </div>
 

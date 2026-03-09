@@ -1,5 +1,6 @@
 "use client";
 
+import { useState, useEffect } from "react";
 import Link from "next/link";
 import { useRouter } from "next/navigation";
 import { useMenu } from "@/context/MenuContext";
@@ -10,6 +11,14 @@ export default function Header() {
   const { isMenuOpen, toggleMenu, closeMenu } = useMenu();
   const { t } = useLanguage();
   const router = useRouter();
+  const [scrolled, setScrolled] = useState(false);
+
+  useEffect(() => {
+    const onScroll = () => setScrolled(window.scrollY > 20);
+    onScroll();
+    window.addEventListener("scroll", onScroll);
+    return () => window.removeEventListener("scroll", onScroll);
+  }, []);
 
   const handleLogoClick = (e: React.MouseEvent) => {
     e.preventDefault();
@@ -20,7 +29,14 @@ export default function Header() {
   };
 
   return (
-    <header className="fixed top-0 left-0 right-0 z-50 h-[54px] flex items-center header-padding">
+    <header
+      className="fixed top-0 left-0 right-0 z-50 h-[54px] flex items-center header-padding transition-all duration-300"
+      style={{
+        backgroundColor: scrolled && !isMenuOpen ? "rgba(0, 0, 0, 0.7)" : "transparent",
+        backdropFilter: scrolled && !isMenuOpen ? "blur(12px)" : "none",
+        WebkitBackdropFilter: scrolled && !isMenuOpen ? "blur(12px)" : "none",
+      }}
+    >
       <div className="flex items-center justify-between w-full">
         {/* Left Logo */}
         <Link href="/" onClick={handleLogoClick}>

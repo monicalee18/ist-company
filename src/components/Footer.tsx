@@ -14,7 +14,7 @@ function FooterLink({ href, children }: { href: string; children: React.ReactNod
       className="group relative w-fit"
       style={{
         fontSize: "16px",
-        fontFamily: "var(--font-geist-sans)",
+        fontFamily: "var(--font-aspekta)",
         fontWeight: 400,
         paddingTop: "4px",
         paddingBottom: "4px",

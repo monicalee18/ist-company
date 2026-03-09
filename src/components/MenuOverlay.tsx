@@ -485,7 +485,7 @@ export default function MenuOverlay() {
                       onMouseLeave={(e) => e.currentTarget.style.borderColor = "transparent"}
                     >
                       {/* Date above thumbnail */}
-                      <span className="text-xs text-black/40 block" style={{ marginBottom: "6px", fontFamily: "var(--font-geist-sans)" }}>{news.date}</span>
+                      <span className="text-xs text-black/40 block" style={{ marginBottom: "6px", fontFamily: "var(--font-aspekta)" }}>{news.date}</span>
                       <div className="flex gap-[10px]">
                         {/* Thumbnail */}
                         <div
@@ -504,7 +504,7 @@ export default function MenuOverlay() {
                         <div className="flex flex-col flex-1 min-w-0">
                           <span
                             className="text-black/80 group-hover:text-black transition-colors line-clamp-3"
-                            style={{ fontSize: "12px", lineHeight: "1.2", fontFamily: "var(--font-geist-sans)" }}
+                            style={{ fontSize: "12px", lineHeight: "1.2", fontFamily: "var(--font-aspekta)" }}
                           >
                             {getNewsTitle(news.title)}
                           </span>
@@ -565,7 +565,7 @@ export default function MenuOverlay() {
               exit={{ opacity: 0, y: 30 }}
               transition={{ duration: 0.7, delay: 0.1, ease: [0.16, 1, 0.3, 1] }}
             >
-              <div className="relative w-full aspect-[4/3] overflow-hidden">
+              <div className="relative w-full aspect-[4/3] max-h-[30vh] overflow-hidden">
                 <AnimatePresence mode="sync">
                   <motion.div
                     key={activeImage}
@@ -621,7 +621,7 @@ export default function MenuOverlay() {
                     >
                       <span
                         className="text-2xl font-medium text-black/60 hover:text-black transition-colors"
-                        style={{ fontFamily: "var(--font-geist-sans)" }}
+                        style={{ fontFamily: "var(--font-aspekta)" }}
                       >
                         {item.label}
                       </span>
@@ -693,7 +693,7 @@ export default function MenuOverlay() {
                     onMouseLeave={(e) => e.currentTarget.style.borderColor = "transparent"}
                   >
                     {/* Date above thumbnail */}
-                    <span className="text-xs text-black/40 block" style={{ marginBottom: "6px", fontFamily: "var(--font-geist-sans)" }}>{news.date}</span>
+                    <span className="text-xs text-black/40 block" style={{ marginBottom: "6px", fontFamily: "var(--font-aspekta)" }}>{news.date}</span>
                     <div className="flex gap-[10px]">
                       {/* Thumbnail */}
                       <div
@@ -712,7 +712,7 @@ export default function MenuOverlay() {
                       <div className="flex flex-col flex-1 min-w-0">
                         <span
                           className="text-black/80"
-                          style={{ fontSize: "12px", lineHeight: "1.2", fontFamily: "var(--font-geist-sans)" }}
+                          style={{ fontSize: "12px", lineHeight: "1.2", fontFamily: "var(--font-aspekta)" }}
                         >
                           {getNewsTitle(news.title)}
                         </span>

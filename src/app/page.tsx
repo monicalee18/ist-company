@@ -41,7 +41,7 @@ export default function Home() {
           {/* Description - col 1-10, 24px gap handled by grid */}
           <div className="col-span-10">
             <p
-              className="text-white font-[family-name:var(--font-geist-mono)]"
+              className="text-white font-[family-name:var(--font-aspekta)]"
               style={{ fontSize: "16px", lineHeight: 1.4 }}
             >
               {t(
@@ -62,7 +62,7 @@ export default function Home() {
             style={{ paddingTop: "calc(54px + 120px)" }}
           >
             <p
-              className="text-white font-[family-name:var(--font-geist-mono)]"
+              className="text-white font-[family-name:var(--font-aspekta)]"
               style={{ fontSize: "16px", lineHeight: "normal" }}
             >
               {t(
@@ -80,7 +80,7 @@ export default function Home() {
             <div className="grid grid-cols-12 gap-0">
               <div className="col-start-4 col-span-9">
                 <h1
-                  className="text-white font-semibold capitalize font-[family-name:var(--font-geist-sans)]"
+                  className="text-white font-semibold capitalize font-[family-name:var(--font-aspekta)]"
                   style={{ fontSize: "clamp(48px, 6vw, 92px)", lineHeight: 1.05 }}
                 >
                   Creating
@@ -88,7 +88,7 @@ export default function Home() {
               </div>
               <div className="col-start-5 col-span-8">
                 <h1
-                  className="text-white font-semibold capitalize font-[family-name:var(--font-geist-sans)]"
+                  className="text-white font-semibold capitalize font-[family-name:var(--font-aspekta)]"
                   style={{ fontSize: "clamp(48px, 6vw, 92px)", lineHeight: 1.05 }}
                 >
                   Tomorrow&apos;s Stars

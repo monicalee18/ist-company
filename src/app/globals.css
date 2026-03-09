@@ -1,13 +1,6 @@
 @import url('https://cdn.jsdelivr.net/gh/fonts-archive/Pretendard/subsets/Pretendard-dynamic-subset.css');
 @import "tailwindcss";
 
-/* Pretendard for Korean characters only */
-@font-face {
-  font-family: 'Pretendard-KO';
-  src: local('Pretendard');
-  unicode-range: U+AC00-D7AF, U+1100-11FF, U+3130-318F, U+A960-A97F, U+D7B0-D7FF;
-}
-
 :root {
   --background: #0a0a0a;
   --foreground: #ffffff;
@@ -20,8 +13,7 @@
   --color-foreground: var(--foreground);
   --color-accent: var(--accent);
   --color-muted: var(--muted);
-  --font-sans: var(--font-geist-sans);
-  --font-mono: var(--font-geist-mono);
+  --font-sans: var(--font-aspekta);
 }
 
 * {
@@ -48,20 +40,20 @@ html.lenis, html.lenis body {
   pointer-events: none;
 }
 
+/* Base: Aspekta for English, Pretendard fallback for Korean glyphs */
 body {
   background: var(--background);
   color: var(--foreground);
-  font-family: "Pretendard", var(--font-geist-sans), -apple-system, BlinkMacSystemFont, system-ui, sans-serif;
+  font-family: var(--font-aspekta), "Pretendard", -apple-system, BlinkMacSystemFont, system-ui, sans-serif;
   overflow-x: hidden;
 }
 
-/* Headings */
 h1, h2, h3, h4, h5, h6 {
-  font-family: var(--font-geist-sans), "Pretendard", -apple-system, BlinkMacSystemFont, system-ui, sans-serif;
+  font-family: var(--font-aspekta), "Pretendard", -apple-system, BlinkMacSystemFont, system-ui, sans-serif;
   font-weight: 500;
 }
 
-/* KO mode: Pretendard-KO for Korean characters, Aspekta for English */
+/* KO mode: Aspekta for English, Pretendard for Korean (automatic fallback) */
 html[data-lang="KO"] body,
 html[data-lang="KO"] h1,
 html[data-lang="KO"] h2,
@@ -78,18 +70,12 @@ html[data-lang="KO"] select,
 html[data-lang="KO"] textarea,
 html[data-lang="KO"] label,
 html[data-lang="KO"] li:not(.font-en) {
-  font-family: "Pretendard-KO", var(--font-geist-sans), -apple-system, BlinkMacSystemFont, system-ui, sans-serif !important;
+  font-family: var(--font-aspekta), "Pretendard", -apple-system, BlinkMacSystemFont, system-ui, sans-serif !important;
 }
 
-/* Force English font - excluded from KO override */
+/* Force English font only (no Pretendard fallback) */
 .font-en {
-  font-family: var(--font-geist-sans), -apple-system, BlinkMacSystemFont, system-ui, sans-serif !important;
-}
-
-/* Monospace - Geist Mono Regular */
-code, pre, .font-mono {
-  font-family: var(--font-geist-mono), ui-monospace, monospace;
-  font-weight: 400;
+  font-family: var(--font-aspekta), -apple-system, BlinkMacSystemFont, system-ui, sans-serif !important;
 }
 
 /* Custom scrollbar */

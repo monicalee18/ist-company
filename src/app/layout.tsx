@@ -1,5 +1,4 @@
 import type { Metadata } from "next";
-import { Geist_Mono } from "next/font/google";
 import localFont from "next/font/local";
 import "./globals.css";
 import IntroAnimation from "@/components/IntroAnimation";
@@ -11,22 +10,10 @@ import ConditionalFooter from "@/components/ConditionalFooter";
 import { MenuProvider } from "@/context/MenuContext";
 import { LanguageProvider } from "@/context/LanguageContext";
 
-const ppEiko = localFont({
-  src: "../fonts/PPEiko-Medium.otf",
-  variable: "--font-pp-eiko",
-  display: "swap",
-});
-
 const aspekta = localFont({
   src: "../fonts/AspektaVF.woff2",
-  variable: "--font-geist-sans",
+  variable: "--font-aspekta",
   display: "swap",
-});
-
-const geistMono = Geist_Mono({
-  variable: "--font-geist-mono",
-  subsets: ["latin"],
-  weight: ["400"],
 });
 
 export const metadata: Metadata = {
@@ -65,7 +52,7 @@ export default function RootLayout({
   return (
     <html lang="ko">
       <body
-        className={`${ppEiko.variable} ${aspekta.variable} ${geistMono.variable} antialiased`}
+        className={`${aspekta.variable} antialiased`}
       >
         <LanguageProvider>
           <MenuProvider>

@@ -1,8 +1,25 @@
 "use client";
 
 import { useState, useRef } from "react";
-import { motion, AnimatePresence } from "framer-motion";
+import { motion, AnimatePresence, useInView } from "framer-motion";
 import { useLanguage } from "@/context/LanguageContext";
+
+function FadeIn({ children, className, delay = 0, style, y = 25 }: { children: React.ReactNode; className?: string; delay?: number; style?: React.CSSProperties; y?: number }) {
+  const ref = useRef<HTMLDivElement>(null);
+  const isInView = useInView(ref, { once: true, margin: "-60px" });
+  return (
+    <motion.div
+      ref={ref}
+      className={className}
+      style={style}
+      initial={{ opacity: 0, y }}
+      animate={isInView ? { opacity: 1, y: 0 } : { opacity: 0, y }}
+      transition={{ duration: 0.6, delay, ease: [0.16, 1, 0.3, 1] }}
+    >
+      {children}
+    </motion.div>
+  );
+}
 
 type TranslateFn = <T extends React.ReactNode>(ko: T, en: T) => T;
 
@@ -676,7 +693,7 @@ export default function AuditionPage() {
             Audition
           </motion.h1>
           <motion.p
-            className="text-white/60 font-light max-w-xl"
+            className="text-white/60 font-normal max-w-xl"
             style={{ fontSize: "18px", lineHeight: 1.6 }}
             initial={{ opacity: 0, y: 20 }}
             animate={{ opacity: 1, y: 0 }}
@@ -687,37 +704,71 @@ export default function AuditionPage() {
               <>IST Entertainment is looking for future stars with passion and talent.<br />Take the first step toward your dream with us.</>
             )}
           </motion.p>
+          <motion.div
+            className="flex items-center gap-[7px] mt-[30px]"
+            initial={{ opacity: 0, y: 20 }}
+            animate={{ opacity: 1, y: 0 }}
+            transition={{ duration: 0.6, delay: 0.2 }}
+          >
+            <a
+              href="https://www.instagram.com/istent_audition"
+              target="_blank"
+              rel="noopener noreferrer"
+              className="w-[40px] h-[40px] rounded-full border border-white/30 flex items-center justify-center text-white/80 hover:text-[var(--accent)] hover:border-[var(--accent)] transition-colors"
+            >
+              <svg width="20" height="20" viewBox="0 0 20 20" fill="none" xmlns="http://www.w3.org/2000/svg">
+                <rect x="2.75" y="2.75" width="14.5" height="14.5" rx="4.25" stroke="currentColor" strokeWidth="1.5" fill="none" />
+                <circle cx="10" cy="10" r="3.5" stroke="currentColor" strokeWidth="1.2" fill="none" />
+                <circle cx="14.5" cy="5.5" r="1" fill="currentColor" />
+              </svg>
+            </a>
+            <a
+              href="https://x.com/istent_audition"
+              target="_blank"
+              rel="noopener noreferrer"
+              className="w-[40px] h-[40px] rounded-full border border-white/30 flex items-center justify-center text-white/80 hover:text-[var(--accent)] hover:border-[var(--accent)] transition-colors"
+            >
+              <svg width="20" height="20" viewBox="0 0 20 20" fill="none" xmlns="http://www.w3.org/2000/svg">
+                <path d="M10.477 8.618 17.03 1h-1.553l-5.69 6.615L5.242 1H0l6.873 10.002L0 18.991h1.553l6.009-6.985L12.362 18.991h5.242L10.476 8.618Zm-2.127 2.472-.697-.996L2.113 2.169h2.385l4.471 6.396.697.996 5.812 8.31h-2.385l-4.743-6.781Z" fill="currentColor" />
+              </svg>
+            </a>
+            <a
+              href="https://www.youtube.com/@ISTentARTISTDEVELOPMENT"
+              target="_blank"
+              rel="noopener noreferrer"
+              className="w-[40px] h-[40px] rounded-full border border-white/30 flex items-center justify-center text-white/80 hover:text-[var(--accent)] hover:border-[var(--accent)] transition-colors"
+            >
+              <svg width="20" height="20" viewBox="0 0 20 20" fill="none" xmlns="http://www.w3.org/2000/svg">
+                <path d="M17.619 5.972a2.31 2.31 0 0 0-1.591-1.591C14.635 4 9.993 4 9.993 4s-4.628 0-6.021.381A2.31 2.31 0 0 0 2.368 5.972C2 7.366 2 10.298 2 10.298s0 2.931.368 4.338a2.31 2.31 0 0 0 1.604 1.591c1.394.382 6.021.382 6.021.382s4.641 0 6.035-.382a2.31 2.31 0 0 0 1.591-1.591C18 13.23 18 10.298 18 10.298s0-2.932-.381-4.326ZM8.205 13.007V7.603l4.668 2.695-4.668 2.71Z" fill="currentColor" />
+              </svg>
+            </a>
+          </motion.div>
         </div>
       </section>
 
       {/* Gap */}
-      <div className="h-[80px] md:h-[140px]" />
+      <div className="h-[60px]" />
 
       {/* Categories Section */}
       <section className="border-t border-white/10">
         <div className="content-padding" style={{ paddingTop: "40px", paddingBottom: "40px" }}>
           <div className="grid grid-cols-12 gap-[24px]">
-            <div className="col-span-12 md:col-span-3">
+            <FadeIn className="col-span-12 md:col-span-3">
               <h2 className="text-sm text-white/40 tracking-wider uppercase">
                 {t("분야", "Categories")}
               </h2>
-            </div>
+            </FadeIn>
             <div className="col-span-12 md:col-span-9 md:col-start-4">
               <div className="grid grid-cols-1 md:grid-cols-2 gap-[24px]">
                 {auditionInfo.categories.map((category, index) => (
-                  <motion.div
-                    key={index}
-                    initial={{ opacity: 0, y: 20 }}
-                    animate={{ opacity: 1, y: 0 }}
-                    transition={{ duration: 0.4, delay: 0.1 + index * 0.05 }}
-                  >
+                  <FadeIn key={index} delay={index * 0.05}>
                     <h3 className="text-2xl md:text-3xl font-light text-white" style={{ marginBottom: "4px" }}>
                       {category.title}
                     </h3>
                     <p className="text-white/50 text-sm leading-relaxed">
                       {category.description}
                     </p>
-                  </motion.div>
+                  </FadeIn>
                 ))}
               </div>
             </div>
@@ -729,24 +780,20 @@ export default function AuditionPage() {
       <section className="border-t border-white/10">
         <div className="content-padding" style={{ paddingTop: "40px", paddingBottom: "40px" }}>
           <div className="grid grid-cols-12 gap-[24px]">
-            <div className="col-span-12 md:col-span-3">
+            <FadeIn className="col-span-12 md:col-span-3">
               <h2 className="text-sm text-white/40 tracking-wider uppercase">
                 {t("자격 요건", "Requirements")}
               </h2>
-            </div>
+            </FadeIn>
             <div className="col-span-12 md:col-span-6 md:col-start-4">
               <ul className="space-y-4">
                 {auditionInfo.requirements.map((req, index) => (
-                  <motion.li
-                    key={index}
-                    className="flex items-start gap-3 text-white/70 text-base"
-                    initial={{ opacity: 0, x: -10 }}
-                    animate={{ opacity: 1, x: 0 }}
-                    transition={{ duration: 0.4, delay: 0.1 + index * 0.05 }}
-                  >
-                    <span className="text-white/40">-</span>
-                    <span>{req}</span>
-                  </motion.li>
+                  <FadeIn key={index} delay={index * 0.05} y={15}>
+                    <li className="flex items-start gap-3 text-white/70 text-base">
+                      <span className="text-white/40">-</span>
+                      <span>{req}</span>
+                    </li>
+                  </FadeIn>
                 ))}
               </ul>
             </div>
@@ -758,27 +805,21 @@ export default function AuditionPage() {
       <section className="border-t border-white/10">
         <div className="content-padding" style={{ paddingTop: "40px", paddingBottom: "40px" }}>
           <div className="grid grid-cols-12 gap-[24px]">
-            <div className="col-span-12 md:col-span-3">
+            <FadeIn className="col-span-12 md:col-span-3">
               <h2 className="text-sm text-white/40 tracking-wider uppercase">
                 {t("절차", "Process")}
               </h2>
-            </div>
+            </FadeIn>
             <div className="col-span-12 md:col-span-9 md:col-start-4">
               <div className="grid grid-cols-2 md:grid-cols-4 gap-[24px]">
                 {auditionInfo.process.map((item, index) => (
-                  <motion.div
-                    key={item.step}
-                    className="relative"
-                    initial={{ opacity: 0, y: 20 }}
-                    animate={{ opacity: 1, y: 0 }}
-                    transition={{ duration: 0.4, delay: 0.1 + index * 0.08 }}
-                  >
+                  <FadeIn key={item.step} delay={index * 0.08} className="relative">
                     <span className="text-5xl md:text-6xl font-light text-white/10 block mb-1">
                       {item.step}
                     </span>
                     <h3 className="text-white text-lg font-light mb-1">{item.title}</h3>
                     <p className="text-white/40 text-sm">{item.description}</p>
-                  </motion.div>
+                  </FadeIn>
                 ))}
               </div>
             </div>
@@ -790,12 +831,12 @@ export default function AuditionPage() {
       <section className="border-t border-white/10">
         <div className="content-padding" style={{ paddingTop: "40px", paddingBottom: "40px" }}>
           <div className="grid grid-cols-12 gap-[24px]">
-            <div className="col-span-12 md:col-span-3">
+            <FadeIn className="col-span-12 md:col-span-3">
               <h2 className="text-sm text-white/40 tracking-wider uppercase">
                 FAQ
               </h2>
-            </div>
-            <div className="col-span-12 md:col-span-9 md:col-start-4">
+            </FadeIn>
+            <FadeIn className="col-span-12 md:col-span-9 md:col-start-4">
               <div className="flex flex-col gap-6">
                 {auditionInfo.faq.map((item, index) => (
                   <div key={index}>
@@ -836,7 +877,7 @@ export default function AuditionPage() {
                   </div>
                 ))}
               </div>
-            </div>
+            </FadeIn>
           </div>
         </div>
       </section>
@@ -846,50 +887,47 @@ export default function AuditionPage() {
         <div className="content-padding" style={{ paddingTop: "80px", paddingBottom: "80px" }}>
           <div className="grid grid-cols-12 gap-[24px]">
             <div className="col-span-12 md:col-span-8 md:col-start-3 text-center">
-              <motion.h2
-                className="text-white font-light"
-                style={{ fontSize: "24px", marginBottom: "10px" }}
-                initial={{ opacity: 0, y: 20 }}
-                animate={{ opacity: 1, y: 0 }}
-                transition={{ duration: 0.6 }}
-              >
-                {t("지금 바로 지원하세요", "Apply Now")}
-              </motion.h2>
-              <motion.p
-                className="text-white/50"
-                style={{ fontSize: "16px", marginBottom: "30px" }}
-                initial={{ opacity: 0, y: 20 }}
-                animate={{ opacity: 1, y: 0 }}
-                transition={{ duration: 0.6, delay: 0.1 }}
-              >
-                {t(
-                  "온라인으로 간편하게 오디션에 지원할 수 있습니다.",
-                  "You can easily apply for auditions online."
-                )}
-                <br />
-                {t("프로필과 영상을 준비해주세요.", "Please prepare your profile and video.")}
-              </motion.p>
-              <motion.button
-                onClick={() => setIsApplyModalOpen(true)}
-                className="text-white text-sm transition-all duration-200"
-                style={{
-                  height: "24px",
-                  paddingLeft: "16px",
-                  paddingRight: "16px",
-                  backgroundColor: "#ff1f5d",
-                }}
-                initial={{ opacity: 0, y: 20 }}
-                animate={{ opacity: 1, y: 0 }}
-                transition={{ duration: 0.6, delay: 0.2 }}
-                onMouseEnter={(e) => {
-                  e.currentTarget.style.opacity = "0.8";
-                }}
-                onMouseLeave={(e) => {
-                  e.currentTarget.style.opacity = "1";
-                }}
-              >
-                {t("오디션 지원하기", "Apply for Audition")}
-              </motion.button>
+              <FadeIn>
+                <h2
+                  className="text-white font-light"
+                  style={{ fontSize: "24px", marginBottom: "10px" }}
+                >
+                  {t("지금 바로 지원하세요", "Apply Now")}
+                </h2>
+              </FadeIn>
+              <FadeIn delay={0.1}>
+                <p
+                  className="text-white/50"
+                  style={{ fontSize: "16px", marginBottom: "30px" }}
+                >
+                  {t(
+                    "온라인으로 간편하게 오디션에 지원할 수 있습니다.",
+                    "You can easily apply for auditions online."
+                  )}
+                  <br />
+                  {t("프로필과 영상을 준비해주세요.", "Please prepare your profile and video.")}
+                </p>
+              </FadeIn>
+              <FadeIn delay={0.2}>
+                <button
+                  onClick={() => setIsApplyModalOpen(true)}
+                  className="text-white text-sm transition-all duration-200"
+                  style={{
+                    height: "24px",
+                    paddingLeft: "16px",
+                    paddingRight: "16px",
+                    backgroundColor: "#ff1f5d",
+                  }}
+                  onMouseEnter={(e) => {
+                    e.currentTarget.style.opacity = "0.8";
+                  }}
+                  onMouseLeave={(e) => {
+                    e.currentTarget.style.opacity = "1";
+                  }}
+                >
+                  {t("오디션 지원하기", "Apply for Audition")}
+                </button>
+              </FadeIn>
             </div>
           </div>
         </div>

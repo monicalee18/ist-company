@@ -1,6 +1,7 @@
 "use client";
 
-import { motion } from "framer-motion";
+import { useRef, useState } from "react";
+import { motion, useScroll, useTransform, useInView, AnimatePresence } from "framer-motion";
 import Image from "next/image";
 import { useLanguage } from "@/context/LanguageContext";
 
@@ -17,6 +18,18 @@ const artists = [
       youtube: "https://www.youtube.com/@official_TUNEXX",
       website: "https://www.tunexx.co.kr",
     },
+    members: [
+      { name: "Donggyu", nameKo: "동규", birth: "2005.03.16", photo: "/artists/tunexx-members/donggyu.jpg" },
+      { name: "Inhu", nameKo: "인후", birth: "2005.01.22", photo: "/artists/tunexx-members/inhu.jpg" },
+      { name: "Taira", nameKo: "타이라", birth: "2005.04.03", photo: "/artists/tunexx-members/taira.jpg" },
+      { name: "Sungjun", nameKo: "성준", birth: "2005.07.18", photo: "/artists/tunexx-members/sungjun.jpg" },
+      { name: "Zeon", nameKo: "제온", birth: "2005.07.20", photo: "/artists/tunexx-members/zeon.jpg" },
+      { name: "Sihwan", nameKo: "시환", birth: "2005.11.28", photo: "/artists/tunexx-members/sihwan.jpg" },
+      { name: "Arctic", nameKo: "아틱", birth: "2008.10.09", photo: "/artists/tunexx-members/arctic.jpg" },
+    ],
+    albums: [
+      { title: "Set By Us Only", type: "1st Mini Album", release: "2026.02.17", cover: "/artists/tunexx-albums/set-by-us-only.jpg" },
+    ],
   },
 ];
 
@@ -106,12 +119,26 @@ function SocialIcon({
   );
 }
 
+const tabs = ["Member", "Album", "Music Video"] as const;
+type Tab = typeof tabs[number];
+
 export default function ArtistPage() {
   const { t } = useLanguage();
   const artist = artists[0];
+  const [activeTab, setActiveTab] = useState<Tab>("Member");
+
+  const photoRef = useRef<HTMLDivElement>(null);
+  const tabsRef = useRef<HTMLDivElement>(null);
+  const tabsInView = useInView(tabsRef, { once: true, margin: "-60px" });
+
+  const { scrollYProgress } = useScroll({
+    target: photoRef,
+    offset: ["start end", "end start"],
+  });
+  const photoY = useTransform(scrollYProgress, [0, 1], ["-5%", "5%"]);
 
   return (
-    <div className="h-screen bg-black flex flex-col pb-[60px]">
+    <div className="min-h-screen bg-black flex flex-col pb-[60px]">
       {/* Upper Section - Artist Info */}
       <motion.div
         className="flex flex-col items-center justify-center gap-[40px] pt-[115px] pb-[40px]"
@@ -120,12 +147,12 @@ export default function ArtistPage() {
         transition={{ duration: 0.6, ease: "easeOut" }}
       >
         {/* Artists Label */}
-        <p className="text-white text-[18px] font-normal leading-[1.2] text-center font-[family-name:var(--font-geist-sans)]">
+        <p className="text-white text-[18px] font-normal leading-[1.2] text-center font-[family-name:var(--font-aspekta)]">
           Artist
         </p>
 
         {/* Artist Logo */}
-        <div className="w-[300px] h-[53px] relative">
+        <div className="w-[50vw] max-w-[300px] aspect-[300/53] relative">
           <Image
             src={artist.logo}
             alt={artist.name}
@@ -148,23 +175,171 @@ export default function ArtistPage() {
       {/* Divider */}
       <div className="w-full border-t border-white/20" />
 
-      {/* Artist Photo */}
+      {/* Artist Photo - Parallax */}
       <motion.div
-        className="flex-1 relative content-padding mt-[40px] min-h-0"
+        ref={photoRef}
+        className="relative content-padding mt-[40px] overflow-hidden"
         initial={{ opacity: 0 }}
         animate={{ opacity: 1 }}
         transition={{ duration: 0.8, delay: 0.3 }}
       >
-        <div className="relative w-full h-full overflow-hidden">
+        <motion.div style={{ y: photoY }}>
           <Image
             src={artist.photo}
             alt={artist.name}
-            fill
-            className="object-cover object-top"
+            width={0}
+            height={0}
             sizes="100vw"
+            className="w-full h-auto scale-110"
             priority
           />
+        </motion.div>
+      </motion.div>
+
+      {/* Tabs */}
+      <motion.div
+        ref={tabsRef}
+        className="content-padding mt-[60px]"
+        initial={{ opacity: 0, y: 30 }}
+        animate={tabsInView ? { opacity: 1, y: 0 } : { opacity: 0, y: 30 }}
+        transition={{ duration: 0.8, ease: [0.16, 1, 0.3, 1] }}
+      >
+        <div className="flex gap-[8px] mb-[32px]">
+          {tabs.map((tab) => (
+            <button
+              key={tab}
+              onClick={() => setActiveTab(tab)}
+              className="text-[16px] text-white transition-all duration-300"
+              style={{
+                height: "32px",
+                paddingLeft: "16px",
+                paddingRight: "16px",
+                borderRadius: "9999px",
+                backgroundColor: activeTab === tab ? "var(--accent)" : "#252525",
+                border: activeTab === tab ? "1px solid var(--accent)" : "1px solid transparent",
+                fontFamily: "var(--font-aspekta)",
+              }}
+              onMouseEnter={(e) => {
+                if (activeTab !== tab) {
+                  e.currentTarget.style.backgroundColor = "#000";
+                  e.currentTarget.style.borderColor = "#fff";
+                }
+              }}
+              onMouseLeave={(e) => {
+                if (activeTab !== tab) {
+                  e.currentTarget.style.backgroundColor = "#252525";
+                  e.currentTarget.style.borderColor = "transparent";
+                }
+              }}
+            >
+              {tab}
+            </button>
+          ))}
         </div>
+
+        {/* Tab Content */}
+        <AnimatePresence mode="wait">
+          {activeTab === "Member" && (
+            <motion.div
+              key="member"
+              initial={{ opacity: 0, y: 15 }}
+              animate={{ opacity: 1, y: 0 }}
+              exit={{ opacity: 0, y: -10 }}
+              transition={{ duration: 0.4, ease: [0.16, 1, 0.3, 1] }}
+              className="grid grid-cols-2 md:grid-cols-4 gap-[16px] md:gap-[20px]"
+            >
+              {artist.members.map((member, index) => (
+                <motion.div
+                  key={member.name}
+                  initial={{ opacity: 0, y: 20 }}
+                  animate={{ opacity: 1, y: 0 }}
+                  transition={{ duration: 0.5, delay: index * 0.07 }}
+                >
+                  <div className="relative aspect-[4/3] overflow-hidden">
+                    <Image
+                      src={member.photo}
+                      alt={member.name}
+                      fill
+                      sizes="(max-width: 768px) 50vw, 25vw"
+                      className="object-cover"
+                    />
+                  </div>
+                  <div className="pt-[10px] pb-[10px]" style={{ borderBottom: "1px solid var(--accent)" }}>
+                    <p
+                      className="text-white font-medium"
+                      style={{ fontSize: "clamp(14px, 4.1vw, 16px)", fontFamily: "var(--font-aspekta)" }}
+                    >
+                      {t(member.nameKo, member.name)}
+                    </p>
+                    <p className="text-white/40 mt-[2px]" style={{ fontSize: "clamp(12px, 3.6vw, 14px)" }}>
+                      {member.birth}
+                    </p>
+                  </div>
+                </motion.div>
+              ))}
+            </motion.div>
+          )}
+
+          {activeTab === "Album" && (
+            <motion.div
+              key="album"
+              initial={{ opacity: 0, y: 15 }}
+              animate={{ opacity: 1, y: 0 }}
+              exit={{ opacity: 0, y: -10 }}
+              transition={{ duration: 0.4, ease: [0.16, 1, 0.3, 1] }}
+              className="grid grid-cols-1 md:grid-cols-4 gap-[16px] md:gap-[20px]"
+            >
+              {artist.albums.map((album, index) => (
+                <motion.div
+                  key={album.title}
+                  initial={{ opacity: 0, y: 20 }}
+                  animate={{ opacity: 1, y: 0 }}
+                  transition={{ duration: 0.5, delay: index * 0.07 }}
+                >
+                  <div className="relative w-full aspect-square">
+                    <Image
+                      src={album.cover}
+                      alt={album.title}
+                      fill
+                      sizes="(max-width: 768px) 100vw, 25vw"
+                      className="object-cover"
+                    />
+                  </div>
+                  <p
+                    className="text-white text-[14px] md:text-[15px] font-medium mt-[10px]"
+                    style={{ fontFamily: "var(--font-aspekta)" }}
+                  >
+                    {album.title}
+                  </p>
+                  <p className="text-white/40 text-[12px] mt-[2px]">
+                    {album.release}
+                  </p>
+                </motion.div>
+              ))}
+            </motion.div>
+          )}
+
+          {activeTab === "Music Video" && (
+            <motion.div
+              key="mv"
+              initial={{ opacity: 0, y: 15 }}
+              animate={{ opacity: 1, y: 0 }}
+              exit={{ opacity: 0, y: -10 }}
+              transition={{ duration: 0.4, ease: [0.16, 1, 0.3, 1] }}
+              className="w-full"
+            >
+              <div className="relative w-full" style={{ aspectRatio: "16/9" }}>
+                <iframe
+                  src="https://www.youtube.com/embed/cQESe4Jc0rE"
+                  title="TUNEXX Music Video"
+                  className="absolute inset-0 w-full h-full"
+                  allow="accelerometer; autoplay; clipboard-write; encrypted-media; gyroscope; picture-in-picture"
+                  allowFullScreen
+                />
+              </div>
+            </motion.div>
+          )}
+        </AnimatePresence>
       </motion.div>
     </div>
   );
