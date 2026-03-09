@@ -28,7 +28,7 @@ function NewsItem({ item, index, getTitle }: { item: typeof newsData[number]; in
         href={item.link}
         target="_blank"
         rel="noopener noreferrer"
-        className="group hidden md:grid"
+        className="group hidden md:grid transition-colors duration-200 hover:bg-[#171717]"
         style={{
           gridTemplateColumns: "repeat(12, 1fr)",
           gap: "24px",
@@ -80,7 +80,7 @@ function NewsItem({ item, index, getTitle }: { item: typeof newsData[number]; in
         href={item.link}
         target="_blank"
         rel="noopener noreferrer"
-        className="group flex flex-col md:hidden"
+        className="group flex flex-col md:hidden transition-colors duration-200 hover:bg-[#171717]"
         style={{
           paddingTop: "24px",
           paddingBottom: "24px",

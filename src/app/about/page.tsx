@@ -218,8 +218,8 @@ export default function AboutPage() {
         </FadeIn>
       </section>
 
-      {/* Gap: 40px mobile, 60px desktop */}
-      <div className="h-[40px] md:h-[60px]" />
+      {/* Gap: 80px */}
+      <div className="h-[80px]" />
 
       {/* Section 4: Image Slider - Former Artists */}
       <section
@@ -260,7 +260,7 @@ export default function AboutPage() {
                 </span>
                 <span
                   className="text-white/70 font-sans"
-                  style={{ fontSize: "12px", marginLeft: "8px" }}
+                  style={{ fontSize: "12px", marginLeft: "4px" }}
                 >
                   {image.debut}
                 </span>
