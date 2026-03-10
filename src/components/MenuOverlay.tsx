@@ -470,7 +470,7 @@ export default function MenuOverlay() {
                     variants={newsItemVariants}
                   >
                     <Link
-                      href={`/news#news-${news.id}`}
+                      href={`/news?highlight=${news.id}`}
                       onClick={closeMenu}
                       className="group block transition-all hover:border-[#C7C7C7]"
                       style={{
@@ -678,7 +678,7 @@ export default function MenuOverlay() {
                 {latestNews.map((news) => (
                   <Link
                     key={news.id}
-                    href={`/news#news-${news.id}`}
+                    href={`/news?highlight=${news.id}`}
                     onClick={closeMenu}
                     className="flex-shrink-0 w-[240px] transition-all"
                     style={{

@@ -1,6 +1,7 @@
 "use client";
 
 import { useRef, useState, useEffect, useCallback } from "react";
+import { useSearchParams, useRouter } from "next/navigation";
 import { motion, useInView } from "framer-motion";
 import Image from "next/image";
 import { useLanguage } from "@/context/LanguageContext";
@@ -17,17 +18,16 @@ function NewsItem({ item, index, getTitle, isTranslating, highlight }: { item: t
   useEffect(() => {
     if (highlight && !highlightedRef.current && ref.current) {
       highlightedRef.current = true;
+      // Highlight immediately before scrolling
+      setBgColor("#171717");
       const lenis = (window as unknown as Record<string, unknown>).__lenis as { scrollTo?: (target: HTMLElement, options?: Record<string, unknown>) => void } | undefined;
       if (lenis?.scrollTo) {
         lenis.scrollTo(ref.current, { offset: -window.innerHeight / 3, duration: 1.5 });
       } else {
         ref.current.scrollIntoView({ behavior: "smooth", block: "center" });
       }
-      // Delay highlight start until scroll finishes
-      setTimeout(() => {
-        setBgColor("#171717");
-        setTimeout(() => setBgColor("transparent"), 1500);
-      }, 800);
+      // Fade out after scroll arrives (~1.5s scroll + 1s hold)
+      setTimeout(() => setBgColor("transparent"), 2500);
     }
   }, [highlight]);
 
@@ -143,29 +143,33 @@ function NewsItem({ item, index, getTitle, isTranslating, highlight }: { item: t
 
 export default function NewsClient() {
   const { language, t } = useLanguage();
+  const searchParams = useSearchParams();
+  const router = useRouter();
   const [visibleCount, setVisibleCount] = useState(PAGE_SIZE);
   const [translatedTitles, setTranslatedTitles] = useState<Record<string, string>>({});
   const [isTranslating, setIsTranslating] = useState(false);
   const [highlightIndex, setHighlightIndex] = useState<number | null>(null);
+  const processedHighlight = useRef<string | null>(null);
 
   useEffect(() => {
-    const hash = window.location.hash;
-    if (hash.startsWith("#news-")) {
-      const idx = parseInt(hash.replace("#news-", ""), 10);
-      if (!isNaN(idx)) {
-        if (idx >= visibleCount) {
-          setVisibleCount(idx + 1);
-        }
-        // Delay to allow rendering
-        setTimeout(() => setHighlightIndex(idx), 300);
-        // Clear hash after highlight
-        setTimeout(() => {
-          setHighlightIndex(null);
-          history.replaceState(null, "", window.location.pathname);
-        }, 2500);
-      }
+    const highlight = searchParams.get("highlight");
+    if (!highlight || highlight === processedHighlight.current) return;
+    processedHighlight.current = highlight;
+
+    const idx = parseInt(highlight, 10);
+    if (isNaN(idx)) return;
+
+    if (idx >= visibleCount) {
+      setVisibleCount(idx + 1);
     }
-  }, []);
+    // Delay to allow rendering
+    setTimeout(() => setHighlightIndex(idx), 300);
+    // Clear param after highlight
+    setTimeout(() => {
+      setHighlightIndex(null);
+      router.replace("/news", { scroll: false });
+    }, 2500);
+  }, [searchParams, visibleCount, router]);
 
   const translateTitles = useCallback(async (titles: string[]) => {
     const untranslated = titles.filter((title) => !translatedTitles[title]);

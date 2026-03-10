@@ -1,7 +1,7 @@
 "use client";
 
 import { useRef, useState, useEffect } from "react";
-import { motion, useScroll, useTransform } from "framer-motion";
+import { motion, useScroll, useTransform, useMotionValue, useMotionValueEvent } from "framer-motion";
 import Image from "next/image";
 import Link from "next/link";
 import { useLanguage } from "@/context/LanguageContext";
@@ -88,11 +88,18 @@ const HERO_IMAGES = [
 
 const CYCLE_INTERVAL = 3000;
 
+function lerp(a: number, b: number, t: number) {
+  return a + (b - a) * Math.max(0, Math.min(1, t));
+}
+
 export default function HomeClient() {
   const { t } = useLanguage();
   const [currentImage, setCurrentImage] = useState(0);
 
   const containerRef = useRef<HTMLDivElement>(null);
+  const inlineImageRef = useRef<HTMLDivElement>(null);
+  const imageRectRef = useRef<DOMRect | null>(null);
+  const [expanding, setExpanding] = useState(false);
 
   // Image cycling - instant switch
   useEffect(() => {
@@ -108,10 +115,61 @@ export default function HomeClient() {
     offset: ["start start", "end start"],
   });
 
-  // Hero content fades out, fullscreen image fades in then out
-  const heroContentOpacity = useTransform(scrollYProgress, [0, 0.12], [1, 0]);
-  const fullscreenOpacity = useTransform(scrollYProgress, [0.05, 0.15, 0.7, 1], [0, 1, 1, 0]);
-  const fullscreenScale = useTransform(scrollYProgress, [0.05, 0.4], [0.3, 1]);
+  // Hero text fades out later — stays visible longer while image expands
+  const heroContentOpacity = useTransform(scrollYProgress, [0.1, 0.3], [1, 0]);
+
+  // Motion values for the expanding fixed image
+  const imgTop = useMotionValue(0);
+  const imgRight = useMotionValue(0);
+  const imgWidth = useMotionValue(0);
+  const imgHeight = useMotionValue(0);
+  const imgOpacity = useMotionValue(0);
+
+  // Imperatively update expanding image based on scroll
+  useMotionValueEvent(scrollYProgress, "change", (progress) => {
+    // On first scroll: measure inline image and activate overlay
+    if (progress > 0 && !imageRectRef.current && inlineImageRef.current) {
+      imageRectRef.current = inlineImageRef.current.getBoundingClientRect();
+      setExpanding(true);
+    }
+
+    const rect = imageRectRef.current;
+    if (!rect) return;
+
+    const vw = window.innerWidth;
+    const vh = window.innerHeight;
+    const initialRight = vw - rect.right;
+
+    // Expand: 0 → 0.35
+    const expandT = Math.max(0, Math.min(1, progress / 0.35));
+    imgTop.set(lerp(rect.top, 0, expandT));
+    imgRight.set(lerp(initialRight, 0, expandT));
+    imgWidth.set(lerp(rect.width, vw, expandT));
+    imgHeight.set(lerp(rect.height, vh, expandT));
+
+    // Opacity: visible when scrolling, fade out at end
+    if (progress <= 0) {
+      imgOpacity.set(0);
+      // Reset measurement when back to top
+      imageRectRef.current = null;
+      setExpanding(false);
+    } else if (progress <= 0.7) {
+      imgOpacity.set(1);
+    } else {
+      imgOpacity.set(lerp(1, 0, (progress - 0.7) / 0.3));
+    }
+  });
+
+  // Re-measure on resize
+  useEffect(() => {
+    const onResize = () => {
+      if (inlineImageRef.current && scrollYProgress.get() === 0) {
+        imageRectRef.current = null;
+      }
+    };
+    window.addEventListener("resize", onResize);
+    return () => window.removeEventListener("resize", onResize);
+  }, [scrollYProgress]);
 
   return (
     <>
@@ -159,14 +217,16 @@ export default function HomeClient() {
                     </h1>
                   </div>
 
-                  {/* Inline image in grid */}
+                  {/* Inline image — visible at scroll 0, overlay takes over on scroll */}
                   <div
+                    ref={inlineImageRef}
                     className="relative overflow-hidden"
                     style={{
                       gridColumn: "10 / 13",
                       height: "9vw",
                       aspectRatio: "16 / 9",
                       marginLeft: "auto",
+                      visibility: expanding ? "hidden" : "visible",
                     }}
                   >
                     <Image
@@ -237,27 +297,25 @@ export default function HomeClient() {
             </div>
           </motion.div>
 
-          {/* Fullscreen image overlay - scales up on scroll */}
+          {/* Expanding image — appears on scroll, grows from inline position to fullscreen */}
           <motion.div
-            className="absolute inset-0 z-20 overflow-hidden pointer-events-none"
+            className="z-20 overflow-hidden pointer-events-none"
             style={{
-              opacity: fullscreenOpacity,
+              position: "fixed",
+              top: imgTop,
+              right: imgRight,
+              width: imgWidth,
+              height: imgHeight,
+              opacity: imgOpacity,
             }}
           >
-            <motion.div
-              className="absolute inset-0"
-              style={{
-                scale: fullscreenScale,
-              }}
-            >
-              <Image
-                src={HERO_IMAGES[currentImage]}
-                alt="IST Entertainment"
-                fill
-                className="object-cover"
-                sizes="100vw"
-              />
-            </motion.div>
+            <Image
+              src={HERO_IMAGES[currentImage]}
+              alt="IST Entertainment"
+              fill
+              className="object-cover"
+              sizes="100vw"
+            />
           </motion.div>
         </div>
       </div>
