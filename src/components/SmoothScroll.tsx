@@ -13,6 +13,7 @@ export default function SmoothScroll({ children }: { children: React.ReactNode }
       smoothWheel: true,
     });
     lenisRef.current = lenis;
+    (window as unknown as Record<string, unknown>).__lenis = lenis;
 
     // Add lenis class to html element
     document.documentElement.classList.add("lenis");

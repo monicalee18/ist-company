@@ -17,7 +17,10 @@ const aspekta = localFont({
 });
 
 export const metadata: Metadata = {
-  title: "IST COMPANY",
+  title: {
+    default: "IST COMPANY",
+    template: "%s | IST COMPANY",
+  },
   description: "IST Entertainment - K-Pop Entertainment Company",
   icons: {
     icon: "/favicon.ico",
@@ -54,6 +57,25 @@ export default function RootLayout({
       <body
         className={`${aspekta.variable} antialiased`}
       >
+        <script
+          type="application/ld+json"
+          dangerouslySetInnerHTML={{
+            __html: JSON.stringify({
+              "@context": "https://schema.org",
+              "@type": "EntertainmentBusiness",
+              name: "IST Entertainment",
+              alternateName: "IST COMPANY",
+              url: "https://ist-company.vercel.app",
+              logo: "https://ist-company.vercel.app/og-image.png",
+              description: "K-Pop Entertainment Company specializing in creative direction, strategic management, and global production.",
+              foundingDate: "2006",
+              sameAs: [
+                "https://www.instagram.com/ist_entertainment",
+                "https://x.com/ist_ent",
+              ],
+            }),
+          }}
+        />
         <LanguageProvider>
           <MenuProvider>
             <IntroAnimation />
