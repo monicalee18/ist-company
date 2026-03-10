@@ -205,7 +205,7 @@ export default function HomeClient() {
                 >
                   <div style={{ gridColumn: "1 / 10" }}>
                     <h1
-                      className="text-white uppercase font-[family-name:var(--font-aspekta)] whitespace-nowrap"
+                      className="text-white font-[family-name:var(--font-aspekta)] whitespace-nowrap"
                       style={{
                         fontSize: "9vw",
                         fontWeight: 600,
@@ -213,7 +213,7 @@ export default function HomeClient() {
                         letterSpacing: "-0.02em",
                       }}
                     >
-                      SHAPE CULTURE
+                      Shape Culture
                     </h1>
                   </div>
 
@@ -244,7 +244,7 @@ export default function HomeClient() {
                   initial={{ opacity: 0, y: 30 }}
                   animate={{ opacity: 1, y: 0 }}
                   transition={{ duration: 1.2, delay: 0.2, ease: [0.16, 1, 0.3, 1] }}
-                  className="text-white uppercase font-[family-name:var(--font-aspekta)]"
+                  className="text-white font-[family-name:var(--font-aspekta)]"
                   style={{
                     fontSize: "9vw",
                     fontWeight: 600,
@@ -253,7 +253,7 @@ export default function HomeClient() {
                     marginTop: "0.5vw",
                   }}
                 >
-                  BREAK BOUNDARIES
+                  Break Boundaries
                 </motion.h1>
               </div>
 
@@ -335,7 +335,7 @@ export default function HomeClient() {
             initial={{ opacity: 0, y: 30 }}
             animate={{ opacity: 1, y: 0 }}
             transition={{ duration: 1.2, ease: [0.16, 1, 0.3, 1] }}
-            className="text-white uppercase font-[family-name:var(--font-aspekta)]"
+            className="text-white font-[family-name:var(--font-aspekta)]"
             style={{
               fontSize: "clamp(36px, 11vw, 56px)",
               fontWeight: 600,
@@ -343,13 +343,13 @@ export default function HomeClient() {
               letterSpacing: "-0.02em",
             }}
           >
-            SHAPE CULTURE
+            Shape Culture
           </motion.h1>
           <motion.h1
             initial={{ opacity: 0, y: 30 }}
             animate={{ opacity: 1, y: 0 }}
             transition={{ duration: 1.2, delay: 0.2, ease: [0.16, 1, 0.3, 1] }}
-            className="text-white uppercase font-[family-name:var(--font-aspekta)]"
+            className="text-white font-[family-name:var(--font-aspekta)]"
             style={{
               fontSize: "clamp(36px, 11vw, 56px)",
               fontWeight: 600,
@@ -358,7 +358,7 @@ export default function HomeClient() {
               marginTop: "4px",
             }}
           >
-            BREAK BOUNDARIES
+            Break Boundaries
           </motion.h1>
 
           <div

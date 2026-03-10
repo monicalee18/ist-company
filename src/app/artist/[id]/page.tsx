@@ -1,14 +1,11 @@
 import type { Metadata } from "next";
 import { notFound } from "next/navigation";
-import { artists, getArtistById, getAllArtistIds } from "@/lib/artists";
+import { getArtistById } from "@/lib/artists";
 import ArtistDetailClient from "./ArtistDetailClient";
 
-export function generateStaticParams() {
-  return getAllArtistIds().map((id) => ({ id }));
-}
-
-export function generateMetadata({ params }: { params: { id: string } }): Metadata {
-  const artist = getArtistById(params.id);
+export async function generateMetadata({ params }: { params: Promise<{ id: string }> }): Promise<Metadata> {
+  const { id } = await params;
+  const artist = getArtistById(id);
   if (!artist) return { title: "Artist Not Found" };
 
   return {
@@ -21,7 +18,7 @@ export function generateMetadata({ params }: { params: { id: string } }): Metada
   };
 }
 
-export default async function ArtistDetailPage({ params }: { params: { id: string } }) {
+export default async function ArtistDetailPage({ params }: { params: Promise<{ id: string }> }) {
   const { id } = await params;
   const artist = getArtistById(id);
   if (!artist) notFound();
