@@ -1,4 +1,5 @@
 import type { Metadata } from "next";
+import { Suspense } from "react";
 import NewsClient from "./NewsClient";
 
 export const metadata: Metadata = {
@@ -13,5 +14,9 @@ export const metadata: Metadata = {
 };
 
 export default function NewsPage() {
-  return <NewsClient />;
+  return (
+    <Suspense>
+      <NewsClient />
+    </Suspense>
+  );
 }
