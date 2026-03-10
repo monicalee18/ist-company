@@ -1,6 +1,6 @@
 "use client";
 
-import { useRef, useState, useEffect, useCallback } from "react";
+import { useRef, useState, useEffect } from "react";
 import { motion, useScroll, useTransform } from "framer-motion";
 import Image from "next/image";
 import Link from "next/link";
@@ -93,8 +93,6 @@ export default function HomeClient() {
   const [currentImage, setCurrentImage] = useState(0);
 
   const containerRef = useRef<HTMLDivElement>(null);
-  const imageRef = useRef<HTMLDivElement>(null);
-  const [imageRect, setImageRect] = useState({ top: 0, left: 0, width: 0, height: 0 });
 
   // Image cycling - instant switch
   useEffect(() => {
@@ -104,41 +102,16 @@ export default function HomeClient() {
     return () => clearInterval(timer);
   }, []);
 
-  // Measure the inline image position
-  useEffect(() => {
-    const measure = () => {
-      if (imageRef.current) {
-        const rect = imageRef.current.getBoundingClientRect();
-        setImageRect({
-          top: rect.top + window.scrollY,
-          left: rect.left,
-          width: rect.width,
-          height: rect.height,
-        });
-      }
-    };
-    measure();
-    window.addEventListener("resize", measure);
-    return () => window.removeEventListener("resize", measure);
-  }, []);
-
   // Scroll-based animation
   const { scrollYProgress } = useScroll({
     target: containerRef,
     offset: ["start start", "end start"],
   });
 
-  // Image expands from its inline position to fullscreen
-  // scrollYProgress 0 = top, ~0.3 = image fully expanded, ~0.5+ = hold fullscreen
-  const imgTop = useTransform(scrollYProgress, [0, 0.35], [imageRect.top, 0]);
-  const imgLeft = useTransform(scrollYProgress, [0, 0.35], [imageRect.left, 0]);
-  const imgWidth = useTransform(scrollYProgress, [0, 0.35], [imageRect.width, typeof window !== "undefined" ? window.innerWidth : 1440]);
-  const imgHeight = useTransform(scrollYProgress, [0, 0.35], [imageRect.height, typeof window !== "undefined" ? window.innerHeight : 900]);
-
-  // Text fades out as image starts expanding
-  const heroContentOpacity = useTransform(scrollYProgress, [0, 0.15], [1, 0]);
-  // Fullscreen image fades out at the end to reveal footer
-  const fullscreenOpacity = useTransform(scrollYProgress, [0.7, 1], [1, 0]);
+  // Hero content fades out, fullscreen image fades in then out
+  const heroContentOpacity = useTransform(scrollYProgress, [0, 0.12], [1, 0]);
+  const fullscreenOpacity = useTransform(scrollYProgress, [0.05, 0.15, 0.7, 1], [0, 1, 1, 0]);
+  const fullscreenScale = useTransform(scrollYProgress, [0.05, 0.4], [0.3, 1]);
 
   return (
     <>
@@ -152,7 +125,7 @@ export default function HomeClient() {
             className="absolute inset-0 z-10 flex flex-col justify-between content-padding"
             style={{
               paddingTop: "calc(54px + 40px)",
-              paddingBottom: "80px",
+              paddingBottom: "calc(54px + 40px)",
               opacity: heroContentOpacity,
               pointerEvents: "auto",
             }}
@@ -186,17 +159,25 @@ export default function HomeClient() {
                     </h1>
                   </div>
 
-                  {/* Invisible placeholder to hold space for the image */}
+                  {/* Inline image in grid */}
                   <div
-                    ref={imageRef}
+                    className="relative overflow-hidden"
                     style={{
                       gridColumn: "10 / 13",
                       height: "9vw",
                       aspectRatio: "16 / 9",
                       marginLeft: "auto",
-                      visibility: "hidden",
                     }}
-                  />
+                  >
+                    <Image
+                      src={HERO_IMAGES[currentImage]}
+                      alt=""
+                      fill
+                      className="object-cover"
+                      sizes="(min-width: 768px) 33vw, 100vw"
+                      priority
+                    />
+                  </div>
                 </motion.div>
 
                 <motion.h1
@@ -256,25 +237,27 @@ export default function HomeClient() {
             </div>
           </motion.div>
 
-          {/* The expanding image - desktop only */}
+          {/* Fullscreen image overlay - scales up on scroll */}
           <motion.div
-            className="hidden md:block absolute z-20 overflow-hidden"
+            className="absolute inset-0 z-20 overflow-hidden pointer-events-none"
             style={{
-              top: imgTop,
-              left: imgLeft,
-              width: imgWidth,
-              height: imgHeight,
               opacity: fullscreenOpacity,
             }}
           >
-            <Image
-              src={HERO_IMAGES[currentImage]}
-              alt="IST Entertainment"
-              fill
-              className="object-cover"
-              sizes="100vw"
-              priority
-            />
+            <motion.div
+              className="absolute inset-0"
+              style={{
+                scale: fullscreenScale,
+              }}
+            >
+              <Image
+                src={HERO_IMAGES[currentImage]}
+                alt="IST Entertainment"
+                fill
+                className="object-cover"
+                sizes="100vw"
+              />
+            </motion.div>
           </motion.div>
         </div>
       </div>
@@ -284,7 +267,7 @@ export default function HomeClient() {
         style={{
           height: "100vh",
           paddingTop: "calc(54px + 40px)",
-          paddingBottom: "80px",
+          paddingBottom: "calc(54px + 40px)",
         }}
       >
         <FlowingLines />
