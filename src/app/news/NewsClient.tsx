@@ -81,18 +81,18 @@ function NewsItem({ item, index, getTitle, isTranslating, highlight }: { item: N
           className="overflow-hidden"
           style={{
             gridColumn: "10 / 12",
+            width: "100%",
             aspectRatio: "16 / 10",
             maxWidth: "370px",
             marginLeft: "auto",
           }}
         >
           {item.thumbnail ? (
-            <Image
+            <img
               src={item.thumbnail}
               alt={item.title}
-              width={320}
-              height={200}
               className="w-full h-full object-cover"
+              onError={(e) => { e.currentTarget.style.display = 'none'; }}
             />
           ) : (
             <div className="w-full h-full bg-white/5 flex items-center justify-center">
@@ -118,12 +118,11 @@ function NewsItem({ item, index, getTitle, isTranslating, highlight }: { item: N
       >
         <div className="overflow-hidden w-full" style={{ aspectRatio: "16 / 10" }}>
           {item.thumbnail ? (
-            <Image
+            <img
               src={item.thumbnail}
               alt={item.title}
-              width={600}
-              height={375}
               className="w-full h-full object-cover"
+              onError={(e) => { e.currentTarget.style.display = 'none'; }}
             />
           ) : (
             <div className="w-full h-full bg-white/5 flex items-center justify-center">
