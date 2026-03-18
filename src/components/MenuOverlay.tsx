@@ -7,8 +7,6 @@ import { useRouter, usePathname } from "next/navigation";
 import { useMenu } from "@/context/MenuContext";
 import { useLanguage } from "@/context/LanguageContext";
 import { motion, AnimatePresence } from "framer-motion";
-import { getLatestNews } from "@/lib/news";
-
 const menuItemsData = [
   { label: "About", href: "/about", image: "/menu/about.webp" },
   { label: "Artist", href: "/artist", image: "/menu/artist.webp" },
@@ -17,14 +15,13 @@ const menuItemsData = [
   { label: "Contact", href: "/contact", image: "/menu/contact.webp" },
 ];
 
-// Latest news from shared data
-const latestNews = getLatestNews(5).map((item, i) => ({
-  id: i,
-  date: item.pubDate,
-  title: item.title,
-  thumbnail: item.thumbnail || "",
-  link: item.link,
-}));
+interface LatestNewsItem {
+  id: number;
+  date: string;
+  title: string;
+  thumbnail: string;
+  link: string;
+}
 
 // Animation variants
 const backgroundVariants = {
@@ -156,7 +153,25 @@ export default function MenuOverlay() {
   const [mobileTransition, setMobileTransition] = useState<"idle" | "image" | "expand" | "slidedown">("idle");
 
   const menuItems = menuItemsData;
+  const [latestNews, setLatestNews] = useState<LatestNewsItem[]>([]);
   const [translatedNews, setTranslatedNews] = useState<Record<string, string>>({});
+
+  // Fetch latest news from Notion API
+  useEffect(() => {
+    fetch("/api/news")
+      .then((res) => res.json())
+      .then((data) => {
+        const items = (data.news || []).slice(0, 5).map((item: { pubDate: string; title: string; thumbnail?: string; link: string }, i: number) => ({
+          id: i,
+          date: item.pubDate,
+          title: item.title,
+          thumbnail: item.thumbnail || "",
+          link: item.link,
+        }));
+        setLatestNews(items);
+      })
+      .catch(() => {});
+  }, []);
 
   const translateNewsTitles = useCallback(async () => {
     const titles = latestNews.map((n) => n.title);
@@ -179,13 +194,13 @@ export default function MenuOverlay() {
         });
       }
     } catch { /* fallback to original */ }
-  }, [translatedNews]);
+  }, [translatedNews, latestNews]);
 
   useEffect(() => {
-    if (language === "EN" && isMenuOpen) {
+    if (language === "EN" && isMenuOpen && latestNews.length > 0) {
       translateNewsTitles();
     }
-  }, [language, isMenuOpen, translateNewsTitles]);
+  }, [language, isMenuOpen, translateNewsTitles, latestNews]);
 
   const getNewsTitle = (title: string) => {
     if (language === "EN" && translatedNews[title]) return translatedNews[title];
@@ -492,13 +507,17 @@ export default function MenuOverlay() {
                           className="flex-shrink-0 overflow-hidden"
                           style={{ width: "48px", height: "48px" }}
                         >
-                          <Image
-                            src={news.thumbnail}
-                            alt={news.title}
-                            width={48}
-                            height={48}
-                            className="w-full h-full object-cover"
-                          />
+                          {news.thumbnail ? (
+                            <Image
+                              src={news.thumbnail}
+                              alt={news.title}
+                              width={48}
+                              height={48}
+                              className="w-full h-full object-cover"
+                            />
+                          ) : (
+                            <div className="w-full h-full bg-black/5" />
+                          )}
                         </div>
                         {/* Text Content */}
                         <div className="flex flex-col flex-1 min-w-0">
@@ -700,13 +719,17 @@ export default function MenuOverlay() {
                         className="flex-shrink-0 overflow-hidden"
                         style={{ width: "48px", height: "48px" }}
                       >
-                        <Image
-                          src={news.thumbnail}
-                          alt={news.title}
-                          width={48}
-                          height={48}
-                          className="w-full h-full object-cover"
-                        />
+                        {news.thumbnail ? (
+                          <Image
+                            src={news.thumbnail}
+                            alt={news.title}
+                            width={48}
+                            height={48}
+                            className="w-full h-full object-cover"
+                          />
+                        ) : (
+                          <div className="w-full h-full bg-black/5" />
+                        )}
                       </div>
                       {/* Text Content */}
                       <div className="flex flex-col flex-1 min-w-0">

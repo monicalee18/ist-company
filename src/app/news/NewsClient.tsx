@@ -5,11 +5,17 @@ import { useSearchParams, useRouter } from "next/navigation";
 import { motion, useInView } from "framer-motion";
 import Image from "next/image";
 import { useLanguage } from "@/context/LanguageContext";
-import { newsData } from "@/lib/news";
+
+interface NewsItemData {
+  title: string;
+  link: string;
+  pubDate: string;
+  thumbnail?: string;
+}
 
 const PAGE_SIZE = 10;
 
-function NewsItem({ item, index, getTitle, isTranslating, highlight }: { item: typeof newsData[number]; index: number; getTitle: (t: string) => string; isTranslating: boolean; highlight: boolean }) {
+function NewsItem({ item, index, getTitle, isTranslating, highlight }: { item: NewsItemData; index: number; getTitle: (t: string) => string; isTranslating: boolean; highlight: boolean }) {
   const ref = useRef<HTMLElement>(null);
   const isInView = useInView(ref, { once: true, margin: "-60px" });
   const [bgColor, setBgColor] = useState("transparent");
@@ -145,13 +151,27 @@ export default function NewsClient() {
   const { language, t } = useLanguage();
   const searchParams = useSearchParams();
   const router = useRouter();
+  const [allNews, setAllNews] = useState<NewsItemData[]>([]);
   const [visibleCount, setVisibleCount] = useState(PAGE_SIZE);
   const [translatedTitles, setTranslatedTitles] = useState<Record<string, string>>({});
   const [isTranslating, setIsTranslating] = useState(false);
   const [highlightIndex, setHighlightIndex] = useState<number | null>(null);
   const processedHighlight = useRef<string | null>(null);
+  const [loading, setLoading] = useState(true);
+
+  // Fetch news from Notion API
+  useEffect(() => {
+    fetch("/api/news")
+      .then((res) => res.json())
+      .then((data) => {
+        setAllNews(data.news || []);
+        setLoading(false);
+      })
+      .catch(() => setLoading(false));
+  }, []);
 
   useEffect(() => {
+    if (loading || allNews.length === 0) return;
     const highlight = searchParams.get("highlight");
     if (!highlight || highlight === processedHighlight.current) return;
     processedHighlight.current = highlight;
@@ -169,7 +189,7 @@ export default function NewsClient() {
       setHighlightIndex(null);
       router.replace("/news", { scroll: false });
     }, 2500);
-  }, [searchParams, visibleCount, router]);
+  }, [searchParams, visibleCount, router, loading, allNews]);
 
   const translateTitles = useCallback(async (titles: string[]) => {
     const untranslated = titles.filter((title) => !translatedTitles[title]);
@@ -200,11 +220,11 @@ export default function NewsClient() {
   }, [translatedTitles]);
 
   useEffect(() => {
-    if (language === "EN") {
-      const visibleTitles = newsData.slice(0, visibleCount).map((n) => n.title);
+    if (language === "EN" && allNews.length > 0) {
+      const visibleTitles = allNews.slice(0, visibleCount).map((n) => n.title);
       translateTitles(visibleTitles);
     }
-  }, [language, visibleCount, translateTitles]);
+  }, [language, visibleCount, translateTitles, allNews]);
 
   const getTitle = (title: string) => {
     if (language === "EN" && translatedTitles[title]) {
@@ -212,8 +232,8 @@ export default function NewsClient() {
     }
     return title;
   };
-  const news = newsData.slice(0, visibleCount);
-  const hasMore = visibleCount < newsData.length;
+  const news = allNews.slice(0, visibleCount);
+  const hasMore = visibleCount < allNews.length;
 
   return (
     <div
@@ -286,7 +306,7 @@ export default function NewsClient() {
           <span
             style={{ marginTop: "24px", fontSize: "clamp(0.875rem, 4.1vw, 1rem)", color: "#79767a" }}
           >
-            {t(`${newsData.length}개 중 ${visibleCount}개 표시`, `You've seen ${visibleCount} of ${newsData.length}`)}
+            {t(`${allNews.length}개 중 ${visibleCount}개 표시`, `You've seen ${visibleCount} of ${allNews.length}`)}
           </span>
         </div>
       )}
