@@ -142,6 +142,55 @@ img[data-loading="true"] {
   }
 }
 
+/* Grid pattern background */
+.grid-pattern {
+  position: relative;
+}
+.grid-pattern::before {
+  content: "";
+  position: absolute;
+  inset: 0;
+  background-image:
+    linear-gradient(rgba(255, 255, 255, 0.08) 2px, transparent 2px),
+    linear-gradient(90deg, rgba(255, 255, 255, 0.05) 2px, transparent 2px);
+  background-size: 100px 100px;
+  pointer-events: none;
+  z-index: 0;
+  mask-image: linear-gradient(to bottom, transparent 0%, black 15%, black 85%, transparent 100%);
+  -webkit-mask-image: linear-gradient(to bottom, transparent 0%, black 15%, black 85%, transparent 100%);
+}
+.grid-pattern::after {
+  content: "";
+  position: absolute;
+  inset: 0;
+  background:
+    linear-gradient(
+      220deg,
+      transparent 0%,
+      transparent 30%,
+      rgba(255, 31, 93, 0.06) 40%,
+      rgba(120, 80, 255, 0.08) 50%,
+      rgba(255, 31, 93, 0.06) 60%,
+      transparent 70%,
+      transparent 100%
+    );
+  background-size: 200% 200%;
+  animation: grid-shimmer 8s ease-in-out infinite;
+  pointer-events: none;
+  z-index: 0;
+  mask-image: linear-gradient(to bottom, transparent 0%, black 15%, black 85%, transparent 100%);
+  -webkit-mask-image: linear-gradient(to bottom, transparent 0%, black 15%, black 85%, transparent 100%);
+}
+@keyframes grid-shimmer {
+  0% { background-position: 100% 0%; }
+  50% { background-position: 0% 100%; }
+  100% { background-position: 100% 0%; }
+}
+.grid-pattern > * {
+  position: relative;
+  z-index: 1;
+}
+
 /* Content padding: 16px mobile, 24px desktop */
 .content-padding {
   padding-left: 16px;

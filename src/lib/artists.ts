@@ -10,6 +10,7 @@ export interface ArtistAlbum {
   type: string;
   release: string;
   cover: string;
+  tracklist?: { number: string; title: string; isTitle?: boolean }[];
 }
 
 export interface ArtistMusicVideo {
@@ -57,7 +58,18 @@ export const artists: Artist[] = [
       { name: "Arctic", nameKo: "아틱", birth: "2008.10.09", photo: "/artists/tunexx-members/arctic.jpg" },
     ],
     albums: [
-      { title: "Set By Us Only", type: "1st Mini Album", release: "2026.02.17", cover: "/artists/tunexx-albums/set-by-us-only.jpg" },
+      {
+        title: "Set By Us Only",
+        type: "1st Mini Album",
+        release: "2026",
+        cover: "/artists/tunexx-albums/set-by-us-only.jpg",
+        tracklist: [
+          { number: "01", title: "100%" },
+          { number: "02", title: "내가 살아있다는 증거", isTitle: true },
+          { number: "03", title: "Obsessed" },
+          { number: "04", title: "Twenty Something" },
+        ],
+      },
     ],
     musicVideos: [
       { title: "UNSET", youtubeId: "cQESe4Jc0rE" },

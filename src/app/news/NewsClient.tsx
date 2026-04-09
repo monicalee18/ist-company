@@ -260,7 +260,7 @@ export default function NewsClient() {
           style={{ gridColumn: "1 / 9" }}
         >
           <h1 className="text-6xl font-light text-white">
-            Latest News
+            Press Releases
           </h1>
         </motion.div>
       </div>
@@ -281,7 +281,7 @@ export default function NewsClient() {
           transition={{ duration: 0.6 }}
         >
           <h1 className="text-4xl font-light text-white">
-            Latest News
+            Press Releases
           </h1>
         </motion.div>
       </div>

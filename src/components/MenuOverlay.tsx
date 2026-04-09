@@ -10,7 +10,8 @@ import { motion, AnimatePresence } from "framer-motion";
 const menuItemsData = [
   { label: "About", href: "/about", image: "/menu/about.webp" },
   { label: "Artist", href: "/artist", image: "/menu/artist.webp" },
-  { label: "Latest News", href: "/news", image: "/menu/news.webp" },
+  { label: "Press Releases", href: "/news", image: "/menu/news.webp" },
+  { label: "Notice", href: "/notice", image: "/menu/news.webp" },
   { label: "Audition", href: "/audition", image: "/menu/audition.webp" },
   { label: "Contact", href: "/contact", image: "/menu/contact.webp" },
 ];

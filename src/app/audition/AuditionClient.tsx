@@ -67,24 +67,83 @@ function getAuditionInfo(t: TranslateFn) {
       { step: "03", title: t("2차 심사", "2nd Screening"), description: t("대면 오디션", "In-person audition") },
       { step: "04", title: t("최종 합격", "Final Selection"), description: t("연습생 계약 체결", "Trainee contract signing") },
     ],
-    faq: [
+    faqSections: [
       {
-        question: t("합격 연락은 언제 오나요?", "When will I hear about the results?"),
-        answer: t("합격자에 한하여 2~3주 내로 개별 공지됩니다.", "Selected candidates will be individually notified within 2-3 weeks."),
+        title: t("지원 자격", "Eligibility"),
+        items: [
+          {
+            question: t("나이 제한이 있나요?", "Is there an age limit?"),
+            answer: t("만 10세 – 만 23세 미만으로 성별 무관합니다.", "Applicants must be between 10 and 23 years old, regardless of gender."),
+          },
+          {
+            question: t("국적 제한이 있나요?", "Are there nationality restrictions?"),
+            answer: t("국적에 관계없이 누구나 지원 가능합니다.", "Anyone can apply regardless of nationality."),
+          },
+          {
+            question: t("추가 조건이 있나요?", "Are there additional requirements?"),
+            answer: t("기획사 미소속자 또는 계약 만료자여야 하며, 주 3회 이상 연습 참여가 가능해야 합니다.", "You must not be currently signed to an agency (or your contract must have expired), and you must be available for practice at least 3 times per week."),
+          },
+        ],
       },
       {
-        question: t("팀 지원이 가능한가요?", "Can I apply as a team?"),
-        answer: t(
-          "팀 지원은 받지 않습니다. 팀으로 지원하시면 심사 과정에서 탈락 처리됨으로 개별 지원해주시기 바랍니다.",
-          "Team applications are not accepted. Please apply individually."
-        ),
+        title: t("지원 방법", "Application"),
+        items: [
+          {
+            question: t("어떻게 지원하나요?", "How do I apply?"),
+            answer: t("하단에 오디션 지원하기를 통해서 지원서를 작성하고, 필수 자료를 제출하면 됩니다.", "Click the 'Apply for Audition' button below, fill out the application form, and submit the required materials."),
+          },
+          {
+            question: t("여러 분야로 중복 지원이 가능한가요?", "Can I apply for multiple categories?"),
+            answer: t("가능합니다. 각 분야에 맞는 자료를 준비해 지원해 주세요.", "Yes, you can. Please prepare the appropriate materials for each category."),
+          },
+        ],
       },
       {
-        question: t("기존 오디션에 지원했었는데 재지원이 가능한가요?", "Can I reapply if I've auditioned before?"),
-        answer: t(
-          "네, 가능합니다. 국내 지원자와 동일한 방식으로 자료 첨부하여 홈페이지 혹은 우편으로 지원해주시면 됩니다.",
-          "Yes, you can. Please submit your materials through the website or by mail."
-        ),
+        title: t("제출 자료", "Submission"),
+        items: [
+          {
+            question: t("어떤 자료를 제출해야 하나요?", "What materials do I need to submit?"),
+            answer: t("기본 정보와 함께 보컬, 랩, 댄스, 연기 등 본인의 역량을 보여줄 수 있는 영상 또는 음원을 제출해야 합니다.", "Along with basic information, you must submit a video or audio that showcases your skills in vocal, rap, dance, acting, etc."),
+          },
+          {
+            question: t("영상 길이 제한이 있나요?", "Is there a video length limit?"),
+            answer: t("1~3분 내외의 영상을 권장합니다.", "We recommend videos of 1 to 3 minutes."),
+          },
+          {
+            question: t("편집된 영상도 가능한가요?", "Can I submit an edited video?"),
+            answer: t("기본적인 편집은 가능하나, 실제 실력을 확인할 수 있는 형태를 권장합니다.", "Basic editing is acceptable, but we recommend a format that clearly shows your actual skills."),
+          },
+        ],
+      },
+      {
+        title: t("심사 과정", "Process"),
+        items: [
+          {
+            question: t("결과는 언제 확인할 수 있나요?", "When can I check the results?"),
+            answer: t("합격자에 한해 개별 연락 드립니다.", "Only selected candidates will be individually contacted."),
+          },
+          {
+            question: t("추가 오디션이 진행되나요?", "Will there be additional auditions?"),
+            answer: t("1차 합격자에 한해 추가 오디션이 진행될 수 있습니다.", "Additional auditions may be held for first-round candidates."),
+          },
+        ],
+      },
+      {
+        title: t("기타", "General"),
+        items: [
+          {
+            question: t("지원 후 수정이 가능한가요?", "Can I edit my application after submission?"),
+            answer: t("제출 완료 후 수정은 어렵습니다. 신중하게 작성해 주세요.", "Editing after submission is not possible. Please fill out your application carefully."),
+          },
+          {
+            question: t("재지원이 가능한가요?", "Can I reapply?"),
+            answer: t("가능합니다. 이전 지원 결과와 관계없이 동일한 방식으로 다시 지원할 수 있습니다.", "Yes. You can reapply in the same way regardless of previous results."),
+          },
+          {
+            question: t("오디션 문의는 어디로 하면 되나요?", "Where can I inquire about auditions?"),
+            answer: t("이메일로 문의해주시면 됩니다.", "Please contact us via email."),
+          },
+        ],
       },
     ],
   };
@@ -807,13 +866,13 @@ export default function AuditionClient() {
               </svg>
             </a>
             <a
-              href="https://www.youtube.com/@ISTentARTISTDEVELOPMENT"
+              href="https://pf.kakao.com/_ISTent"
               target="_blank"
               rel="noopener noreferrer"
               className="w-[40px] h-[40px] rounded-full border border-white/30 flex items-center justify-center text-white/80 hover:text-[var(--accent)] hover:border-[var(--accent)] transition-colors"
             >
               <svg width="20" height="20" viewBox="0 0 20 20" fill="none" xmlns="http://www.w3.org/2000/svg">
-                <path d="M17.619 5.972a2.31 2.31 0 0 0-1.591-1.591C14.635 4 9.993 4 9.993 4s-4.628 0-6.021.381A2.31 2.31 0 0 0 2.368 5.972C2 7.366 2 10.298 2 10.298s0 2.931.368 4.338a2.31 2.31 0 0 0 1.604 1.591c1.394.382 6.021.382 6.021.382s4.641 0 6.035-.382a2.31 2.31 0 0 0 1.591-1.591C18 13.23 18 10.298 18 10.298s0-2.932-.381-4.326ZM8.205 13.007V7.603l4.668 2.695-4.668 2.71Z" fill="currentColor" />
+                <path d="M10 3C5.858 3 2.5 5.69 2.5 9c0 2.12 1.374 3.99 3.457 5.076l-.884 3.237a.25.25 0 0 0 .374.278l3.76-2.505c.26.02.523.039.793.039 4.142 0 7.5-2.69 7.5-6s-3.358-6.125-7.5-6.125Z" fill="currentColor" />
               </svg>
             </a>
           </motion.div>
@@ -823,12 +882,38 @@ export default function AuditionClient() {
       {/* Gap */}
       <div className="h-[60px]" />
 
+      {/* Process Section */}
+      <section className="border-t border-white/10">
+        <div className="content-padding" style={{ paddingTop: "40px", paddingBottom: "40px" }}>
+          <div className="grid grid-cols-12 gap-[24px]">
+            <FadeIn className="col-span-12 md:col-span-3">
+              <h2 className="text-3xl md:text-4xl font-light text-white">
+                {t("절차", "Process")}
+              </h2>
+            </FadeIn>
+            <div className="col-span-12 md:col-span-9 md:col-start-4">
+              <div className="grid grid-cols-2 md:grid-cols-4 gap-[24px]">
+                {auditionInfo.process.map((item, index) => (
+                  <FadeIn key={item.step} delay={index * 0.08} className="relative">
+                    <span className="text-5xl md:text-6xl font-light block mb-1" style={{ color: "var(--accent)" }}>
+                      {item.step}
+                    </span>
+                    <h3 className="text-white text-lg font-light mb-1">{item.title}</h3>
+                    <p className="text-white/40 text-sm">{item.description}</p>
+                  </FadeIn>
+                ))}
+              </div>
+            </div>
+          </div>
+        </div>
+      </section>
+
       {/* Categories Section */}
       <section className="border-t border-white/10">
         <div className="content-padding" style={{ paddingTop: "40px", paddingBottom: "40px" }}>
           <div className="grid grid-cols-12 gap-[24px]">
             <FadeIn className="col-span-12 md:col-span-3">
-              <h2 className="text-sm text-white/40 tracking-wider uppercase">
+              <h2 className="text-3xl md:text-4xl font-light text-white">
                 {t("분야", "Categories")}
               </h2>
             </FadeIn>
@@ -850,108 +935,67 @@ export default function AuditionClient() {
         </div>
       </section>
 
-      {/* Requirements Section */}
-      <section className="border-t border-white/10">
-        <div className="content-padding" style={{ paddingTop: "40px", paddingBottom: "40px" }}>
-          <div className="grid grid-cols-12 gap-[24px]">
-            <FadeIn className="col-span-12 md:col-span-3">
-              <h2 className="text-sm text-white/40 tracking-wider uppercase">
-                {t("자격 요건", "Requirements")}
-              </h2>
-            </FadeIn>
-            <div className="col-span-12 md:col-span-6 md:col-start-4">
-              <ul className="space-y-4">
-                {auditionInfo.requirements.map((req, index) => (
-                  <FadeIn key={index} delay={index * 0.05} y={15}>
-                    <li className="flex items-start gap-3 text-white/70 text-base">
-                      <span className="text-white/40">-</span>
-                      <span>{req}</span>
-                    </li>
-                  </FadeIn>
-                ))}
-              </ul>
-            </div>
-          </div>
-        </div>
-      </section>
-
-      {/* Process Section */}
-      <section className="border-t border-white/10">
-        <div className="content-padding" style={{ paddingTop: "40px", paddingBottom: "40px" }}>
-          <div className="grid grid-cols-12 gap-[24px]">
-            <FadeIn className="col-span-12 md:col-span-3">
-              <h2 className="text-sm text-white/40 tracking-wider uppercase">
-                {t("절차", "Process")}
-              </h2>
-            </FadeIn>
-            <div className="col-span-12 md:col-span-9 md:col-start-4">
-              <div className="grid grid-cols-2 md:grid-cols-4 gap-[24px]">
-                {auditionInfo.process.map((item, index) => (
-                  <FadeIn key={item.step} delay={index * 0.08} className="relative">
-                    <span className="text-5xl md:text-6xl font-light block mb-1" style={{ color: "var(--accent)" }}>
-                      {item.step}
-                    </span>
-                    <h3 className="text-white text-lg font-light mb-1">{item.title}</h3>
-                    <p className="text-white/40 text-sm">{item.description}</p>
-                  </FadeIn>
-                ))}
-              </div>
-            </div>
-          </div>
-        </div>
-      </section>
-
       {/* FAQ Section */}
       <section className="border-t border-white/10">
         <div className="content-padding" style={{ paddingTop: "40px", paddingBottom: "40px" }}>
           <div className="grid grid-cols-12 gap-[24px]">
             <FadeIn className="col-span-12 md:col-span-3">
-              <h2 className="text-sm text-white/40 tracking-wider uppercase">
+              <h2 className="text-3xl md:text-4xl font-light text-white">
                 FAQ
               </h2>
             </FadeIn>
-            <FadeIn className="col-span-12 md:col-span-9 md:col-start-4">
-              <div className="flex flex-col gap-6">
-                {auditionInfo.faq.map((item, index) => (
-                  <div key={index}>
-                    <button
-                      onClick={() => toggleFAQ(index)}
-                      className="w-full flex items-center justify-between text-left"
-                    >
-                      <span className="text-white text-base">{item.question}</span>
-                      <motion.svg
-                        width="16"
-                        height="16"
-                        viewBox="0 0 24 24"
-                        fill="none"
-                        stroke="currentColor"
-                        strokeWidth="1.5"
-                        className="text-white/50 flex-shrink-0 ml-4"
-                        animate={{ rotate: openFAQs.has(index) ? 180 : 0 }}
-                        transition={{ duration: 0.2 }}
-                      >
-                        <path d="M6 9L12 15L18 9" strokeLinecap="round" strokeLinejoin="round"/>
-                      </motion.svg>
-                    </button>
-                    <AnimatePresence>
-                      {openFAQs.has(index) && (
-                        <motion.div
-                          initial={{ height: 0, opacity: 0 }}
-                          animate={{ height: "auto", opacity: 1 }}
-                          exit={{ height: 0, opacity: 0 }}
-                          transition={{ duration: 0.2 }}
-                          className="overflow-hidden"
-                        >
-                          <p className="text-white/50 text-sm leading-relaxed mt-2" style={{ paddingRight: "40px" }}>
-                            {item.answer}
-                          </p>
-                        </motion.div>
-                      )}
-                    </AnimatePresence>
-                  </div>
+            <div className="col-span-12 md:col-span-9 md:col-start-4">
+              <div className="flex flex-col gap-10">
+                {auditionInfo.faqSections.map((section, sectionIndex) => (
+                  <FadeIn key={sectionIndex} delay={sectionIndex * 0.05}>
+                    <h3 className="text-white/40 text-sm tracking-wider uppercase mb-4">{section.title}</h3>
+                    <div className="flex flex-col gap-4">
+                      {section.items.map((item, itemIndex) => {
+                        const globalIndex = auditionInfo.faqSections.slice(0, sectionIndex).reduce((acc, s) => acc + s.items.length, 0) + itemIndex;
+                        return (
+                          <div key={itemIndex} className="border-b border-white/10 pb-4">
+                            <button
+                              onClick={() => toggleFAQ(globalIndex)}
+                              className="w-full flex items-center justify-between text-left"
+                            >
+                              <span className="text-white text-base">{item.question}</span>
+                              <motion.svg
+                                width="16"
+                                height="16"
+                                viewBox="0 0 24 24"
+                                fill="none"
+                                stroke="currentColor"
+                                strokeWidth="1.5"
+                                className="text-white/50 flex-shrink-0 ml-4"
+                                animate={{ rotate: openFAQs.has(globalIndex) ? 180 : 0 }}
+                                transition={{ duration: 0.2 }}
+                              >
+                                <path d="M6 9L12 15L18 9" strokeLinecap="round" strokeLinejoin="round"/>
+                              </motion.svg>
+                            </button>
+                            <AnimatePresence>
+                              {openFAQs.has(globalIndex) && (
+                                <motion.div
+                                  initial={{ height: 0, opacity: 0 }}
+                                  animate={{ height: "auto", opacity: 1 }}
+                                  exit={{ height: 0, opacity: 0 }}
+                                  transition={{ duration: 0.2 }}
+                                  className="overflow-hidden"
+                                >
+                                  <p className="text-white/50 text-sm leading-relaxed mt-2" style={{ paddingRight: "40px" }}>
+                                    {item.answer}
+                                  </p>
+                                </motion.div>
+                              )}
+                            </AnimatePresence>
+                          </div>
+                        );
+                      })}
+                    </div>
+                  </FadeIn>
                 ))}
               </div>
-            </FadeIn>
+            </div>
           </div>
         </div>
       </section>
@@ -964,23 +1008,12 @@ export default function AuditionClient() {
               <FadeIn>
                 <h2
                   className="text-white font-light"
-                  style={{ fontSize: "24px", marginBottom: "10px" }}
+                  style={{ fontSize: "clamp(28px, 5vw, 48px)", lineHeight: 1.2, marginBottom: "30px" }}
                 >
-                  {t("지금 바로 지원하세요", "Apply Now")}
-                </h2>
-              </FadeIn>
-              <FadeIn delay={0.1}>
-                <p
-                  className="text-white/50"
-                  style={{ fontSize: "16px", marginBottom: "30px" }}
-                >
-                  {t(
-                    "온라인으로 간편하게 오디션에 지원할 수 있습니다.",
-                    "You can easily apply for auditions online."
-                  )}
+                  {t("아티스트의 시작", "Where Artists Begin")}
                   <br />
-                  {t("프로필과 영상을 준비해주세요.", "Please prepare your profile and video.")}
-                </p>
+                  {t("IST와 함께 시작하세요", "Start Your Journey with IST")}
+                </h2>
               </FadeIn>
               <FadeIn delay={0.2}>
                 <button

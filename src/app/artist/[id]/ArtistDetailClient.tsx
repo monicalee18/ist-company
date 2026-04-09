@@ -1,7 +1,7 @@
 "use client";
 
-import { useRef, useState } from "react";
-import { motion, useScroll, useTransform, useInView, AnimatePresence } from "framer-motion";
+import { useRef } from "react";
+import { motion, useScroll, useTransform, useInView } from "framer-motion";
 import Image from "next/image";
 import { useLanguage } from "@/context/LanguageContext";
 import type { Artist } from "@/lib/artists";
@@ -94,16 +94,16 @@ function SocialIcon({
   );
 }
 
-const tabs = ["Member", "Album", "Music Video"] as const;
-type Tab = typeof tabs[number];
-
 export default function ArtistDetailClient({ artist }: { artist: Artist }) {
   const { t } = useLanguage();
-  const [activeTab, setActiveTab] = useState<Tab>("Member");
 
   const photoRef = useRef<HTMLDivElement>(null);
-  const tabsRef = useRef<HTMLDivElement>(null);
-  const tabsInView = useInView(tabsRef, { once: true, margin: "-60px" });
+  const memberRef = useRef<HTMLDivElement>(null);
+  const albumRef = useRef<HTMLDivElement>(null);
+  const mvRef = useRef<HTMLDivElement>(null);
+  const memberInView = useInView(memberRef, { once: true, margin: "-60px" });
+  const albumInView = useInView(albumRef, { once: true, margin: "-60px" });
+  const mvInView = useInView(mvRef, { once: true, margin: "-60px" });
 
   const { scrollYProgress } = useScroll({
     target: photoRef,
@@ -112,7 +112,7 @@ export default function ArtistDetailClient({ artist }: { artist: Artist }) {
   const photoY = useTransform(scrollYProgress, [0, 1], ["-5%", "5%"]);
 
   return (
-    <div className="min-h-screen bg-black flex flex-col pb-[60px]">
+    <div className="min-h-screen flex flex-col pb-[60px] mx-auto w-full" style={{ maxWidth: "1320px" }}>
       {/* Upper Section - Artist Info */}
       <motion.div
         className="flex flex-col items-center justify-center gap-[40px] pt-[115px] pb-[40px]"
@@ -146,8 +146,8 @@ export default function ArtistDetailClient({ artist }: { artist: Artist }) {
         </div>
       </motion.div>
 
-      {/* Divider */}
-      <div className="w-full border-t border-white/20" />
+      {/* Divider - full viewport width */}
+      <div className="border-t border-white/20" style={{ marginLeft: "calc(-50vw + 50%)", marginRight: "calc(-50vw + 50%)" }} />
 
       {/* Artist Photo - Parallax */}
       <motion.div
@@ -170,152 +170,155 @@ export default function ArtistDetailClient({ artist }: { artist: Artist }) {
         </motion.div>
       </motion.div>
 
-      {/* Tabs */}
+      {/* Member - Rolling marquee */}
       <motion.div
-        ref={tabsRef}
-        className="content-padding mt-[60px]"
-        initial={{ opacity: 0, y: 30 }}
-        animate={tabsInView ? { opacity: 1, y: 0 } : { opacity: 0, y: 30 }}
-        transition={{ duration: 0.8, ease: [0.16, 1, 0.3, 1] }}
+        ref={memberRef}
+        className="mt-[60px]"
+        initial={{ opacity: 0 }}
+        animate={memberInView ? { opacity: 1 } : { opacity: 0 }}
+        transition={{ duration: 0.8 }}
       >
-        <div className="flex gap-[8px] mb-[32px]">
-          {tabs.map((tab) => (
-            <button
-              key={tab}
-              onClick={() => setActiveTab(tab)}
-              className="text-[16px] text-white transition-all duration-300"
-              style={{
-                height: "32px",
-                paddingLeft: "16px",
-                paddingRight: "16px",
-                borderRadius: "9999px",
-                backgroundColor: activeTab === tab ? "var(--accent)" : "#252525",
-                border: activeTab === tab ? "1px solid var(--accent)" : "1px solid transparent",
-                fontFamily: "var(--font-aspekta)",
-              }}
-              onMouseEnter={(e) => {
-                if (activeTab !== tab) {
-                  e.currentTarget.style.backgroundColor = "#000";
-                  e.currentTarget.style.borderColor = "#fff";
-                }
-              }}
-              onMouseLeave={(e) => {
-                if (activeTab !== tab) {
-                  e.currentTarget.style.backgroundColor = "#252525";
-                  e.currentTarget.style.borderColor = "transparent";
-                }
-              }}
-            >
-              {tab}
-            </button>
-          ))}
-        </div>
-
-        {/* Tab Content */}
-        <AnimatePresence mode="wait">
-          {activeTab === "Member" && (
-            <motion.div
-              key="member"
-              initial={{ opacity: 0, y: 15 }}
-              animate={{ opacity: 1, y: 0 }}
-              exit={{ opacity: 0, y: -10 }}
-              transition={{ duration: 0.4, ease: [0.16, 1, 0.3, 1] }}
-              className="grid grid-cols-2 md:grid-cols-4 gap-[16px] md:gap-[20px]"
-            >
-              {artist.members.map((member, index) => (
-                <motion.div
-                  key={member.name}
-                  initial={{ opacity: 0, y: 20 }}
-                  animate={{ opacity: 1, y: 0 }}
-                  transition={{ duration: 0.5, delay: index * 0.07 }}
-                >
-                  <div className="relative aspect-[4/3] overflow-hidden">
-                    <Image
-                      src={member.photo}
-                      alt={member.name}
-                      fill
-                      sizes="(max-width: 768px) 50vw, 25vw"
-                      className="object-cover"
-                    />
-                  </div>
-                  <div className="pt-[10px] pb-[10px]" style={{ borderBottom: "1px solid var(--accent)", lineHeight: 1.2 }}>
-                    <p
-                      className="text-white font-medium"
-                      style={{ fontSize: "clamp(14px, 4.1vw, 16px)", fontFamily: "var(--font-aspekta)" }}
-                    >
-                      {t(member.nameKo, member.name)}
-                    </p>
-                    <p className="text-white/40 mt-[6px]" style={{ fontSize: "clamp(12px, 3.6vw, 14px)" }}>
-                      {member.birth}
-                    </p>
-                  </div>
-                </motion.div>
-              ))}
-            </motion.div>
-          )}
-
-          {activeTab === "Album" && (
-            <motion.div
-              key="album"
-              initial={{ opacity: 0, y: 15 }}
-              animate={{ opacity: 1, y: 0 }}
-              exit={{ opacity: 0, y: -10 }}
-              transition={{ duration: 0.4, ease: [0.16, 1, 0.3, 1] }}
-              className="grid grid-cols-1 md:grid-cols-4 gap-[16px] md:gap-[20px]"
-            >
-              {artist.albums.map((album, index) => (
-                <motion.div
-                  key={album.title}
-                  initial={{ opacity: 0, y: 20 }}
-                  animate={{ opacity: 1, y: 0 }}
-                  transition={{ duration: 0.5, delay: index * 0.07 }}
-                >
-                  <div className="relative w-full aspect-square">
-                    <Image
-                      src={album.cover}
-                      alt={album.title}
-                      fill
-                      sizes="(max-width: 768px) 100vw, 25vw"
-                      className="object-cover"
-                    />
-                  </div>
-                  <p
-                    className="text-white font-medium mt-[10px]"
-                    style={{ fontSize: "16px", lineHeight: 1.2, fontFamily: "var(--font-aspekta)" }}
-                  >
-                    {album.title}
-                  </p>
-                  <p className="text-white/40 mt-[6px]" style={{ fontSize: "14px", lineHeight: 1.2 }}>
-                    {album.release}
-                  </p>
-                </motion.div>
-              ))}
-            </motion.div>
-          )}
-
-          {activeTab === "Music Video" && (
-            <motion.div
-              key="mv"
-              initial={{ opacity: 0, y: 15 }}
-              animate={{ opacity: 1, y: 0 }}
-              exit={{ opacity: 0, y: -10 }}
-              transition={{ duration: 0.4, ease: [0.16, 1, 0.3, 1] }}
-              className="w-full flex flex-col gap-[24px]"
-            >
-              {artist.musicVideos.map((mv) => (
-                <div key={mv.youtubeId} className="relative w-full" style={{ aspectRatio: "16/9" }}>
-                  <iframe
-                    src={`https://www.youtube.com/embed/${mv.youtubeId}`}
-                    title={mv.title}
-                    className="absolute inset-0 w-full h-full"
-                    allow="accelerometer; autoplay; clipboard-write; encrypted-media; gyroscope; picture-in-picture"
-                    allowFullScreen
+        <h2
+          className="content-padding text-white font-light text-[24px] md:text-[32px] mb-[24px]"
+          style={{ fontFamily: "var(--font-aspekta)" }}
+        >
+          Member
+        </h2>
+        <div className="relative overflow-hidden">
+          <motion.div
+            className="flex gap-[16px] md:gap-[20px]"
+            animate={{ x: ["0%", "-50%"] }}
+            transition={{ x: { duration: artist.members.length * 4, ease: "linear", repeat: Infinity } }}
+            style={{ width: "max-content" }}
+          >
+            {[...artist.members, ...artist.members].map((member, index) => (
+              <div key={`${member.name}-${index}`} className="flex-shrink-0" style={{ width: "400px" }}>
+                <div className="relative aspect-[4/3] overflow-hidden">
+                  <Image
+                    src={member.photo}
+                    alt={member.name}
+                    fill
+                    sizes="200px"
+                    className="object-cover"
                   />
                 </div>
-              ))}
+                <div className="mt-[10px] mb-[10px]" style={{ borderBottom: "1px solid var(--accent)" }} />
+                <div style={{ lineHeight: 1.2 }}>
+                  <p
+                    className="text-white font-medium"
+                    style={{ fontSize: "18px", fontFamily: "var(--font-aspekta)" }}
+                  >
+                    {t(`${member.nameKo} ${member.name}`, member.name)}
+                  </p>
+                  <p className="text-white/40 mt-[6px]" style={{ fontSize: "14px" }}>
+                    {member.birth}
+                  </p>
+                </div>
+              </div>
+            ))}
+          </motion.div>
+        </div>
+      </motion.div>
+
+      {/* Album */}
+      <motion.div
+        ref={albumRef}
+        className="mt-[80px]"
+        initial={{ opacity: 0, y: 30 }}
+        animate={albumInView ? { opacity: 1, y: 0 } : { opacity: 0, y: 30 }}
+        transition={{ duration: 0.8, ease: [0.16, 1, 0.3, 1] }}
+      >
+        <h2
+          className="text-white font-light text-[24px] md:text-[32px] mb-[24px]"
+          style={{ fontFamily: "var(--font-aspekta)" }}
+        >
+          Album
+        </h2>
+        <div className="flex flex-col gap-[60px]">
+          {artist.albums.map((album, index) => (
+            <motion.div
+              key={album.title}
+              initial={{ opacity: 0, y: 20 }}
+              animate={albumInView ? { opacity: 1, y: 0 } : { opacity: 0, y: 20 }}
+              transition={{ duration: 0.5, delay: index * 0.07 }}
+              className="flex flex-col md:flex-row gap-[24px] md:gap-[48px]"
+            >
+              <div className="relative w-full md:w-[480px] flex-shrink-0 aspect-square">
+                <Image
+                  src={album.cover}
+                  alt={album.title}
+                  fill
+                  sizes="(max-width: 768px) 100vw, 480px"
+                  className="object-cover"
+                />
+              </div>
+              <div className="flex flex-col justify-start">
+                <p
+                  className="text-white/50 tracking-widest"
+                  style={{ fontSize: "13px", fontFamily: "var(--font-aspekta)", textTransform: "uppercase" }}
+                >
+                  {album.type}
+                </p>
+                <p
+                  className="text-white font-medium mt-[8px]"
+                  style={{ fontSize: "28px", lineHeight: 1.2, fontFamily: "var(--font-aspekta)" }}
+                >
+                  {album.title}
+                </p>
+                <p className="text-white/40 mt-[4px]" style={{ fontSize: "16px", lineHeight: 1.4, fontFamily: "var(--font-aspekta)" }}>
+                  {album.release}
+                </p>
+                {album.tracklist && (
+                  <div className="mt-[20px] flex flex-col gap-[6px]">
+                    <p className="text-white/50 text-[13px] tracking-widest mb-[4px]" style={{ fontFamily: "var(--font-aspekta)", textTransform: "uppercase" }}>
+                      Tracklist
+                    </p>
+                    {album.tracklist.map((track) => (
+                      <div key={track.number} className="flex gap-[12px] items-baseline">
+                        <span className="text-white/30" style={{ fontSize: "14px", fontFamily: "var(--font-aspekta)" }}>
+                          {track.number}
+                        </span>
+                        <span className="text-white/80" style={{ fontSize: "15px", fontFamily: "var(--font-aspekta)" }}>
+                          {track.title}
+                          {track.isTitle && <span className="text-[var(--accent)] ml-[6px]" style={{ fontSize: "12px" }}>Title</span>}
+                        </span>
+                      </div>
+                    ))}
+                  </div>
+                )}
+              </div>
             </motion.div>
-          )}
-        </AnimatePresence>
+          ))}
+        </div>
+      </motion.div>
+
+      {/* Music Video */}
+      <motion.div
+        ref={mvRef}
+        className="mt-[80px]"
+        initial={{ opacity: 0, y: 30 }}
+        animate={mvInView ? { opacity: 1, y: 0 } : { opacity: 0, y: 30 }}
+        transition={{ duration: 0.8, ease: [0.16, 1, 0.3, 1] }}
+      >
+        <h2
+          className="text-white font-light text-[24px] md:text-[32px] mb-[24px]"
+          style={{ fontFamily: "var(--font-aspekta)" }}
+        >
+          Music Video
+        </h2>
+        <div className="w-full flex flex-col gap-[24px]">
+          {artist.musicVideos.map((mv) => (
+            <div key={mv.youtubeId} className="relative w-full" style={{ aspectRatio: "16/9" }}>
+              <iframe
+                src={`https://www.youtube.com/embed/${mv.youtubeId}`}
+                title={mv.title}
+                className="absolute inset-0 w-full h-full"
+                allow="accelerometer; autoplay; clipboard-write; encrypted-media; gyroscope; picture-in-picture"
+                allowFullScreen
+              />
+            </div>
+          ))}
+        </div>
       </motion.div>
     </div>
   );

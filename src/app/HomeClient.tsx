@@ -1,7 +1,7 @@
 "use client";
 
 import { useRef, useState, useEffect } from "react";
-import { motion, useScroll, useTransform, useMotionValue, useMotionValueEvent } from "framer-motion";
+import { motion } from "framer-motion";
 import Image from "next/image";
 import Link from "next/link";
 import { useLanguage } from "@/context/LanguageContext";
@@ -88,18 +88,9 @@ const HERO_IMAGES = [
 
 const CYCLE_INTERVAL = 3000;
 
-function lerp(a: number, b: number, t: number) {
-  return a + (b - a) * Math.max(0, Math.min(1, t));
-}
-
 export default function HomeClient() {
   const { t } = useLanguage();
   const [currentImage, setCurrentImage] = useState(0);
-
-  const containerRef = useRef<HTMLDivElement>(null);
-  const inlineImageRef = useRef<HTMLDivElement>(null);
-  const imageRectRef = useRef<DOMRect | null>(null);
-  const [expanding, setExpanding] = useState(false);
 
   // Image cycling - instant switch
   useEffect(() => {
@@ -109,214 +100,70 @@ export default function HomeClient() {
     return () => clearInterval(timer);
   }, []);
 
-  // Scroll-based animation
-  const { scrollYProgress } = useScroll({
-    target: containerRef,
-    offset: ["start start", "end start"],
-  });
-
-  // Hero text fades out later — stays visible longer while image expands
-  const heroContentOpacity = useTransform(scrollYProgress, [0.1, 0.3], [1, 0]);
-
-  // Motion values for the expanding fixed image
-  const imgTop = useMotionValue(0);
-  const imgRight = useMotionValue(0);
-  const imgWidth = useMotionValue(0);
-  const imgHeight = useMotionValue(0);
-  const imgOpacity = useMotionValue(0);
-
-  // Imperatively update expanding image based on scroll
-  useMotionValueEvent(scrollYProgress, "change", (progress) => {
-    // On first scroll: measure inline image and activate overlay
-    if (progress > 0 && !imageRectRef.current && inlineImageRef.current) {
-      imageRectRef.current = inlineImageRef.current.getBoundingClientRect();
-      setExpanding(true);
-    }
-
-    const rect = imageRectRef.current;
-    if (!rect) return;
-
-    const vw = window.innerWidth;
-    const vh = window.innerHeight;
-    const initialRight = vw - rect.right;
-
-    // Expand: 0 → 0.35
-    const expandT = Math.max(0, Math.min(1, progress / 0.35));
-    imgTop.set(lerp(rect.top, 0, expandT));
-    imgRight.set(lerp(initialRight, 0, expandT));
-    imgWidth.set(lerp(rect.width, vw, expandT));
-    imgHeight.set(lerp(rect.height, vh, expandT));
-
-    // Opacity: visible when scrolling, fade out at end
-    if (progress <= 0) {
-      imgOpacity.set(0);
-      // Reset measurement when back to top
-      imageRectRef.current = null;
-      setExpanding(false);
-    } else if (progress <= 0.7) {
-      imgOpacity.set(1);
-    } else {
-      imgOpacity.set(lerp(1, 0, (progress - 0.7) / 0.3));
-    }
-  });
-
-  // Re-measure on resize
-  useEffect(() => {
-    const onResize = () => {
-      if (inlineImageRef.current && scrollYProgress.get() === 0) {
-        imageRectRef.current = null;
-      }
-    };
-    window.addEventListener("resize", onResize);
-    return () => window.removeEventListener("resize", onResize);
-  }, [scrollYProgress]);
-
   return (
     <>
-      {/* Desktop: scroll-driven expanding image */}
-      <div ref={containerRef} className="relative bg-black hidden md:block" style={{ height: "300vh" }}>
-        <div className="sticky top-0 h-screen overflow-hidden">
+      {/* Desktop */}
+      <div className="relative bg-black hidden md:flex flex-col justify-between content-padding"
+        style={{
+          height: "100vh",
+          paddingTop: "calc(54px + 40px)",
+          paddingBottom: "calc(54px + 40px)",
+        }}
+      >
+        <FlowingLines />
 
-          <FlowingLines />
-
+        <div className="relative z-10">
           <motion.div
-            className="absolute inset-0 z-10 flex flex-col justify-between content-padding"
-            style={{
-              paddingTop: "calc(54px + 40px)",
-              paddingBottom: "calc(54px + 40px)",
-              opacity: heroContentOpacity,
-              pointerEvents: "auto",
-            }}
+            initial={{ opacity: 0, y: 30 }}
+            animate={{ opacity: 1, y: 0 }}
+            transition={{ duration: 1.2, ease: [0.16, 1, 0.3, 1] }}
           >
-            {/* Top section: Big text */}
-            <div>
-              {/* Desktop */}
-              <div className="hidden md:block">
-                <motion.div
-                  initial={{ opacity: 0, y: 30 }}
-                  animate={{ opacity: 1, y: 0 }}
-                  transition={{ duration: 1.2, ease: [0.16, 1, 0.3, 1] }}
-                  style={{
-                    display: "grid",
-                    gridTemplateColumns: "repeat(12, 1fr)",
-                    gap: "24px",
-                    alignItems: "center",
-                  }}
-                >
-                  <div style={{ gridColumn: "1 / 10" }}>
-                    <h1
-                      className="text-white font-[family-name:var(--font-aspekta)] whitespace-nowrap"
-                      style={{
-                        fontSize: "9vw",
-                        fontWeight: 600,
-                        lineHeight: 1,
-                        letterSpacing: "-0.02em",
-                      }}
-                    >
-                      Shape Culture
-                    </h1>
-                  </div>
-
-                  {/* Inline image — visible at scroll 0, overlay takes over on scroll */}
-                  <div
-                    ref={inlineImageRef}
-                    className="relative overflow-hidden"
-                    style={{
-                      gridColumn: "10 / 13",
-                      height: "9vw",
-                      aspectRatio: "16 / 9",
-                      marginLeft: "auto",
-                      visibility: expanding ? "hidden" : "visible",
-                    }}
-                  >
-                    <Image
-                      src={HERO_IMAGES[currentImage]}
-                      alt=""
-                      fill
-                      className="object-cover"
-                      sizes="(min-width: 768px) 33vw, 100vw"
-                      priority
-                    />
-                  </div>
-                </motion.div>
-
-                <motion.h1
-                  initial={{ opacity: 0, y: 30 }}
-                  animate={{ opacity: 1, y: 0 }}
-                  transition={{ duration: 1.2, delay: 0.2, ease: [0.16, 1, 0.3, 1] }}
-                  className="text-white font-[family-name:var(--font-aspekta)]"
-                  style={{
-                    fontSize: "9vw",
-                    fontWeight: 600,
-                    lineHeight: 1,
-                    letterSpacing: "-0.02em",
-                    marginTop: "0.5vw",
-                  }}
-                >
-                  Break Boundaries
-                </motion.h1>
-              </div>
-
-            </div>
-
-            {/* Bottom section: Description + Button */}
-            <div>
-              {/* Desktop bottom */}
-              <div className="hidden md:grid" style={{ gridTemplateColumns: "repeat(12, 1fr)", gap: "24px" }}>
-                <div style={{ gridColumn: "8 / 12" }}>
-                  <p
-                    className="text-white/70 font-[family-name:var(--font-aspekta)]"
-                    style={{ fontSize: "clamp(16px, 1.2vw, 18px)", lineHeight: 1.5 }}
-                  >
-                    {t(
-                      "2006년부터 IST Entertainment는 음악과 글로벌 문화를 이끌어갈 아티스트를 발굴하고 성장시키며 함께 새로운 가능성을 만들어가고 있습니다.",
-                      "Since 2006, IST Entertainment has been discovering, developing, and empowering artists who shape the future of music and global culture."
-                    )}
-                  </p>
-                  <Link
-                    href="/about"
-                    className="inline-flex items-center justify-center bg-white text-black hover:bg-white/85 transition-colors duration-300"
-                    style={{
-                      fontSize: "clamp(14px, 1.1vw, 15px)",
-                      fontFamily: "var(--font-aspekta)",
-                      fontWeight: 500,
-                      marginTop: "32px",
-                      paddingLeft: "20px",
-                      paddingRight: "20px",
-                      paddingTop: "12px",
-                      paddingBottom: "12px",
-                      borderRadius: "0px",
-                      letterSpacing: "0.02em",
-                    }}
-                  >
-                    About Us
-                  </Link>
-                </div>
-              </div>
-
-            </div>
+            <h1
+              className="text-white font-[family-name:var(--font-aspekta)]"
+              style={{
+                fontSize: "6.5vw",
+                fontWeight: 600,
+                lineHeight: 1.1,
+                letterSpacing: "-0.02em",
+              }}
+            >
+              Connecting Talent to the<br />1st Global Stage
+            </h1>
           </motion.div>
+        </div>
 
-          {/* Expanding image — appears on scroll, grows from inline position to fullscreen */}
-          <motion.div
-            className="z-20 overflow-hidden pointer-events-none"
-            style={{
-              position: "fixed",
-              top: imgTop,
-              right: imgRight,
-              width: imgWidth,
-              height: imgHeight,
-              opacity: imgOpacity,
-            }}
-          >
-            <Image
-              src={HERO_IMAGES[currentImage]}
-              alt="IST Entertainment"
-              fill
-              className="object-cover"
-              sizes="100vw"
-            />
-          </motion.div>
+        <div className="relative z-10">
+          <div className="grid" style={{ gridTemplateColumns: "repeat(12, 1fr)", gap: "24px" }}>
+            <div style={{ gridColumn: "8 / 12" }}>
+              <p
+                className="text-white/70 font-[family-name:var(--font-aspekta)]"
+                style={{ fontSize: "clamp(16px, 1.2vw, 18px)", lineHeight: 1.5 }}
+              >
+                {t(
+                  "기획, 제작, 매니지먼트가 유기적으로 연결된 시스템을 통해 아티스트가 글로벌 무대에서 성장하고, 전 세계 팬들과 의미 있게 소통할 수 있도록 지원합니다.",
+                  "Through an interconnected system of production, management, and creativity, we empower artists to lead and connect with fans worldwide."
+                )}
+              </p>
+              <Link
+                href="/about"
+                className="inline-flex items-center justify-center bg-white text-black hover:bg-white/85 transition-colors duration-300"
+                style={{
+                  fontSize: "clamp(14px, 1.1vw, 15px)",
+                  fontFamily: "var(--font-aspekta)",
+                  fontWeight: 500,
+                  marginTop: "32px",
+                  paddingLeft: "20px",
+                  paddingRight: "20px",
+                  paddingTop: "12px",
+                  paddingBottom: "12px",
+                  borderRadius: "0px",
+                  letterSpacing: "0.02em",
+                }}
+              >
+                About Us
+              </Link>
+            </div>
+          </div>
         </div>
       </div>
 
@@ -337,28 +184,13 @@ export default function HomeClient() {
             transition={{ duration: 1.2, ease: [0.16, 1, 0.3, 1] }}
             className="text-white font-[family-name:var(--font-aspekta)]"
             style={{
-              fontSize: "clamp(36px, 11vw, 56px)",
+              fontSize: "clamp(32px, 9vw, 48px)",
               fontWeight: 600,
-              lineHeight: 1,
+              lineHeight: 1.1,
               letterSpacing: "-0.02em",
             }}
           >
-            Shape Culture
-          </motion.h1>
-          <motion.h1
-            initial={{ opacity: 0, y: 30 }}
-            animate={{ opacity: 1, y: 0 }}
-            transition={{ duration: 1.2, delay: 0.2, ease: [0.16, 1, 0.3, 1] }}
-            className="text-white font-[family-name:var(--font-aspekta)]"
-            style={{
-              fontSize: "clamp(36px, 11vw, 56px)",
-              fontWeight: 600,
-              lineHeight: 1,
-              letterSpacing: "-0.02em",
-              marginTop: "4px",
-            }}
-          >
-            Break Boundaries
+            Connecting Talent to the<br />1st Global Stage
           </motion.h1>
 
           <div

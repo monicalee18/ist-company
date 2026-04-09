@@ -26,33 +26,6 @@ function FadeIn({ children, className, delay = 0, style }: { children: React.Rea
 }
 
 // Animated counter
-function CountUp({ value, suffix = "" }: { value: number; suffix?: string }) {
-  const ref = useRef<HTMLSpanElement>(null);
-  const isInView = useInView(ref, { once: true, margin: "-80px" });
-  const [display, setDisplay] = useState(0);
-
-  useEffect(() => {
-    if (!isInView) return;
-    let start = 0;
-    const duration = 1500;
-    const startTime = performance.now();
-
-    const animate = (now: number) => {
-      const elapsed = now - startTime;
-      const progress = Math.min(elapsed / duration, 1);
-      // ease out cubic
-      const eased = 1 - Math.pow(1 - progress, 3);
-      start = Math.round(eased * value);
-      setDisplay(start);
-      if (progress < 1) requestAnimationFrame(animate);
-    };
-
-    requestAnimationFrame(animate);
-  }, [isInView, value]);
-
-  return <span ref={ref}>{display}{suffix}</span>;
-}
-
 export default function AboutClient() {
   const { t } = useLanguage();
   const videoSectionRef = useRef<HTMLDivElement>(null);
@@ -170,67 +143,56 @@ export default function AboutClient() {
           transition={{ duration: 1.8, delay: 0.3, ease: [0.16, 1, 0.3, 1] }}
         >
           <h1
-            className="text-center text-[40px] md:text-6xl lg:text-7xl font-light text-white"
-            style={{ lineHeight: 1.1 }}
+            className="text-center text-[48px] md:text-[80px] lg:text-[110px] font-bold text-white tracking-tight"
+            style={{ lineHeight: 1.05 }}
           >
-            {t("Music. Artists. Global Impact.", "Music. Artists. Global Impact.")}
+            {t("연결된 시스템과", "Interconnected")}
             <br />
-            {t("Building the future of entertainment", "Building the future of entertainment")}
+            {t("혁신으로", "Innovative")}
+            <br />
+            {t("선두를 만들어갑니다", "Built to Lead")}
           </h1>
         </motion.div>
       </section>
 
-      {/* Gap: 60px mobile, 90px desktop */}
-      <div className="h-[60px] md:h-[90px]" />
+      {/* Gap below hero title */}
+      <div className="h-[80px] md:h-[160px]" />
 
-      {/* Section 2: Video */}
-      <section ref={videoSectionRef} className={gridClass}>
-        <div className="col-span-12 flex justify-center">
-          <motion.div
-            className="relative overflow-hidden"
-            style={{
-              width: isMobile ? "100%" : "90%",
-            }}
-          >
-            <div className="relative w-full" style={{ aspectRatio: "16/9" }}>
-              <iframe
-                src="https://www.youtube.com/embed/cQESe4Jc0rE?autoplay=1&mute=1&loop=1&playlist=cQESe4Jc0rE&controls=0&showinfo=0&rel=0&modestbranding=1"
-                title="IST Video"
-                className="absolute inset-0 w-full h-full"
-                allow="accelerometer; autoplay; clipboard-write; encrypted-media; gyroscope; picture-in-picture"
-                allowFullScreen
-              />
-            </div>
-          </motion.div>
+      {/* Section 2: Video - Full width */}
+      <section ref={videoSectionRef}>
+        <div className="relative w-full" style={{ aspectRatio: "16/9" }}>
+          <iframe
+            src="https://www.youtube.com/embed/cQESe4Jc0rE?autoplay=1&mute=1&loop=1&playlist=cQESe4Jc0rE&controls=0&showinfo=0&rel=0&modestbranding=1"
+            title="IST Video"
+            className="absolute inset-0 w-full h-full"
+            allow="accelerometer; autoplay; clipboard-write; encrypted-media; gyroscope; picture-in-picture"
+            allowFullScreen
+          />
         </div>
       </section>
 
       {/* Gap: 140px mobile, 200px desktop */}
       <div className="h-[140px] md:h-[200px]" />
 
-      {/* Section 3: Second Title */}
-      <section className={gridClass}>
-        <FadeIn className="col-span-11 md:col-span-7 md:col-start-2">
-          <h2
-            className="text-[32px] md:text-4xl lg:text-5xl font-light text-white"
-            style={{ lineHeight: 1.2 }}
-          >
-            {t(
-              "Since 2006, we have been building a strong foundation for artists by combining creative direction, strategic management, and global production capabilities",
-              "Since 2006, we have been building a strong foundation for artists by combining creative direction, strategic management, and global production capabilities"
-            )}
-          </h2>
-        </FadeIn>
-      </section>
+      {/* Section 3+4: Description + Image Slider */}
+      <section className="grid-pattern relative overflow-hidden">
+        <div className={gridClass}>
+          <FadeIn className="col-span-11 md:col-span-8 md:col-start-2">
+            <h2
+              className="text-[24px] md:text-[28px] lg:text-[32px] font-light text-white"
+              style={{ lineHeight: 1.4 }}
+            >
+              {t(
+                "IST엔터테인먼트는 유기적으로 연결된 시스템을 기반으로 아티스트가 글로벌 무대의 선두(1st)에 설 수 있도록 성장시키는 엔터테인먼트 기업입니다. 기획, 제작, 매니지먼트를 하나로 연결하여 강력한 시너지를 창출하고, 아티스트가 K-POP의 미래를 이끄는 주체로 자리할 수 있도록 지원합니다. 또한 아티스트와 팬이 즐겁고 의미 있게 소통할 수 있도록 혁신적이고 가치 있는 콘텐츠를 지속적으로 선보이고 있습니다.",
+                "IST Entertainment represents an Interconnected System that empowers talent to become 1st on the global stage. By seamlessly integrating planning, production, and management, we create powerful synergy that drives artists to lead the future of K-POP. We are committed to delivering innovative and meaningful content that connects artists and fans in engaging and inspiring ways."
+              )}
+            </h2>
+          </FadeIn>
+        </div>
 
-      {/* Gap: 80px */}
-      <div className="h-[80px]" />
+        <div className="h-[120px]" />
 
-      {/* Section 4: Image Slider - Former Artists */}
-      <section
-        ref={sliderSectionRef}
-        className="relative overflow-hidden content-padding"
-      >
+        <div ref={sliderSectionRef} className="content-padding">
         <motion.div
           ref={sliderRef}
           className="flex gap-[16px]"
@@ -273,6 +235,7 @@ export default function AboutClient() {
             </div>
           ))}
         </motion.div>
+        </div>
       </section>
 
       {/* Gap: 100px mobile, 200px desktop */}
@@ -282,187 +245,147 @@ export default function AboutClient() {
       <section>
         <div className="content-padding" style={{ paddingTop: "40px", paddingBottom: "40px" }}>
           <FadeIn>
-            <h2 className="text-3xl lg:text-4xl font-light text-white">
+            <h2 className="font-light text-white" style={{ fontSize: "44px" }}>
               {t("What we do", "What we do")}
             </h2>
           </FadeIn>
         </div>
       </section>
 
-      {/* Section 5-1: Discovering and Developing Future Artists */}
+      {/* Section 5-1: Artist Discovery & Development */}
       <section style={{ borderTop: "1px solid #313033" }}>
         <div className="content-padding" style={{ paddingTop: "40px", paddingBottom: "40px" }}>
           <div className="grid grid-cols-12 gap-[24px] items-start">
             <FadeIn className="col-span-12 md:col-span-3">
               <h3
-                className="font-light text-white text-[24px] md:text-[40px]"
+                className="font-light text-white text-[28px]"
                 style={{ lineHeight: 1.3 }}
               >
-                Discovering and<br className="md:hidden" /> Developing Future Artists
+                {t("아티스트 발굴 및 개발", "Artist Discovery & Development")}
               </h3>
             </FadeIn>
             <FadeIn className="col-span-12 md:col-span-3 md:col-start-7" delay={0.1}>
               <div className="bg-white/10 w-full aspect-[16/9]" />
             </FadeIn>
             <FadeIn className="col-span-12 md:col-span-3 md:col-start-10" delay={0.2}>
-              <p className="font-normal leading-snug" style={{ fontSize: "14px", color: "#79767a" }}>
-                We discover promising talent and support artists through every stage of their journey. From training and creative development to debut and long-term career growth, we provide an environment where artists can refine their skills and build their identity while growing into performers who connect with audiences worldwide
+              <p className="font-normal leading-snug" style={{ fontSize: "16px", color: "#9e9ba0" }}>
+                {t(
+                  "유망한 인재를 발굴하고, 트레이닝부터 데뷔까지 아티스트의 전 과정을 이끌어갑니다. 아티스트가 역량을 강화하고 장기적인 성장을 위한 기반을 다질 수 있도록 지원합니다.",
+                  "We discover promising talent and guide artists through every stage of their journey. From training to debut, we support artists in refining their skills and building a strong foundation for long-term growth."
+                )}
               </p>
             </FadeIn>
           </div>
         </div>
       </section>
 
-      {/* Section 5-2: Producing Music and Creative Artist Content */}
+      {/* Section 5-2: Artist Planning & Direction */}
       <section style={{ borderTop: "1px solid #313033" }}>
         <div className="content-padding" style={{ paddingTop: "40px", paddingBottom: "40px" }}>
           <div className="grid grid-cols-12 gap-[24px] items-start">
             <FadeIn className="col-span-12 md:col-span-3">
               <h3
-                className="font-light text-white text-[24px] md:text-[40px]"
+                className="font-light text-white text-[28px]"
                 style={{ lineHeight: 1.3 }}
               >
-                Producing Music and<br className="md:hidden" /> Creative Artist Content
+                {t("아티스트 기획 및 연출", "Artist Planning & Direction")}
               </h3>
             </FadeIn>
             <FadeIn className="col-span-12 md:col-span-3 md:col-start-7" delay={0.1}>
               <div className="bg-white/10 w-full aspect-[16/9]" />
             </FadeIn>
             <FadeIn className="col-span-12 md:col-span-3 md:col-start-10" delay={0.2}>
-              <p className="font-normal leading-snug" style={{ fontSize: "14px", color: "#79767a" }}>
-                We create music and visual content that reflect each artist&apos;s unique identity. From songwriting and recording to music videos and digital media, our creative teams collaborate closely with artists to produce work that resonates with audiences and strengthens their artistic voice
+              <p className="font-normal leading-snug" style={{ fontSize: "16px", color: "#9e9ba0" }}>
+                {t(
+                  "각 아티스트의 정체성을 설계하고 프로젝트의 전체 방향성을 총괄합니다. 콘셉트 및 앨범 기획부터 비주얼 아이덴티티, 콘텐츠 전략까지 크리에이티브 전반을 통합 관리하여 일관되고 차별화된, 시장 경쟁력을 갖춘 아티스트 브랜드를 구축합니다.",
+                  "We design each artist's identity and lead the overall direction of their projects. From concept and album planning to visual identity and content strategy, we oversee the full creative process to deliver a cohesive, differentiated, and market-competitive artist brand."
+                )}
               </p>
             </FadeIn>
           </div>
         </div>
       </section>
 
-      {/* Section 5-3: Connecting Artists with Fans Around the World */}
+      {/* Section 5-3: Artist Management & Global Expansion */}
       <section style={{ borderTop: "1px solid #313033" }}>
         <div className="content-padding" style={{ paddingTop: "40px", paddingBottom: "40px" }}>
           <div className="grid grid-cols-12 gap-[24px] items-start">
             <FadeIn className="col-span-12 md:col-span-3">
               <h3
-                className="font-light text-white text-[24px] md:text-[40px]"
+                className="font-light text-white text-[28px]"
                 style={{ lineHeight: 1.3 }}
               >
-                Connecting Artists with<br className="md:hidden" /> Fans Around the World
+                {t("아티스트 매니지먼트 및 글로벌 확장", "Artist Management & Global Expansion")}
               </h3>
             </FadeIn>
             <FadeIn className="col-span-12 md:col-span-3 md:col-start-7" delay={0.1}>
               <div className="bg-white/10 w-full aspect-[16/9]" />
             </FadeIn>
             <FadeIn className="col-span-12 md:col-span-3 md:col-start-10" delay={0.2}>
-              <p className="font-normal leading-snug" style={{ fontSize: "14px", color: "#79767a" }}>
-                We bring artists and fans together through strategic promotion and global partnerships. Through performances, digital platforms, and international collaborations, we help artists expand their reach and build meaningful connections with audiences across cultures and markets
+              <p className="font-normal leading-snug" style={{ fontSize: "16px", color: "#9e9ba0" }}>
+                {t(
+                  "전략적인 매니지먼트와 글로벌 파트너십을 통해 아티스트의 성장을 지원합니다. 공연, 미디어 활동, 해외 기회를 통해 활동 영역을 확장하고 전 세계 팬들과 의미 있는 연결을 만들어가며, 진정으로 소통하는 아티스트로 성장할 수 있도록 돕습니다.",
+                  "We manage artists and support their growth through strategic promotion and global partnerships. Through performances, media exposure, and international opportunities, we help artists expand their reach and build meaningful connections with audiences worldwide—growing into artists who truly connect."
+                )}
               </p>
             </FadeIn>
           </div>
         </div>
       </section>
 
-      {/* Section 8: Impact Statement */}
-      <section className={gridClass} style={{ paddingTop: "clamp(100px, 10vw, 140px)" }}>
-        <FadeIn className="col-span-12 md:col-span-10 md:col-start-2">
-          <h2
-            className="text-white font-normal"
-            style={{ fontSize: "clamp(36px, 5vw, 64px)", lineHeight: 1.2, fontFamily: "var(--font-aspekta)" }}
-          >
-            We measure our value in real-
-            <br className="hidden md:block" />
-            world impact
-          </h2>
-        </FadeIn>
+      {/* Section 5-4: IP & Brand Value Expansion */}
+      <section style={{ borderTop: "1px solid #313033" }}>
+        <div className="content-padding" style={{ paddingTop: "40px", paddingBottom: "40px" }}>
+          <div className="grid grid-cols-12 gap-[24px] items-start">
+            <FadeIn className="col-span-12 md:col-span-3">
+              <h3
+                className="font-light text-white text-[28px]"
+                style={{ lineHeight: 1.3 }}
+              >
+                {t("IP 및 브랜드 가치 확장", "IP & Brand Value Expansion")}
+              </h3>
+            </FadeIn>
+            <FadeIn className="col-span-12 md:col-span-3 md:col-start-7" delay={0.1}>
+              <div className="bg-white/10 w-full aspect-[16/9]" />
+            </FadeIn>
+            <FadeIn className="col-span-12 md:col-span-3 md:col-start-10" delay={0.2}>
+              <p className="font-normal leading-snug" style={{ fontSize: "16px", color: "#9e9ba0" }}>
+                {t(
+                  "아티스트 IP를 구축하고 장기적인 브랜드 가치로 확장합니다. 브랜딩, MD, 다양한 협업을 통해 음악을 넘어 지속 가능한 비즈니스 기회를 창출합니다.",
+                  "We develop and expand artist IP into long-term brand value. Through branding, merchandising, and strategic collaborations, we extend the artist's identity beyond music into sustainable business opportunities."
+                )}
+              </p>
+            </FadeIn>
+          </div>
+        </div>
       </section>
 
-      {/* Section 9: Proof of Numbers */}
-      <section className={gridClass} style={{ paddingTop: "clamp(60px, 10vw, 120px)", paddingBottom: "clamp(80px, 10vw, 140px)" }}>
-        {/* Grid 1-4: Global tours */}
-        <FadeIn className="col-span-12 md:col-span-4">
-          <div className="flex flex-col md:flex-row">
-            <div className="border-t md:border-t-0 md:border-l border-accent w-full md:w-auto md:self-stretch" style={{ marginBottom: "16px" }} />
-            <div className="flex flex-col md:ml-[16px]" style={{ gap: "clamp(40px, 8vw, 100px)" }}>
-              <p
-                className="text-white font-normal"
-                style={{ fontSize: "18px", lineHeight: 1.2, fontFamily: "var(--font-aspekta)" }}
-              >
-                Global tours
-                <br />
-                performed
-              </p>
-              <p
-                className="text-white font-normal"
-                style={{ fontSize: "84px", lineHeight: 1.2, fontFamily: "var(--font-aspekta)" }}
-              >
-                <CountUp value={15} suffix="+" />
-              </p>
-            </div>
-          </div>
-        </FadeIn>
-
-        {/* Grid 5-8: Awards */}
-        <FadeIn className="col-span-12 md:col-span-4" delay={0.15}>
-          <div className="flex flex-col md:flex-row">
-            <div className="border-t md:border-t-0 md:border-l border-accent w-full md:w-auto md:self-stretch" style={{ marginBottom: "16px" }} />
-            <div className="flex flex-col md:ml-[16px]" style={{ gap: "clamp(40px, 8vw, 100px)" }}>
-              <p
-                className="text-white font-normal"
-                style={{ fontSize: "18px", lineHeight: 1.2, fontFamily: "var(--font-aspekta)" }}
-              >
-                Awards
-                <br />
-                won
-              </p>
-              <p
-                className="text-white font-normal"
-                style={{ fontSize: "84px", lineHeight: 1.2, fontFamily: "var(--font-aspekta)" }}
-              >
-                <CountUp value={40} suffix="+" />
-              </p>
-            </div>
-          </div>
-        </FadeIn>
-
-        {/* Grid 9-12: Global fans */}
-        <FadeIn className="col-span-12 md:col-span-4" delay={0.3}>
-          <div className="flex flex-col md:flex-row">
-            <div className="border-t md:border-t-0 md:border-l border-accent w-full md:w-auto md:self-stretch" style={{ marginBottom: "16px" }} />
-            <div className="flex flex-col md:ml-[16px]" style={{ gap: "clamp(40px, 8vw, 100px)" }}>
-              <p
-                className="text-white font-normal"
-                style={{ fontSize: "18px", lineHeight: 1.2, fontFamily: "var(--font-aspekta)" }}
-              >
-                Global fans
-                <br />
-                reached
-              </p>
-              <p
-                className="text-white font-normal"
-                style={{ fontSize: "84px", lineHeight: 1.2, fontFamily: "var(--font-aspekta)" }}
-              >
-                <CountUp value={120} suffix="M+" />
-              </p>
-            </div>
-          </div>
-        </FadeIn>
-      </section>
 
       {/* Section 10: Join the future */}
       <section className={gridClass} style={{ paddingTop: "clamp(80px, 10vw, 140px)", paddingBottom: "40px" }}>
         {/* Title: Left side */}
-        <FadeIn className="col-span-12 md:col-span-5" style={{ marginBottom: "16px" }}>
+        <FadeIn className="col-span-12 md:col-span-5 md:col-start-2" style={{ marginBottom: "16px" }}>
           <h2
             className="text-white font-semibold"
             style={{ fontSize: "clamp(44px, 7vw, 88px)", lineHeight: 1.2, fontFamily: "var(--font-aspekta)" }}
           >
-            Join the
+            Stay Connected
             <br />
-            future of IST
+            with IST
           </h2>
+          <p
+            className="text-white/50"
+            style={{ fontSize: "clamp(14px, 1.2vw, 18px)", lineHeight: 1.5, fontFamily: "var(--font-aspekta)", marginTop: "16px" }}
+          >
+            {t(
+              "IST Entertainment 공식 채널입니다. 아티스트의 소식과 콘텐츠를 공식 채널에서 만나보세요.",
+              "Follow official updates, artist releases, and stories"
+            )}
+          </p>
         </FadeIn>
 
         {/* Links: Right side */}
-        <FadeIn className="col-span-12 md:col-span-4 md:col-start-7 flex flex-col gap-[24px]" delay={0.15}>
+        <FadeIn className="col-span-12 md:col-span-4 md:col-start-8 flex flex-col gap-[24px]" delay={0.15}>
           {/* Top line */}
           <div className="w-full h-px bg-white/20" />
 
